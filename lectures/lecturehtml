@@ -25,10 +25,10 @@ write_video () {
 
 <div>
 <ul>
-     <li> <a href="../apb-lectures/$1.pdf">Lecture PDF</a>, </li>
-     <li> <a href="../apb-lectures/$1_prn.pdf">Printable PDF</a>, </li>
-     <li> <a href="../apb-lectures/$1_prn_4.pdf">(4 per page)</a></li>
-     <li> <a href="../apb-lectures/$1_prn_8.pdf">(8 per page)</a></li>
+     <li> <a href="lectures_pdf/$1.pdf">Lecture PDF</a>, </li>
+     <li> <a href="lectures_pdf/$1_prn.pdf">Printable PDF</a>, </li>
+     <li> <a href="lectures_pdf/$1_prn_4.pdf">(4 per page)</a></li>
+     <li> <a href="lectures_pdf/$1_prn_8.pdf">(8 per page)</a></li>
      $2
    </ul>
    
@@ -44,7 +44,7 @@ write_video () {
 </HTML>
 EOF
     echo "Updating $vf"
-    scp $vf apb1@stafflogin.ecs.soton.ac.uk:/notes/comp3212/lectures/$vf
+    #scp $vf apb1@stafflogin.ecs.soton.ac.uk:/notes/comp3212/lectures/$vf
     tf="videos/${f}-time"
     date > ${tf}
 }
@@ -54,7 +54,7 @@ subsidiary() {
 	if [ ! -f pdf/$1-sub-time ] || [ $1-subsidiary.pdf -nt pdf/$1-sub-time ]
 	then
 	    echo "Updating  $1-subsidiary.pdf"
-	    scp $1-subsidiary.pdf apb1@stafflogin.ecs.soton.ac.uk:/notes/comp3212/lectures/apb-lectures/$1-subsidiary.pdf
+	    scp $1-subsidiary.pdf apb1@stafflogin.ecs.soton.ac.uk:/notes/comp3212/lectures/lectures_pdf/$1-subsidiary.pdf
 	    date > pdf/$1-sub-time
 	fi
     fi
@@ -93,7 +93,7 @@ for f in $files; do
     fi
     subsidiary ${f}
     if [ -f ${f}-subsidiary.pdf ]; then
-	sub="<li> <a href="/notes/comp3212/lectures/apb-lectures/${f}-subsidiary.pdf">Subsidiary notes on lecture</a></li>"
+	sub="<li> <a href="/notes/comp3212/lectures/lectures_pdf/${f}-subsidiary.pdf">Subsidiary notes on lecture</a></li>"
     else
 	subs=""
     fi
@@ -113,13 +113,13 @@ for f in $files; do
 	    echo "writing video file ${f} ${sub}"
 	    write_video ${f} "${sub}"
 	fi
-	echo "<a href=\"${vf}\">Video</a>," >> $of
+	echo "<a href=\"${vf}\">Video</a>,"
     fi
     cat >> $of <<EOF
-     <a href="apb-lectures/${f}.pdf">Lecture PDF</a>, 
-     <a href="apb-lectures/${f}_prn.pdf">Printable PDF</a>, 
-     <a href="apb-lectures/${f}_prn_4.pdf">(4 per page)</a>
-     <a href="apb-lectures/${f}_prn_8.pdf">(8 per page)</a></li>
+     <a href="lectures_pdf/${f}.pdf">Lecture PDF</a>, 
+     <a href="lectures_pdf/${f}_prn.pdf">Printable PDF</a>, 
+     <a href="lectures_pdf/${f}_prn_4.pdf">(4 per page)</a>
+     <a href="lectures_pdf/${f}_prn_8.pdf">(8 per page)</a></li>
    </ul>
 EOF
     if [ -f ${f}-subsidiary.pdf ]; then
@@ -133,4 +133,4 @@ cat >> $of <<EOF
 
 </HTML>
 EOF
-scp index.shtml apb1@stafflogin.ecs.soton.ac.uk:/notes/comp3212/lectures/index.shtml
+cp index.shtml ../site/lectures.html
