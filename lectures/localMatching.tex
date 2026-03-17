@@ -1,0 +1,503 @@
+%Master File:lectures.tex
+
+\lesson{Local Sequence Matching}
+\vspace{-2cm}
+\begin{center}
+ \includegraphics[height=10cm]{smithWaterman-29}
+\end{center}
+
+\keywords{Local sequence matching, Gaps, FSA, Extreme Values}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Local Sequence Alignment}{lsa}
+    \outlineitem{Affine Gaps}{afg}
+    \outlineitem{BLAST and FASTA}{blfa}
+    \outlineitem{Significance Scores}{sigsco}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{fsa_gap}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Local Alignment}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We saw how we could globally align sequences\pause
+  \item But the nature of evolution is that often sections from one part
+    of the genome are accidentally copied to another\pause
+  \item Thus, we are often more interested in finding best matching
+    sub-sequences\pause 
+  \item In biology this problem is known as the Smith-Waterman problem
+    after the authors that first posed the problem and gave an
+    algorithm\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Dynamic Programming Solution}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Surprisingly, by a very small tweak to the global alignment
+    problem, we can solve this problem too\pause
+  \item The trick is to add the option of ignoring the match with cost
+    0\pause
+    \begin{align*}
+      F(i,j) = \max \left\{
+      \begin{matrix}
+        0 \\
+        F(i-1,j-1) + s(a_i, b_j)\\
+        F(i-1,j) + d\\
+        F(i,j-1) + d
+      \end{matrix}\right.
+    \end{align*}
+    (we use $d=-8$ below)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Local Alignment}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{smithWaterman}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Difference to Global Alignment}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The forward algorithm is the same except we insist
+    $F(i,j)\geq0$\pause
+  \item We also store the location of the highest $F(i,j)$\pause
+  \item In the backward algorithm we start at the best value and go back
+    until we reach 0\pause
+  \item It is really very easy to change a global alignment to a local
+    alignment\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Repeated and Overlapping Matches}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item So far we have considered the single best match\pause
+  \item In same cases (e.g. where we have a repeated domain or motif) we
+    may have one region being repeated many times within a second
+    sequence\pause
+  \item We can modify our dynamic programming to allow this\pause
+  \item Again we may believe that one sequence should be completely
+    contained in a second, then we can modify our boundary conditions to
+    find this\pause
+  \item Details in \textit{Biological sequence analysis} by Durbin
+    \textit{et al.}\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Affine Gaps
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Gaps}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item As mentioned in the last lecture insertions are usually caused
+    by adding a subsequence from elsewhere\pause
+  \item Deletions would result from jumping a number of bases or
+    treating an exon as an intron\pause
+  \item Although these are rare events, once it happens then the gap
+    could be quite large\pause
+  \item Up to now we have made a cost of a gap proportional to its
+    length, but this seems unrealistic\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Dumb Gap Algorithm}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If we assign a cost $\gamma(g)$ to a gap of size $g$ then we
+    could use the dynamic programme
+    \begin{align*}
+      F(i,j) = \max \left\{
+      \begin{matrix}
+        F(i-1,j-1) + s(a_i, b_j), &\\
+        F(k,j) -\gamma(i-k) & \hspace{1ex} k=0,\,\ldots,\, i-1\\
+        F(i,k) -\gamma(j-k) & \hspace{1ex} k=0,\,\ldots,\, j-1\\
+      \end{matrix}\right.\pause
+    \end{align*}
+  \item Alas for two sequences of length $n$ this is a $O(n^3)$
+    algorithm which is too slow for most practical applications\pause
+  \item Can we do better?\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Affine Gap}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If we choose a gap cost of
+    \begin{align*}
+      \gamma(g) = d + (g-1)\,e\pause
+    \end{align*}
+    then there exists a $O(n^2)$ algorithm to do matching\pause
+  \item An affine transform of a variable $x$ is of the form $a\,x +b$
+    (i.e. a straight line)\pause---note that $\gamma(g)$ is an affine
+    function\pause
+  \item Using $d=-12$ and $e=-2$ gives a good model\pause
+  \item It penalises any gap, with larger gaps being slightly more
+    punished\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Affine Gap Algorithm}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To efficiently cope with gaps we need to introduce three
+    matrices (rather than just $F(i,j)$)\pause
+    \begin{itemize}
+    \item $M(i,j)$ is the best score up to $(i,j)$ given $a_i$ and $b_j$
+      align\pause
+    \item $I_a(i,j)$ is the best score given that $a_i$ aligns with a gap\pause
+    \item $I_b(i,j)$ is the best score given that $b_j$ aligns with a gap\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Update Equation}
+
+\begin{minipage}{0.58\linewidth}
+ \small
+  \begin{align*}
+    M(i,j) &= \max \left\{
+    \begin{matrix}
+      M(i-1,j-1) + s(a_i,b_j) \\
+      I_a(i-1,j-1) + s(a_i,b_j) \\
+      I_b(i-1,j-1) + s(a_i,b_j)
+    \end{matrix}\right.\\
+    I_a(i,j) &= \max \left\{
+    \begin{matrix}
+      M(i-1,j) - d \\
+      I_a(i-1,j) - e
+    \end{matrix}\right.\\
+    I_b(i,j) &= \max \left\{
+    \begin{matrix}
+      M(i,j-1) - d \\
+      I_b(i,j-1) - e
+    \end{matrix}\right.
+  \end{align*}
+\end{minipage}\hfil
+\begin{minipage}{0.38\linewidth}
+  \begin{center}
+  \includegraphics[width=\linewidth]{fsa_gap}\\
+  Finite State Automaton
+  \end{center}
+\end{minipage}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Matching with Gaps}
+\pause
+\pauselevel{=1}
+\pb
+\begin{center}
+  \multipdf[width=0.9\linewidth]{gap_matching}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Different FSA}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The finite state automaton (FSA) description provides an elegant
+    visualisation of dynamic programming rules\pause
+  \item It makes it much easier to come up with different models
+    that perhaps can better capture the evolutionary process\pause
+  \item But it comes at a cost that for each new state you need to
+    generate an extra matrix---slowing down the matching\pause
+  \item In fact, for affine gaps we can come up with an approximate two
+    state model that nearly always finds the same solution as the three
+    state model (see Durbin et \textit{al.})\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Blast and Fasta
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Inexact Matching in Practice}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Proteins are a few 100 amino acids long so $O(mn)$ is
+    doable\pause
+  \item That said, there are 100's of millions of proteins in the main
+    protein database so it can take a while to look for matches against
+    all known proteins\pause
+  \item DNA is another matter.  DNA sequences are of the order
+    $10^5$ up to $10^{11}$\pause
+  \item Using dynamic programming on a large genome is not
+    feasible\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Approximate Matching}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Various techniques have been developed to find approximate
+    matches\pause
+  \item These are not guaranteed to find the best inexact match\pause
+  \item They use the heuristic of searching for sections with some exact
+    matches\pause
+  \item Once these sections are identified they are extended and
+    combined to find good matches that are polished using Smith-Waterman\pause
+  \item These algorithms are a rag-bag of heuristic techniques that are
+    very effective if not very elegant\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{FASTA}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item FASTA is an approximate matching algorithm for both proteins and
+    nucleotide sequences\pause
+  \item It firstly checks for short ($k$-mer) exact matches between a query sequence and
+    a target\pause{} ($k =2$ for proteins and $k=4$--$6$ for DNA)\pause
+  \item Local regions are identified with a high density of $k$-mers\pause
+  \item Local regions are extended by looking for inexact matches\pause
+  \item Ungapped regions are combined into gapped region\pause
+  \item Finally plausible regions are rematched using dynamical programming\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{BLAST}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item BLAST (Basic Local Alignment Search Tool) is the most commonly
+    used tool for alignment (mainly superseding FASTA)\pause
+  \item After removing low-complexity regions that might give high
+    matches, exact matches (slightly larger than FASTA) are found\pause
+  \item BLAST builds up high scoring ``words'' from the exact matches\pause
+  \item These seeds are extended into regions which can then be combined
+    (in BLAST2) to find gapped regions\pause
+  \item Again these are polished with Smith-Waterman\pause
+  \item For detail see Wikipedia or BLAST homepages\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Significance Scores
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Are Matches Real?}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item By chance we are likely to find some good matches even between
+    random sequences\pause
+  \item What we would like to know is the probability of finding a
+    particular match by chance\pause
+  \item This is used in algorithms like BLAST to decide which matched
+    regions it should keep\pause
+  \item The problem is non-trivial because we are choosing the best
+    match that we found\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Probability of a Match}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Computing the probability of an exact match between two random
+    strings is possible if we know the frequency of occurrence of all
+    the elements\pause
+  \item For inexact matching this requires a bit more work\pause
+  \item The BLOSUM50 scores are designed to give the (log-)probability of a
+    particular match between amino acid residues\pause
+  \item A lot of effort has gone into creating matching schemes that
+    give the probability of a match\pause
+  \item But what is the probability of the best of $k$ matches being
+    greater than $Z$?\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Extreme Values}
+\pause
+\pauselevel{=1}
+\pb
+\begin{center}
+  \multipdf[width=0.9\linewidth]{evd}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Extreme Value Distribution}
+
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The distribution of extreme values (best of $k$) is known as the
+    extreme value distribution\pause
+  \item Similar to the central limit theorem (which states that the sum
+    of random variables will be normally distributed), it turns out that
+    asymptotically ($k\rightarrow\infty$) the extreme value of random
+    deviates converges to a small number of extreme value
+    distributions\pause
+  \item The most common is the Gumbel EVD given by
+    \begin{align*}
+        f(z) \approx \frac{1}{\beta}
+      \e{-\frac{x-\mu}{\beta}-e^{-\frac{x-\mu}{\beta}}}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Using EVD}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Extreme Value Distributions become more accurate when we do a
+    large number of trials\pause
+    \begin{center}
+      \includegraphics[width=0.6\linewidth]{gumbel}
+    \end{center}
+  \item In matching the number of matches are exponential in the string
+    length so we are in a situation where EVDs are quite accurate\pause
+  \item The probability of observing a match with score at least $Z$ is
+    {\small \begin{align*}
+      \Prob{z\geq Z} = \int^{\infty}_Z f(z)\,\dd z = 
+      1-\exp\left(-e^{-\frac{x-\mu}{\beta}}\right)\pause
+    \end{align*}}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summary}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Dynamics programming provides great flexibility in
+    matching\pause
+  \item Using finite state automata we can develop more sophisticated
+    models\pause
+  \item However, for speed, we often sacrifice accuracy (i.e. we might
+    miss some good matches)\pause
+  \item We need ways to measure the significant of found matches\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}

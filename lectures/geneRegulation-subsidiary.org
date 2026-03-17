@@ -1,0 +1,299 @@
+#+TITLE: Computational Biology Subsidary Notes
+#+SUBTITLE: Lecture 16: Gene Regulation Networks
+
+* Keywords
+  * Evolution, DNA, Proteins
+
+* Main Points
+
+** Gene Regulation Networks
+   - We are currently in a phase of science where we are beginning to
+     understand how cells regulate themselves
+   - A major mechanism is through switching on and off the expression
+     of proteins
+   - This happens through /transcription factors/ (proteins) which
+     + sensing the environment (often through signalling molecules)
+     + bind to the promoter regions of DNA
+     + excite or inhibit the transcription of RNA for the
+       corresponding protein
+   - There is a complex networks of interactions making it very
+     challenging to understand what is going on
+
+q** Chemical Equations
+   - The gene regulation process is a dynamic process
+   - Reactions happen on different time scales
+     + This helps us: we are usually interested in what happens on the slow
+       time scale
+     + Fast reactions can be assumed to reach their equilibrium state instantaneously
+     + Proteins binding with small (signalling) molecules will happen
+       in milliseconds
+     + A transcription factor protein will bind with the promoter
+       region in a few second
+     + The transcription and translation of a gene to a protein takes
+       around 5 minutes
+     + The change in the concentration of a protein by 50% takes about
+       an hour
+   - To model the dynamics we start from "/chemical equations/"
+     + These are not what chemists would recognise as chemical equations
+     + They don't respect conservation of matter
+     + This is because they only capture the slow processes and ignore
+       fast processes (the equations would be far too complicated to
+       be useful if they described everything that is going on)
+   - Chemical equations are really useful for getting a handle
+     on the dynamics
+   - As an example
+      \begin{align}
+       X &\stackrel{k_1}{\longrightarrow} X + \RNA_Y \label{eq:XRNAY}\\
+       \RNA_Y &\stackrel{k_2}{\longrightarrow} \RNA_Y + Y \label{eq:YRNAY}\\
+       \RNA_Y &\stackrel{k_3}{\longrightarrow} \varnothing \label{eq:YRNA0}
+      \end{align}
+     + (\ref{eq:XRNAY}) described a transcription factor, $X$, that excites
+       the production of the RNA for gene $Y$ at a rate $k_1$ (this
+       is a catalytic reaction that doesn't change $X$)
+     + (\ref{eq:YRNAY}) $\RNA_Y$  is  translated to protein $Y$ at a
+       rate $k_2$ (this is also a catalytic reaction that does not
+       change $\RNA_{Y}$)
+     + (\ref{eq:YRNA0}) Describes the breakdown of $RNA_{Y}$ at a rate $k_3$
+     + All these equations are shorthand for complex processes
+   - The main point of writing down these chemical processes is to
+     understand their dynamics
+   - Chemical equation happen by chance so their dynamics is
+     intrinsically stochastic, but if there are a sufficient number of
+     molecules then the number of molecules at anytime will be close
+     to their expected number
+   - We can model the change in the expected concentrations using a set of first
+     order ordinary differential equations
+   - We use $[X]$ to denote the concentration of $X$
+   - For the chemical equation above
+      \begin{align*}
+      \frac{\dd [\RNA_Y]}{\dd t} &= k_1 \, [X] - k_3\,  [\RNA_Y] \\
+      \frac{\dd [Y]}{\dd t} &= k_2 \, [\RNA_Y]
+      \end{align*}
+     + We get one equation for every molecular species that we are modelling
+     + Each term on the right-hand side $RHS$ corresponds to a reaction
+     + The rate of change for a species $S$ is proportional to
+       1. The product of concentrations on the LHS of the chemical equations
+       2. The reaction rate of the equation
+       3. The number of $S$ on the RHS minus the number of $S$ on the LHS
+   - As a mad examples
+     \begin{align*}
+     5 \,X + 2\, Y &\stackrel{k_1}{\longrightarrow} 2\, X + Z \\
+     Z + X &\stackrel{k_2}{\longrightarrow} 3\, X
+     \end{align*}
+     would lead to the ODEs
+     \begin{align*}
+     \frac{\dd [X]}{\dd t} &= -3\,k_1\, [X]^5 \, [Y]^2 + 2 \, k_2 \, [X]\,[Z] \\
+     \frac{\dd [Y]}{\dd t} &= -2\,k_1\, [X]^5 \, [Y]^2 \\
+     \frac{\dd [Z]}{\dd t} &= k_{1}\, [X]^5 \, [Y]^2 - k_2 \, [X]\,[Z]
+     \end{align*}
+
+*** Biological Switches
+    - Chemical equations are non-linear
+      + This makes the dynamics complicated (mathematicians only know
+        how to solve a very small number of non-linear differential
+        equations)
+      + From a biological point of view non-linearity allows the cell
+        to have more complex dynamics
+      + Non-linearities allow us to have faster switching behaviour
+    - The Hill equation is a classic model for a biological "switch"
+      + We assume that a protein, $X$, will form a relatively stable
+        complex $C$ with $n$ signalling molecules $S_X$ (these have to
+        come together simultaneously)\vspace*{-1ex}
+        \begin{align*}
+          n\, S_X + X &\stackrel{k_{on}}{\longrightarrow} C
+          &
+          C &\stackrel{k_{off}}{\longrightarrow} n\, S_X + X
+        \end{align*}
+      + The ODE for the concentration of complex $C$ is
+	\begin{align*}
+	\frac{\dd [C]}{\dd t} = k_{on}\,[X]\,[S_X]^n - k_{off} [C]
+        \end{align*}
+      + Solving this is difficult, but the fixed point is given by
+	\( \displaystyle \frac{\dd [C]}{\dd t} = 0  \)
+      + Thus at equilibrium: $k_{off}\,[C] = k_{on}\,[X]\,[S_X]^n$
+      + But the sum of $X$ and $X$ molecules never change: $[X]+[C] =[X_T]$
+      + Thus $k_{off}\,[C] = k_{on}\,([X_T]-[C])\,[S_X]^n$
+      + Rearranging\vspace*{-2ex}
+	\begin{align*}
+	\frac{k_{off}}{k_{on}}\,[C] = ([X_T]-[C])\,[S_X]^n
+       \end{align*}
+      + We define $K_X^n = k_{off}/k_{on}$
+	* We choose this definition so that $K_X$ has dimensions of concentration
+      + Thus: $K_X^n\,[C] = ([X_T]-[C])\,[S_X]^n$
+      + Rearranging $(K_X^n + [S_X]^n)\,[C] = [X_T]\,[S_X]^n$
+      + Or \vspace*{-2ex}
+	\[ \frac{[C]}{[X_T]} = \frac{[S_X]^{n}}{K_X^n+[S_{X}]^n} \]
+      + This is the Hill equation
+      + In Figure \ref{fig:hill} show the left-hand side versus
+        $[S_{X}]$ for different $n$
+	#+Caption: Hill Curves for differnt values of $n$ \label{fig:hill}
+	#+ATTR_LATEX: :width 0.62\textwidth
+	[[./figures/hillCurves-4.pdf]]
+      + Note that by using $n>1$ we get a much faster switching in the
+        concentration of $C$
+      + When the protein acts as a transcription factor that increases
+        the expression of another protein (a, so called, /activator/),
+        then the effective rate of producing the new protein is
+	\[ f([S_X]) = \frac{\beta\,[X]^n}{K^n + [S_X]^n} \]
+      + When $X$ inhibits the expression of another protein (a, so
+        called, /repressor/) then the rate of production of the other
+        protein is
+	\[ f([S_X]) = \frac{\beta}{1 + ([S_X]/K)^n} \]
+	#+Caption: Activator and Repressor \label{fig:activerepress}
+	#+ATTR_LATEX: :width 0.7\textwidth
+	[[./figures/activerepress.pdf]]
+
+** Motifs
+   - Trying to make sense of a huge network of interacting proteins is
+     a real challenge
+   - One common approach is to look at small sub-networks that occur
+     more often than we would expect by chance
+   - These are called *motifs*
+   - Many motifs have been studied, we will consider one example: /negative auto-regulation/
+
+*** Auto-regulation
+   - When you look at gene regulation networks (GRN) there are a lot
+     of genes that regulate (suppress) there own production
+   - To see whether this happens by chance lets look at /E-coli/ (one
+     of the most studied organisms on the planet)
+     + In /E-coli/ there are $N=424$ proteins with $E=519$ known interactions
+       between the proteins
+     + 40 of these interactions are self-interactions
+     + Could this happen by chance?
+     + To calculate this we consider all possible pairwise interactions
+       * There are $N^2$ such interactions of which $N$ are self-interactions
+       * The probability that a randomly chosen interaction is a
+         self-interaction is $p=N/N^{2}=1/N$
+       * The probability that if we choose $E$ interactions at random
+         $k$ of them will be self-interactions is
+	 \[  \Prob{k|E,p} = \mathrm{Binom}(k|E,p) =
+         \binom{E}{k}\,p^k\,(1-p)^{E-k} \]
+       * In expectation the number of self interactions we would expect
+         if they were just random was $E\,p \approx 1.2$ with a
+         standard deviation of $\sigma = \sqrt{E\,p\,(1-p)}\approx 1.1$
+       * As we have 40 self-interactions this is $32\,\sigma$ above
+         the mean, which isn't going to happen by chance!
+   - So what do self-interaction do?
+   - Most of these self-interactions are inhibitory
+   - To understand this we can model the production of a protein with
+     and without auto-regulation
+     1. /No auto-regulation/
+	+ Let's start with a protein, $\hat{X}$, that is produce at
+          some rate, $\hat{\alpha}$ and decays at a rate $\hat{\beta}$
+	  \[ \varnothing \stackrel{\hat{\beta}}{\longrightarrow} \hat{X} \qquad
+           \hat{X} \stackrel{\hat{\alpha}}{\longrightarrow}
+          \varnothing \]
+	+ The ODE for this process is
+	  \[ \frac{\dd [\hat{X}]}{\dd t} = \hat{\beta} -
+          \hat{\alpha}\, [\hat{X}] \]
+	+ At steady state $\hat{[X]} = \hat{\beta}/\hat{\alpha}$
+	+ This is a linear ODE we can actually solve in closed form
+          (assuming $[\hat{X}(0)]=0$)
+	  \[ [\hat{X}(t)] = \frac{\hat{\beta}}{\hat{\alpha}}
+                      \left( 1- \e{-\hat{\alpha}\,t} \right) \]
+     2. /Auto-regulation/
+	+ We assume that a protein $X$ acts a repressor for itself
+	  \[ \frac{\dd [X]}{\dd t} = f([X]) - \alpha \, [X] \]
+	+ $f([X])$ is a Hill repressor
+	  \[ f([X]) = \frac{\beta}{1 + ([X]/K)^n} \approx
+          \beta\,\pred{[X]<K} \]
+	+ This is a non-linear equation which we can't solve in closed form
+	+ We can easily solve it numerically
+	+ We show the dynamics for different $n$ when we use
+          $\hat{\beta}=2\beta$  below
+	 #+ATTR_LATEX: :width 0.55\textwidth
+	 \hspace*{-3cm} [[./figures/autoReg.pdf]]
+	+ To compare to the case without auto-regression we scale
+          everything so they have the same steady state
+	+ We also show the dynamics without auto-regression (green
+          line). Note that this is much slower
+	+ The blue line is when we replace the Hill repressor with the
+          step function
+	+ This case is solvable
+	  * The dynamics is the same as the linear dynamics when
+            $[X]<K$ except we now produce $X$ at a rate $\beta = 2\,\hat{\beta}$
+	  * When we reach $[X]=K$ the step switch off the production
+            of $X$
+	  * The steady state in this case is determined by $K$ (as
+            opposed to $\hat{\beta}$ when we have no auto-regulation)
+	  * We can make this reaction as fast as we like by increasing $\beta$
+	  * This isn't possible for the case without auto-regulation
+            because when we increase $\beta$ we change the steady
+            state and our time to reach the steady state is just the same
+	+ Thus the advantage of negative auto-regulation is that we can speed
+          up the time to reach the equilibrium value
+	+ A subtler advantage is that $\beta$ and $\alpha$ can
+          fluctuate during the life cycle of the cell (for example, as
+          the cell increases in size the concentration of $\RNA_X$ may change)
+	+ On the other hand, for auto-regulation the value of $K$ is
+          depends on the chemical bonds at the binding site for $X$
+          which is more stable
+
+* Exercises
+
+** Chemical Equations
+   1. Write down the ODE for the following chemical equations
+      \begin{align*}
+       2\, X + Y  &\stackrel{k_1}{\longrightarrow} Y + Z\\
+       Z &\stackrel{k_2}{\longrightarrow} \varnothing
+      \end{align*}
+   2. And for
+       \begin{align*}
+       X  &\stackrel{k_1}{\longrightarrow} 2\,X + Z\\
+       Z &\stackrel{k_2}{\longrightarrow} 3\,Y
+      \end{align*}
+ 
+
+* Answers
+
+** Chemical Equations
+   1. 
+       \begin{align*}
+       \frac{\dd X}{\dd t} &= -2\,k_1\,[X]^2\,[Y]  &
+       \frac{\dd Y}{\dd t} &= 0 &
+       \frac{\dd Z}{\dd t} & = k_1\,[X]^2\,[Y]  - k_2 \, [Z]
+      \end{align*}
+   2. 
+      \begin{align*}
+      \frac{\dd X}{\dd t} &= k_1\, [X] &
+      \frac{\dd Y}{\dd t} &= 3\,k_2 \,[Z] &
+      \frac{\dd Z}{\dd t} &=  k_1\, [X] - k_2 \,[Z]
+      \end{align*}
+
+* COMMENT [[file:pdf/geneRegulation.pdf][PDF]] [[file:pdf/geneRegulation_prn.pdf][Print]]
+* COMMENT [[file:rnaMeasurements-subsidiary.org][Previous]] [[file:dynamicalSystems-subsidiary.org][Next]]
+* Options                                                  :ARCHIVE:noexport:
+#+BEGIN_OPTIONS
+#+OPTIONS: toc:nil
+#+LATEX_HEADER: \usepackage[a4paper,margin=20mm]{geometry}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{amsfonts}
+#+LATEX_HEADER: \usepackage{stmaryrd}
+#+LATEX_HEADER: \usepackage{bm}
+#+LATEX_HEADER: \usepackage{sidecap}
+#+LaTeX_HEADER: \usepackage{minted}
+#+LaTeX_HEADER: \usemintedstyle{emacs}
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage[scaled]{beraserif}
+#+LaTeX_HEADER: \usepackage[scaled]{berasans}
+#+LaTeX_HEADER: \usepackage[scaled]{beramono}
+#+LATEX_HEADER: \newcommand{\tr}{\textsf{T}}
+#+LATEX_HEADER: \newcommand{\grad}{\bm{\nabla}}
+#+LATEX_HEADER: \newcommand{\av}[2][]{\mathbb{E}_{#1\!}\left[ #2 \right]}
+#+LATEX_HEADER: \newcommand{\Prob}[2][]{\mathbb{P}_{#1\!}\left[ #2 \right]}
+#+LATEX_HEADER: \newcommand{\logg}[1]{\log\!\left( #1 \right)}
+#+LATEX_HEADER: \newcommand{\pred}[1]{\left\llbracket { \small #1} \right\rrbracket}
+#+LATEX_HEADER: \newcommand{\e}[1]{{\rm e}^{#1}}
+#+LATEX_HEADER: \newcommand{\dd}{\mathrm{d}}
+#+LATEX_HEADER: \newcommand{\ii}{\mathrm{i}}
+#+LATEX_HEADER: \DeclareMathAlphabet{\mat}{OT1}{cmss}{bx}{n}
+#+LATEX_HEADER: \newcommand{\normal}[2]{\mathcal{N}\!\left(#1 \big| #2 \right)}
+#+LATEX_HEADER: \newcounter{eqCounter}
+#+LATEX_HEADER: \setcounter{eqCounter}{0}
+#+LATEX_HEADER: \newcommand{\explanation}{\setcounter{eqCounter}{0}\renewcommand{\labelenumi}{(\arabic{enumi})}}
+#+LATEX_HEADER: \newcommand{\eq}[1][=]{\stepcounter{eqCounter}\stackrel{\text{\tiny(\arabic{eqCounter})}}{#1}}
+#+LATEX_HEADER: \newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+#+LATEX_HEADER: \newcommand{\Dist}[2][Binom]{\mathrm{#1}\left( \strut {#2} \right)}
+#+LATEX_HEADER: \newcommand{\RNA}{\mathit{RNA}}
+#+END_OPTIONS
+

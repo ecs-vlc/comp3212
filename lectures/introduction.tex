@@ -1,0 +1,500 @@
+%Master File:lectures.tex
+
+\lesson{Introduction}
+\vspace{-2cm}
+\begin{center}
+ \includegraphics[height=10cm]{ch01/figure_01_03b}
+\end{center}
+
+\keywords{Evolution, DNA, Transciption, Translation}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Big Data}{bd}
+    \outlineitem{Beginnings}{beginnigs}
+    \outlineitem{DNA}{dna}
+    \outlineitem{Protein Production}{pp}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{ch01/figure_01_01}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Biology is a Big Data Problem!}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Biology is big
+    \begin{itemize}
+    \item Genomes involve $10^5$--$10^{12}$ nucleotide bases\pause
+    \item Number of different proteins can be $10^5$\pause
+    \item Number of different cell types $10^2$\pause
+    \item Number of species $10^7$\pause
+    \end{itemize}
+  \item Understanding biology involves a lot of information\pause
+  \item This information is stored in big databases\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Interactions}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Interactions occur across many levels
+    \begin{itemize}
+    \item Protein-protein interaction are common place\pause
+    \item Protein-DNA interaction underlie a lot of regulation\pause
+    \item Protein-environment interaction are how cell sense the world\pause
+    \item Species interact in ecosystems\pause
+      \begin{itemize}
+      \item You are an ecosystem\pauseb
+      \item Half the cells in your body aren't yours\pauseb
+      \end{itemize}
+    \end{itemize}
+  \item If $P\approx10^5$ is the number of proteins then the number of possible
+    interacting pairs are $P\approx10^{10}$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Biology Self-Organise}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Protein complexes form machines\pause
+  \item Life organises into cells\pause
+  \item Cells can organise into higher organisms\pause
+  \item Organisms form populations that act together\pause
+  \item Back to ecosystems\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Life is Dynamic}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Cells are chemical machines\pause
+  \item They work through complex auto-regulation\pause
+  \item Cells divide\pause
+  \item Sometimes cell fuse sexually\pause
+  \item Life evolves\pause
+  \item Almost all aspects of life are governed by control mechanisms\pauseb
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Computational Biology}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Making sense of biology is a big data problem\pause
+  \item Tools of computer science are essential to
+    \begin{itemize}
+    \item store the data
+    \item make inferences about the data\pause
+    \end{itemize}
+  \item The tools of abstraction applies to biology as much as to
+    computer science\pause
+  \item Biology is both infinitely complex\pause{} and yet in some
+    cases amazing simple\pauseb
+  \end{itemize}
+\end{PauseHighLight}
+
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Evolution}
+
+\begin{minipage}{0.3\linewidth}
+  \tiny{Charles Darwin}\\
+  \includegraphics[width=0.9\linewidth]{darwin}\\
+  \tiny{Alfred Russel Wallace}\\
+  \includegraphics[width=0.9\linewidth]{wallace}
+\end{minipage}\hfill
+\begin{minipage}{0.65\linewidth}
+  \begin{PauseHighLight}
+  \begin{itemize}
+  \item "Nothing in Biology Makes Sense Except in the Light of
+    Evolution"\\
+    \hfill--Theodosius Dobzhansky\pause
+  \item At every level (from protein to species) we can make sense of
+    biology in term of natural selection\pause
+  \item Understanding the details of evolution is an on-going story\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{minipage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{The Tree of Life}
+\begin{minipage}{0.3\linewidth}
+  \includegraphics[width=0.9\linewidth]{treeOfLife}\\
+\end{minipage}\hfill
+\begin{minipage}{0.65\linewidth}
+  \begin{PauseHighLight}
+  \begin{itemize}
+  \item All observations are consistent with life on earth being related
+    through a tree like structure\pause
+  \item At the molecular level different species share a huge amount in
+    common\pause
+  \item Biologists use this to transfer knowledge between species\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{minipage}
+
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Inheritance}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item At the time of Darwin (1859) inheritance was \emph{not}
+    generally understood\pause
+  \item This caused a lot of confusion because blending inheritance
+    would seem to remove the variation needed for natural
+    selection\pause
+  \item Modern inheritance theory was initially proposed by Gregor
+    Mendel around 1860, but was not widely known\pause
+  \item Around 1900 it was finally widely understood that inheritance
+    occurred through the exchange of discrete units
+    (genes)\pause \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Gregor Mendel's Experiment}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{mendel}
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+  \section{Sexual Reproduction}
+  \pb
+  \pause
+  \pauselevel{=1}
+  \begin{center}
+    \multipdf[width=\linewidth]{sexualRep}\pause
+  \end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Mendel's Peas}
+
+\pb
+\begin{center}
+  \includegraphics[width=25cm,height=15cm]{inheritance}\pauselevel{=1 :5}\pause
+  \multido{\ia=0+1,\ib=1+1}{3}{%
+  \llap{\includegraphics[width=25cm,height=15cm]{MendelBoxes-\ia}}\mypl{\ib}}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Inheritance}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Mendel's experiments could be explained if
+    \begin{itemize}
+    \item traits were carried by discrete units (genes)\pause
+    \item each individual carries two copies of a gene (diploidy)\pause
+    \item we inherit one copy from each parent\pause
+    \item one gene is dominant\pause
+    \end{itemize}
+  \item These are not always true\pause
+  \item Very clever explanation and experiments\pause{}, although the
+    results were rigged\pauseb
+  \item The mechanism for inheritance remained confused until\ldots\pauseb
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[1]{Crick and Watson}
+
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    Discovery of the Double Helix\\
+    \includegraphics[width=\linewidth]{DNANature53}
+  \end{center}
+\end{minipage}\hfill
+\begin{minipage}{0.45\linewidth}
+  \begin{center}
+    \includegraphics[width=\linewidth]{crickWatson}
+  \end{center}
+\end{minipage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Base Pairs}
+\begin{minipage}{0.5\linewidth}
+  \includegraphics[width=\linewidth]{BasePairing}\\
+\end{minipage}\hfill
+\begin{minipage}{0.45\linewidth}
+  \begin{PauseHighLight}
+  \begin{itemize}
+  \item Double helix held together by 4 types of bases\pause
+  \item Each base, A, C, G, T form \emph{base pairs} A--T or C--G\pause
+  \item Amazing digital code\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{minipage}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{The Genetic Code}
+
+\begin{minipage}{0.2\linewidth}
+  \begin{center}
+    \includegraphics[width=0.9\linewidth]{dna-cw}\\
+  \end{center}
+\end{minipage}\hfill
+\begin{minipage}{0.75\linewidth}
+\begin{quote}
+  ``It has not escaped our notice that the specific pairing we have
+  postulated immediately suggests a possible copying mechanism for the
+  genetic material.''
+\end{quote}
+\begin{flushright}
+    -- Crick and Watson (1953)
+\end{flushright}
+\end{minipage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{DNA Replication}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{DNA_Replication}
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{What Does DNA Do?}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Part of DNA codes for Proteins\pause
+    \begin{itemize}
+    \item Gets copied to messenger RNA through transcription\pause
+    \item mRNA then gets translated to proteins\pause
+    \end{itemize}
+  \item A lot of DNA does \emph{not} code for protein
+    \begin{itemize}
+    \item Can code for RNA molecules (ribozymes)\pause
+    \item Used for controlling the cell\pause
+    \item Can be junk---caused by replication\pause
+    \item We're not quite sure\pauseb
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{RNA and DNA}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{RNAandDNA}
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Transcription by RNA Polymerase in Action}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{rnaPolymerase}
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Exons and Introns}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{exintrons}
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{mRNA to Protein Translation}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{ribosomeWorking}
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{RNA Triplet to Amino Acids}
+\begin{center}
+  \includegraphics[width=0.6\linewidth]{ch01/figure_01_04}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{DNA to Protein}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{DNAtoProtein}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{What Do Proteins Do?}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Proteins are the main building block of cells\pause
+  \item The can form the skeleton (e.g. lipid layer of membranes)\pause
+  \item They acts as chemical machines (enzymes)\pause
+  \item They can even act as mechanical machines\pause
+  \item They are a large part of the control mechanism\pause
+  \item Not everything in the cell is a protein
+    \begin{itemize}
+      \item E.g. there is DNA and RNA\pause
+      \item RNA can fold up like proteins and act as catalysts
+        (ribosymes)\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Computational Challenges}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A lot of computational challenges had to be addressed to
+    understand the genome\pause
+  \item Need to find coding regions (exons)\pause
+  \item Need to reconstruct DNA sequence from sequencing data\pause
+  \item Need to compare different sequences\pause
+  \item We will cover these issues during the course\pause{} (and more
+    beside)\pauseb
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Conclusion}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We've just started to look at molecular biology\pause
+  \item We've covered inheritance through DNA\pause
+  \item How to produce proteins from DNA\pause
+  \item We've still got to look at how cells work\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%% Local Variables:
+%%% TeX-master: "lectures"
+%%% End:

@@ -1,0 +1,555 @@
+%Master File:lectures.tex
+
+\lesson{Phylogenetic Trees}
+\vspace{-2cm}
+\begin{center}
+  \includegraphics[height=10cm]{giantPanda}
+\end{center}
+
+\keywords{Trees of Life, UPGMA}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{8cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Importance of\\ Phylogeny}{bd}
+    \outlineitem{Distance Based\\ Trees}{comp}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{14cm}
+  \vfill
+  \includegraphics[width=\linewidth]{giantPanda}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Giant Panda}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Is a giant panda a bear or a raccoon?\pause
+  \item When they were first discovered in Europe scientists couldn't
+    decide---they had features of both\pause
+  \item They were named after red pandas that are raccoons\pause
+  \item This was only resolved in 1985 when Steven O'Brien and
+    colleagues used sequence matching from 500\,000 nucleotides to
+    finally produce a definitive evolutionary tree\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{The Tree of Bears}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{giantPanda}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Out of Africa}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In the mid 1980s Allan Wilson and colleagues studied the
+    evolutionary tree of human mitrochondria and decided that all races
+    outside Africa shared a common ancestor who lived in Africa 200\,000
+    years ago\pause
+  \item Hominids had left Africa much earlier (e.g. Neanderthals) so
+    this theory postulated that modern humans would have displaced all
+    existing hominids outside of Africa\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Modern Humans}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{OutOfAfrica}\\
+  \tiny{By NordNordWest - File:Spreading homo sapiens ru.svg by Urutseg, Public Domain, https://commons.wikimedia.org/w/index.php?curid=34697001}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Mitrochondrial DNA}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Mitrochondria are the powerhouse of cells\pause
+  \item They would have originally been an independent organism that
+    somehow got captured by eukaryotic cells\pause
+  \item They contain their own DNA\pause
+  \item They are inherited through the mother's ova\pause
+  \item They therefore reproduce asexually\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Asexual Inheritance}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Asexual inheritance is much easier to study\pause
+  \item Populations will share a common ancestor because of
+    \begin{itemize}
+    \item Natural coalescence\pause
+    \item Going through a bottle neck (e.g. leaving Africa)\pause
+    \end{itemize}
+  \item Natural coalescence happens by chance, but will be enhanced by
+    selection\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Coalescence}
+
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{coalescence}\pause
+\end{center}
+\begin{itemize}
+\item If you go far enough back in time an asexual population will have a
+  common ancestor\pause
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Cross-Breeding}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Didn't modern man cross-breed with other hominids?\pause
+  \item This was unknown even 10 years ago\pause, but of course they
+    did\pauseb
+  \item However, the numbers were not large and due to coalescence (the
+    coalescence time being small because there was not huge
+    cross-breeding) all traces of Neanderthal  mitrochondrial DNA vanished\pause
+  \item The story is very different for the rest of our DNA\pause
+  \item Normal DNA evolves sexually\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{The Selfish Gene}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item With crossover you cannot build a tree of life as you inherit
+    from two parents\pause
+  \item However, each gene (at least if it doesn't get disrupted by
+    crossover) can be mapped to its own ancestral tree\pause
+  \item Because there are lots of genes it is much more likely for genes
+    from different origins to survive (particularly if they have
+    different fitness)\pause
+  \item In fact, we carry DNA that clearly came from Neanderthal and a
+    few other early hominids\pause
+  \item These genes seem to have been selected for\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Horizontal Gene Transfer}
+
+\begin{minipage}{0.52\linewidth}
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Although bacteria and archaea reproduce asexually they regularly
+    exchange plasmids\pause
+  \item These are loops of DNA\pause
+  \item This is the primary cause of\\ antibiotic resistance\pause
+  \item The tree of life is not quite a tree\pause
+  \end{itemize}
+\end{PauseHighLight}  
+\end{minipage}\hfil
+\begin{minipage}{0.45\linewidth}
+  \begin{center}
+    \includegraphics[width=0.9\linewidth]{Horizontal-gene-transfer}\\
+    \tiny{By Dr. Smets and perhaps others - Barth F. Smets, Ph.D., with
+      permission, Attribution,
+      https://commons.wikimedia.org/w/index.php?curid=5720886}    
+  \end{center}
+\end{minipage}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Ligers and Tigons}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Most higher animals form species where individuals between
+    species don't inter-breed\pause{} very much\pauseb
+  \item In captivity ligers are crosses between male lions and female
+    tigers  and tigons are crosses between male tigers and female
+    lions\pause
+  \item In the wild lions and tigers no longer overlap, but in the past
+    there was some report of ligers (which are typically enormous)\pause
+  \item Like most cross-breeds they have reduced fertility (one sex is
+    often inviable or sterile) so that cross breeds die out\pause
+  \item Because of this lack of significant cross-breeding we can model
+    most of evolution at a species level as a tree\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Evolution and HIV}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We often think of evolution as happening over geological
+    time\pause
+  \item But the HIV virus evolved over decades from a disease that
+    infected African primates to one that infects man\pause
+  \item Furthermore it evolves over months and years to evade our
+    immune system\pause
+  \item Tracking these changes can be important in understanding and
+    controlling the disease\pause
+  \item The virus evolves asexually so we can build an evolution
+    tree\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Evolution of Cancer}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Cells even in higher organisms predominantly reproduce asexually
+    (they continuously divide)\pause
+  \item Over time the genome can get disrupted which if we are unlucky
+    can grow into tumours\pause
+  \item Cancer cells accumulate mutations, some of which will die out
+    others of which will replicate faster that other cells\pause
+  \item Understanding the development of cancer is often crucial to its
+    treatment\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Orthologues and Paralogues}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Genes that diverge due to speciation are known as
+    orthologues\pause
+  \item Genes that diverge due to gene duplication are known as
+    paralogues\pause
+  \item If we are interested in understanding the relationship between
+    species (e.g. pandas) we have to make sure we choose
+    orthologues\pause
+  \item But if we are interested in the different types of haemoglobins
+    then we have to look at paralogues\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{haemoglobins1}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{}
+
+
+\begin{center}
+  \includegraphics[width=0.6\linewidth]{haemoglobins}
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Three Camps}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Although you would think that evolutionary trees should be
+    pretty well understood, there is a huge debate about how to do this
+    right\pause
+  \item There are three bitter rival camps in the field
+    \begin{itemize}
+    \item Evolutionary Taxonomy
+    \item Phenetics or numerical taxonomy
+    \item Cladistics\pause
+    \end{itemize}
+  \item If you are interested you can delve in the philosophical
+    differences, but we will ignore them\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Ultrametric
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Building Phylogenetic Trees}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Building evolutionary trees (also known as phylogenetic trees) based
+    on some measure of evolutionary distance is scientifically
+    important\pause
+  \item Traditionally morphological features where used, but today
+    sequence edit distance is usually used\pause
+  \item There are often many plausible tree that can explain the
+    data\pause
+  \item Efficient methods that find the best evolutionary trees still
+    don't exist---current algorithms are compromises\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{The Molecular Clock}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item It is a nice picture to see the accumulation of mutations acts as a
+    clock telling us when species separated\pause
+  \item Unfortunately, mutations are random and strongly affected by
+    selection pressure\pause
+  \item Also mutations are often very complex, involve a duplication of
+    a stretch of DNA\pause
+  \item A lot of care is needed to use mutations as a molecular clock,
+    including using as large sequences as possible\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Two Types of Trees}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item There are two main types of evolutionary trees
+    \begin{itemize}
+    \item \emph{Distance-based trees}, where we have a table of
+      ``distances'' between species and we wish to find a tree
+      explaining these distances\pause
+    \item \emph{Sequence based trees}, where we are given a set of
+      sequences and we want to find a tree with a minimum number of
+      mutations per link (maximum parsimony) that explains the
+      data\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Ultrametric Trees}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We consider binary trees\pause
+  \item If we had a perfect molecular clock then evolutionary trees
+    to existing species will have an ultrametric structure\pause
+    \begin{center}
+      \includegraphics[width=0.9\linewidth]{ultrametric}
+    \end{center}
+  \item For any three nodes $i$, $j$ and $k$ with distances $d_{ij}$,
+    $d_{ik}$ and $d_{jk}$ two distances will be identical, and one will
+    be smaller than these\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Real Trees}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Because we cannot accurately measure divergence time, in practice
+    it is very unlikely that the table of distances can be modelled with
+    an ultrametric tree\pause
+  \item We can however build an ultrametric tree through a clustering
+    algorithm known as \emph{Unweighted Pair Group Method using
+      Arithmetic averaging} UPGMA\pause
+  \item This is an easy algorithm where we build a tree from the leaves
+    upwards\pause
+  \item We select the two closest subtrees remove all the nodes and
+    replace the two joined subtree with a new subtree\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{UPGMA}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{upgma}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Distance Calculation for UPGMA}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The UPGMA algorithm starts from a table of distances\pause
+  \item The distance between two clusters $\mathcal{C}_k$ and
+    $\mathcal{C}_l$ is given by
+    \begin{align*}
+      d_{kl} = \frac{1}{|\mathcal{C}_k|\,|\mathcal{C}_l|}
+      \sum_{\substack{p\in\mathcal{C}_k\\q\in\mathcal{C}_l}} d_{pq}\pause
+    \end{align*}
+  \item If we join two clusters so that $\mathcal{C}_k = \mathcal{C}_i
+    \cup \mathcal{C}_j$ then the distance to a cluster $\mathcal{C}_l$
+    is
+    \begin{align*}
+      d_{kl} = \frac{d_{il}\,|\mathcal{C}_i| + d_{jl}\,|\mathcal{C}_j|}
+      {|\mathcal{C}_i| + |\mathcal{C}_j|}\pause
+    \end{align*}
+  \item If the distances are not ultrametric then UPGMA can give poor
+    trees\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Weakness of UPGMA}
+\pause
+\pb
+\pauselevel{=1}
+\begin{itemize}
+\item Note that organism 5 and 7 are quite close, but UPGMA distorts
+  this\pauseh 
+\end{itemize}
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.9\linewidth]{upgma}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Reflection on Ultrametricity}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item UPGMA imposes an ultrametric structure on the derived
+    evolutionary trees\pause
+  \item If mutations accumulated at a constant rate then evolutionary
+    trees should have an ultrametric structure\pause
+  \item Unfortunately mutations experience selection and in some cases
+    they are very non-trivial (genome copy mutations)\pause
+  \item There are stretches of ``junk'' DNA where mutations appear to
+    accumulate at a reasonable constant rate, but these are not well
+    studied or stable regions\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summary}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Evolutionary trees provide very important scientific insights\pause
+  \item Building evolutionary trees is non-trivial\pause
+  \item If the distances are approximately ultrametric then UPGMA will
+    generate a good tree\pause
+  \item Need to look at other ways of building evolutionary trees\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+

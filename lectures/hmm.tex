@@ -1,0 +1,620 @@
+%Master File:lectures.tex
+
+\lesson{Hidden Markov Models}
+\vspace{-2cm}
+\begin{center}
+  \includegraphics[height=10cm]{dishonestCasino-30}
+\end{center}
+
+\keywords{Generative Models, Markov Chains, FSA, HMMs}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Probabilistic Models}{probm}
+    \outlineitem{Hidden Markov Models}{hmm}
+    \outlineitem{Summing Over Paths}{dyprog}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{dishonestCasino-30}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Probabilistic Models}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Probability is the natural language for talking about
+    uncertainty\pause
+  \item Reason about biological sequences where we have uncertainty\pause
+  \item Can we develop methods to answer questions such as how likely is
+    a certain sequence to be a coding region?\pause
+  \item Or what is the probability that this part of a protein forms a
+    beta sheet?\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Probabilistic Models and ML}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In machine learning we usually have a data set consisting of
+    pairs of features, $\bm{x}$, and targets, $y$\pause
+  \item Many machine learning problems comes down to determining the
+    probability of the target $y$ given the features, $\bm{x}$
+    \begin{align*}
+      \Prob{y | \bm{x}}\pause
+    \end{align*}
+  \item This is a discrimination task\pause
+  \item However, we usually just use a model with lots of parameters,
+    $\bm{\theta}$ and train on data to find $\Prob{y|\bm{x},\bm{\theta}}$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Generative Models}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If we really want to use a principled model then we need to
+    construct probabilistic models by thinking about how the data is
+    generated\pause
+  \item This involves computing the joint probability
+    \begin{align*}
+      \Prob{y,\bm{x}}\pause
+    \end{align*}
+  \item We can still do discrimination since
+    \begin{align*}
+      \Prob{y|\bm{x}} = \frac{\Prob{y,\bm{x}}}{\Prob{\bm{x}}} 
+      = \frac{\Prob{y,\bm{x}}}{\sum_y \Prob{y,\bm{x}}}\pause 
+    \end{align*}
+  \item The difference is we have to consider the distribution of the
+    features $\Prob{\bm{x}}$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Markov Models}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A lot of biological data involves sequences, e.g. DNA, proteins\pause
+  \item The simplest model for a sequence is a Markov model, where the
+    probability of the next element in the sequence just depends on the
+    current state
+    \begin{align*}
+      \Prob{x_t|x_{t-1},\, x_{t-2},\, \ldots, x_1} = \Prob{x_t|x_{t-1}}\pause
+    \end{align*}
+  \item However, this is an overly simple model for biological
+    sequences\pause
+  \item There are far too few parameter in $\Prob{x_t|x_{t-1}}$ to
+    obtain a useful model\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Finite State Automaton}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item As we saw in the last lecture, one mechanism to make more
+    complex models is to construct a finite state automaton\pause
+  \item For sequences we can make the probability of generating a
+    character from some alphabet depend on the state\pause
+  \item We can then build a model describing the probability of
+    transitioning between states\pause
+  \item Note, that this is also a Markov model---the probability of the
+    next symbol in the sequence depends only on the current state\pause 
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Markov Model for DNA}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We could imagine in modelling a DNA sequence we might have
+    different emission probabilities depending on whether we are in a 
+    \begin{itemize}
+    \item Coding region\pause
+    \item The TATA box before a coding region\pause
+    \item The promoter region in front of the TATA box\pause
+    \item In junk DNA\pause
+    \end{itemize}
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=\linewidth]{simpleMM}
+  \end{center}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % hmm
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Hidden Markov Model}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Although we have a generative model we want to use it as a
+    descriminative model\pause
+  \item The problem is we usually don't know which region of DNA we
+    are in (that is often what we are trying to find out)\pause
+  \item Thus we have a sequence, but we don't know which state we're
+    in\pause 
+  \item This model where we have a \emph{probabilistic FSA} where we
+    emit a letter in each state according to a probability which depends
+    on the state and then we make a transition to a new state (possibly
+    the same) is known as a \emph{hidden Markov model}\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Dishonest Casino}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Consider a dishonest casino where we have two dice\pause
+  \item An honest dice with $p_i=\tfrac{1}{6}$\pause
+  \item And a dishonest dice where $p_6=\tfrac{1}{2}$ while
+    $p_i=\tfrac{1}{10}$ for $i=\{1,\,2,\,3,\,4,\,5\}$\pause
+  \item With a probability of $\tfrac{1}{10}$ the roller of the dice
+    switches dice\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Instance of a Dishonest Casino}
+\pause
+\pauselevel{=1}
+\pb
+\begin{center}
+  \multipdf[width=\linewidth]{dishonestCasino}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{HMM Terminology}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We consider a sequence consisting of letters $\zeta$ from some
+    alphabet $\mathcal{A}$\pause
+  \item We denote our sequence by $\bm{\xi} = (\xi_1,\, \xi_2,\,
+    \ldots,\, \xi_T)$\pause
+  \item We let the set of states be denote by $\mathcal{Q}$\pause
+  \item The sequence of states we denote by
+    $\bm{q} = (q_0,\, q_1,\, \ldots,\, q_T)$\pause
+  \item In HMMs we often have an initial state which we transition out
+    of before doing anything else\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Start State}
+\pause
+\pauselevel{=1}
+\pb
+\begin{center}
+  \multipdf[width=\linewidth]{startState}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Parameter of HMM}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The \emph{emission probability} is the probability of emitting a
+    letter $\zeta$ in state $i$ and is denoted
+    \begin{align*}
+       e_i(\zeta) = \Prob{\zeta | q_t=i} \pause
+    \end{align*}
+  \item The \emph{transition probability} of moving from state $i$ to
+    state $j$ is denoted
+    \begin{align*}
+      a_{ij} = \Prob{q_t=j | q_{t-1} = i}\pause
+    \end{align*}
+  \item The set of emission and transition probabilities we denote by
+    $\bm{\theta}$\pause 
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Viterbi Algorithm}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To find the most likely set of states associated with a sequence
+    $\bm{\xi}$ we can use a classic dynamic programming algorithm\pause
+  \item This is known as the Viterbi algorithm\pause
+  \item Let $v_i(t)$ be the probability of being in state $i$ at time
+    $t$\pause
+  \item Initially $v_0(0)=1$ and $v_i(0)=0$ where state 0 is the initial
+    state\pause 
+  \item We iteratively compute for each state $i\in\mathcal{Q}$
+    \begin{align*}
+      v_i(t) = e_i(\xi_t)\, \max_j \, v_j(t-1)\, a_{ji}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Most Likely Path}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To compute the optimal path it helps to maintain a pointer
+    \begin{align*}
+      \mathrm{ptr}_t(i) = \argmax_j \, v_j(t-1)\, a_{ji}\pause
+    \end{align*}
+  \item The termination condition for Viterbi is
+    \begin{align*}
+      \Prob{\bm{\xi}, \bm{q}^*} &= \max_i v_i(T) \\
+      q^*_T &= \argmax_i v_i(T)\pause
+    \end{align*}
+  \item The backward algorithm is
+    \begin{align*}
+      q^*_{t-1} &= \mathrm{ptr}_t(q^*_t)\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Viterbi Schematic}
+\pb \pause \pauselevel{=1}
+
+\begin{center}
+   \multipdf[width=\linewidth]{viterbiSchematic}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Using Log-Probabilities}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Numerically products of probabilities underflow\pause:
+    if $P = \prod\limits_{i=1}^N p_i$ with $p_i=0.1$ and $n=400$ then $P=(0.1)^{400}\pause=0$\pauseb
+  \item Now if $P = \prod\limits_{i=1}^N p_i$ then $\log(P)
+    = \sum\limits_{i=1}^N \log(p_i)$\pause{} so with $p_i=0.1$ and $n=400$ then
+    $\log(P)=400\times\log(0.1)\pause=-921.03$\pauseb
+  \item If $S = p_1 + p_2$ with $p_1>p_2$ then
+    \begin{align*}
+      \log(S) = \logg{\e{l_1}+\e{l_2}} = l_1 + \logg{1+\e{l_2-l_1}}
+    \end{align*}
+    where $l_1=\log(p_1)$ and $l_2=\log(p_2)$\pause
+  \item Note that in many programming languages  \texttt{log1p(x)}
+    computes $\log(1+x)$\pause{} see scipy.special.logsumexp\pauseb
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Viterbi In Action}
+
+\pb
+\begin{itemize}
+\item Recall
+  \begin{align*}
+       v_i(t) = e_i(\xi_t)\, \max_j \, v_j(t-1)\, a_{ji}\pause
+    \end{align*}
+  \item Or
+  \begin{align*}
+    \logg{v_i(t)} = \logg{e_i(\xi_t)}
+    + \max_j \, \logg{v_j(t-1)} + \logg{a_{ji}}\pause
+  \end{align*}  
+\end{itemize}
+\vspace*{1cm}
+
+\begin{center}
+  \multipdf[width=\linewidth]{viterbiGraphic}\pause
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Back to Our Dishonest Casino}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item One application of the Viterbi algorithm is to make an informed
+    guess whether the dice is fair or loaded in our dishonest
+    casino\pause
+  \item Show the dice rolls, true states and Viterbi predictions
+    \begin{center}
+      \includegraphics[width=\linewidth]{viterbiDC}\pause
+    \end{center}
+  \item Note that the transition occur at boundary between 6 and not
+    6\pause
+  \item The most likely path is not always very accurate.\pause{}  We
+    often do better to ask what is the probability of being in a certain
+    state\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Probabilities of a Sequence}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The joint probability of the HMM moving through a set of states
+    $\bm{q}$ and emitting symbols $\bm{\xi}$ is given by
+    \begin{align*}
+      \Prob{\bm{\xi}, \bm{q} | \bm{\theta}} = \prod_{t=1}^T
+      a_{q_{t-1}\,q_t}\,e_{q_t}(\xi_t)\pause
+    \end{align*}
+  \item Because the states are hidden from us we have to average them
+    out
+    \begin{align*}
+      \Prob{\bm{\xi} | \bm{\theta}} = \sum_{\bm{q}\in\mathcal{Q}^T}
+      \Prob{\bm{\xi}, \bm{q} | \bm{\theta}}\pause
+    \end{align*}
+  \item $\mathcal{Q}^T$ signifies the set of all possible paths\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Summing over paths
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summing Over Paths}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The sum of all paths involves $|\mathcal{Q}|^T$ terms which
+    rapidly becomes intractable\pause
+  \item However, once again dynamic programming comes to the
+    rescue\pause
+  \item Note, that previously we had used dynamic programming to find
+    the optimal path---now we are using it to sum over all paths\pause
+  \item We define the forward and backward variables as
+    \begin{align*}
+      \alpha_t(i) &= \Prob{\xi_1,\cdots,\xi_t, q_t = i|\bm{\theta}}\\
+      \beta_t(i) &= \Prob{\xi_{t+1},\cdots,\xi_T | q_t =
+                   i,\,\bm{\theta}} \pause
+\end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{The Forward Variable}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The variable $\alpha_t(i) = \Prob{\xi_1,\cdots,\xi_t, q_t = i|\bm{\theta}}$
+    is computed iteratively
+    \begin{align*}
+      \alpha_t(i) &= \sum_{j\in\mathcal{Q}} 
+                    \Prob{\xi_t, q_t=i| q_{t-1}=j,\, \bm{\theta}} \,
+                    \Prob{\xi_1,\cdots,\xi_{t-1}, q_{t-1} = j|\bm{\theta}}
+      \\
+      &= e_i(\xi_t) \sum_{j\in\mathcal{Q}} a_{ji}\, \alpha_{t-1}(j)\pause
+    \end{align*}
+  \item With initial condition $\alpha_0(0) = 1$ (where state 0
+    is taken to be initial state) and $\alpha_i(0) = 0$ for $i\neq0$\pause
+  \item Since $\alpha_t(i) = \Prob{\xi_1,\cdots,\xi_t, q_t = i|\bm{\theta}}$
+    \begin{align*}
+      \Prob{\bm{\xi}|\bm{\theta}} = \sum_{i\in\mathcal{Q}} \alpha_T(i)\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{The Backward Variable}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Similarly $\beta_t(i) = \Prob{\xi_{t+1},\cdots,\xi_T | q_t =
+      i,\,\bm{\theta}}$ is computed with the backward algorithm
+    \begin{align*}
+      \beta_{t-1}(i) &= \sum_{j\in\mathcal{Q}} 
+                       \Prob{\xi_t, q_t=j | q_{t-1}=i} 
+                       \, \Prob{\xi_{t+1},\cdots,\xi_T| q_t=j} \\
+      &= \sum_{j\in\mathcal{Q}} a_{ij}\,e_j(\xi_t)\, \beta_{t}(j)
+    \end{align*}
+  \item with $\beta_{T}(i) = 1$\pause
+  \item Some care is needed to make sure these quantities don't underflow
+    (they are product of probabilities)---usually we would work with the
+    logarithm of these quantities\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Using Forward and Backward Variables}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item With both forward and backward variables we can compute more
+    complex quantities\pause
+  \item For example, the probability of being in a particular state
+    given a sequence $\bm{\xi}$ is
+    \begin{align*}
+      \Prob{q_t = i | \bm{\xi}, \bm{\theta}}
+      &=  \frac{\Prob{\bm{\xi},q_t =i}}  {\Prob{\bm{\xi}|\bm{\theta}}}\pause
+        = \frac{\alpha_t(i)\, \beta_t(i)}{\Prob{\bm{\xi}|\bm{\theta}}}\pause
+    \end{align*}
+  \item We could use this to analyse our dishonest casino\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Posterior Probability}
+
+
+\begin{center}
+  \includegraphics[width=\linewidth]{posteriorProb}
+\end{center}
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We suppose we can't detect the change of dice, but we can
+    observe the sequence $\bm{\xi}$ of rolls\pause
+  \item $\Prob{q_t = H | \bm{\xi}, \bm{\theta}}$ is then our inferred
+    probability that the dice is honest\pause
+
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Dynamic Programming for Averaging}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Dynamic programming is often used to find optima\pause
+  \item E.g. the most likely path as computed by Viterbi\pause
+  \item However, with a minor modification the same strategy can be used
+    for averaging over all paths\pause
+  \item Both strategies are commonly referred to as dynamic
+    programming\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Using HMMs in Biology}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In biological sequence analysis we can use an HMM, for example,
+    to tell if a protein is a kinase protein\pause
+  \item If we associate different states to either an alpha helix, a beta
+    sheet or a coil then we can calculate the probability of an amino acid
+    being one of the above\pause
+  \item Of course to do this we need that our HMM has the right
+    structure\pause
+  \item If we knew a lot about biology we might be able to carefully
+    design the HMM\pause
+  \item In practice we very rarely do and we have to train our HMM on
+    data\pause---we discuss this in the next lecture\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summary}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item HMMs are a very important structure in biological sequence
+    analysis\pause
+  \item They are probabilistic Finite State Automata\pause
+  \item They are a generative model for sequence\pause
+  \item Of course, they are massively simplified generative models\pause
+  \item We can use dynamic programming to sum over all the unseen state\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+

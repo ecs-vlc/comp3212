@@ -1,0 +1,54 @@
+#! /bin/bash
+
+files=`grep \\lecture{ lectures.tex | sed 's/\\\lecture{//g' | sed 's/}//g'`
+
+
+for f in $files
+do
+    if [ -f videos/${f}.mp4 ]; then      
+        csr=`ssh apb1@stafflogin.ecs.soton.ac.uk stat --printf="%s" /notes/comp3212/lectures/videos/${f}.mp4`
+        cs=`stat --printf="%s" videos/${f}.mp4`
+        if [ "$cs" != "$csr" ]; then
+            echo "Need to copy video file ${f}.mp4 to stafflogin"
+            scp videos/${f}.mp4 apb1@stafflogin.ecs.soton.ac.uk:/notes/comp3212/lectures/videos/${f}.mp4
+        else
+            echo "Video is already there"
+        fi
+    fi
+    if [ pdf/${f}_prn_8.pdf  -nt $f.tex ]; then
+        continue
+    fi
+    echo "Processing $f"
+    outf=$f.pdf
+    if echo $f | /usr/bin/pdflatex -shell-escape lectures; then
+	echo "OK"
+    else
+	echo "Error"
+	exit 1;
+    fi
+    echo $f | /usr/bin/pdflatex lectures
+    ppower4 lectures.pdf $f.pdf
+    outf=pdf/${f}_prn.pdf
+    mv lectures.pdf $outf
+    pdfnup --nup 2x4 --outfile pdf/${f}_prn_8.pdf pdf/${f}_prn.pdf
+    pdfnup --nup 2x2 --outfile pdf/${f}_prn_4.pdf pdf/${f}_prn.pdf
+    dir=$cwd
+
+    scp $outf apb1@stafflogin.ecs.soton.ac.uk:/notes/comp3212/lectures/apb-lectures
+    scp pdf/$f.pdf apb1@stafflogin.ecs.soton.ac.uk:/notes/comp3212/lectures/apb-lectures
+    scp pdf/${f}_prn_8.pdf apb1@stafflogin.ecs.soton.ac.uk:/notes/comp3212/lectures/apb-lectures
+    scp pdf/${f}_prn_4.pdf apb1@stafflogin.ecs.soton.ac.uk:/notes/comp3212/lectures/apb-lectures
+    ssh apb1@stafflogin.ecs.soton.ac.uk chmod +r /notes/comp3212/lectures/apb-lectures/*
+done
+
+#cmd="pdftk "
+#for f in $files; do
+#    cmd="$cmd pdf/${f}_prn_8.pdf "
+#done
+#cmd="$cmd cat output pdf/lectures_8.pdf"
+#echo $cmd
+#$cmd
+#scp pdf/lectures_8.pdf apb1@stafflogin..ecs.soton.ac.uk:/notes/comp3212/lectures/apb-lectures
+
+lecturehtml
+

@@ -1,0 +1,584 @@
+%Master File:lectures.tex
+\newcommand{\Kb}{\bar{K}}
+
+\lesson{Population Genetics}
+\vspace{-1cm}
+\begin{center}
+  \includegraphics[height=10cm]{\figs/GAroulette/study.png}
+\end{center}
+\keywords{Fisher-Wright model, ODEs, Markov chains.}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{11cm}
+  \begin{enumerate}
+    \outlineitem{Population Genetics}{populations}
+    \outlineitem{Facts of Life}{fisherwright}
+    \outlineitem{Infinite Population Model}{infpop}
+    \outlineitem{Finite Population Model}{finpop}
+  \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{11.5cm}
+  \includegraphics[width=\linewidth]{\figs/GAroulette/study.png}
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline % Modelling
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Evolution and Molecular Biology}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Evolution is the theory that underpins our understanding of
+    biology\pause
+  \item Molecular biology has open up a whole new perspective on
+    evolution as we see similar proteins in related species\pause
+  \item This evolution ancestry helps us understand molecular biology
+    as similar proteins usually share the same function\pause
+  \item However we can also use molecular biology to help understand
+    evolution---more of this when we discuss phylogenetic tree\pause
+  \item But how does evolution work?\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Evolutionary Population Dynamics}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Since as least the 1920's researchers have tried to model
+    evolution\pause
+  \item The field is known as \emph{population genetics}\pause
+  \item Much of it was developed before we understood the mechanisms of
+    heredity\pause
+  \item It is therefore rather abstracted from biology\pause
+  \item However it was enormously influential to our understanding of
+    evolution\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Fisher-Wright Model
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Fisher-Wright Model}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The classic model of population genetics is the Fisher-Wright
+    (or Wright-Fisher) model developed independently by Fisher and
+    Wright around 1930\pause
+  \item It is important because it laid the theoretical framework for
+    many of the prejudices held today\pause
+  \item In its simplest form it is a model of what happens at a single
+    locus (site) under selection, mutation and crossover
+  \end{itemize}
+  \begin{center}
+    \includegraphics[height=4cm]{loci}\pause
+  \end{center}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Locus and Alleles}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The locus can be thought of as the location of a gene\pause
+  \item The type of gene at a site will differ between individuals
+    (e.g. one for smooth peas and one for wrinkled peas)\pause
+  \item The different types of genes are known as \emph{alleles}\pause
+  \item We assume that genes can be modified from one allele to another
+    by mutation\pause
+  \item Alleles are also exchanged during sexual reproduction
+    (crossover)\pause 
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Fitness}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Fitness has a technical meaning in population genetics; it
+    is a measure of the expected number of offspring an individual
+    produces\pause
+  \item If one individual is 10\% fitter than another it will (in
+    expectation) produce 10\% more offspring\pause
+  \item Of course, the individual may get flattened by a car before it
+    reaches sexual maturity and never produce any offspring\pause
+  \item Thus fitness measures potential to reproduce\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Epistatic Interaction}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Many genes interact (we now know they often code for proteins
+    that directly interact chemically in many cases)\pause
+  \item Thus the fitness of an allele will typically depend on other
+    alleles at other locations\pause
+  \item This interaction is known as \emph{epistasis}\pause
+  \item To keep things simple in the Fisher-Wright model we assume no
+    epistasis\pause
+  \item There exists more complex models which treat epistasis between
+    two or more loci, but these rapidly become rather complex\pause    
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Sex}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Sex is surprisingly ubiquitous in higher organisms\pause
+  \item Few higher organisms seem to reproduce asexually (although
+    even if they do, many sometimes also reproduce sexually)\pause
+  \item Asexual higher organisms all would have produced sexually
+    sometime in their past\pause
+  \item Why sex is surprising is that if females produce asexually
+    (producing clones) then they breed at twice the rate of mixed
+    couples\pause---hence they are twice as fit\pauseb
+  \item Sexual reproduction has to give at least a two fold advantage in
+    fitness on a very short time scale to survive\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Linkage Equilibrium}
+
+\begin{PauseHighLight}
+  \begin{itemize}\squeeze
+  \item As well as no epistasis the model assumes lots of crossover
+    (compared to selection and mutation)\pause
+  \item This is not unrealistic in many cases\pause
+  \item Under this assumption we can treat the loci independently and
+    concentrate on a single locus\pause
+  \item This is known as \emph{linkage equilibrium}\pause
+  \item We therefore only need to consider the proportion of the
+    different alleles at the locus\pause
+  \item In an asexual population, the alleles at different sites are
+    coupled and the situation is much harder (in fact, unsolved)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Diploidy}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Most organisms are diploids, that is they carry two copies of
+    DNA; one from their father and one from their mother\pause
+  \item Like sex, it is not altogether clear what advantage diploidy
+    brings\pause
+  \item Clearly, diploids can tolerate mutations that make one set of
+    genes dysfunctional\pause
+  \item But, this also allows detrimental mutations to build up in a
+    genome\pause
+  \item Incidentally, mating between close relatives is likely to create
+    nonviable offspring because it is likely to combine two dysfunctional
+    alleles\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Haploidy}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To keep things simple we are going to assume each individual
+    only carries one set of genes\pause
+  \item Organisms that do this are said to be \emph{haploidy}\pause
+  \item There are various organisms (e.g. male bees, wasps, ants, many
+    fungi) that are haploid\pause
+  \item Generalising to diploid organisms is just fiddly\pause---it
+    mainly involves adding in factors of two every so often\pauseb,
+    but it does not substantially change things\pauseb
+  \item Incidentally many plants are polypoids having more than two
+    copies of each gene\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Gender}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Life tends also to be gendered\pause
+  \item This possibly just reflects that finding a mate consumes energy
+    and by specialisation some energy can be saved\pause
+  \item However, this is another complicating factor, which adds little
+    to the model\pause
+  \item I will assume a \emph{monoecious} population, i.e. one with only
+    one gender, although it still mates\pause
+  \item These are all simplifying assumptions, but it allows us to
+    concentrate on the role of selection, mutation and crossover\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Infinite Size Population
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Single Locus Model}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We consider the case where the allele can take just two states
+    $A$ and $B$\pause
+  \item We call $B$ the mutant\pause
+  \item We make the following assumptions
+    \begin{itemize}\squeeze
+    \item $B$ has a selective advantage of $1+s$\pause
+    \item $A$ mutates to $B$ with a forward mutation rate of $u$\pause
+    \item $B$ mutates to $A$ with a backward mutation rate of $v$\pause
+    \item The population size, $P$, is unchanged from generation to generation\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Many Seeds}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We consider the population changing from one generation to the
+    next by a three stage process\pause
+    \begin{itemize}
+    \item Each individual produces a very large number of seeds in
+      proportional to its fitness (selective advantage)\pause
+    \item The seeds are mutated according to the mutation
+      probabilities\pause
+    \item We select a sample of $P$ of the seeds independently to form
+      the next generation\pause
+    \end{itemize}
+  \item Initially we assume $P$ is infinite and consider only the
+    proportion of mutants in the population\pause
+  \end{itemize}
+\end{PauseHighLight}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-0.5]{Dynamics}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Assume we start with $n$ mutants\pause
+  \item After selection we have a proportion $p_s$ of mutant seeds
+    \begin{align*}
+      p_s = \frac{(1+s)n}{(1+s)n + P-n}\pause = \frac{(1+s)n}{P+s\,n}\pause
+    \end{align*}
+  \item After mutation we have a proportion $p_{sm}$ of mutants
+    \begin{align*}
+      p_{sm} = (1-v) p_s + u (1-p_s)\pause = \frac{(1-v)(1+s)n +
+        u(P-n)}{P+s\,n}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Infinite Population Approximation}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If we assume an infinite population then this will be the
+    proportion of individuals at the next generation
+    \begin{align*}
+      p(t+1) = \frac{(1-v)(1+s) p(t) +
+        u\bigl(1-p(t)\bigr)}{1+s\,p(t)}\pause
+    \end{align*}
+  \item If the effect of selection and mutation is small then we can
+    approximate the dynamics by a differential equation
+    \begin{align*}
+      \frac{\dd p}{\dd t} \approx p(t+1) - p(t) = 
+      \frac{u - (u+v-s+v\,s) p(t) - s\, p^2(t)}{1+s\,p(t)}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Infinite Population Prediction}
+
+\begin{center}
+  \includegraphics[height=14cm]{infpop}\\
+  $s=0.1$, $u=v=0.001$
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Difficulties of Infinite Populations}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In an infinite population a mutation (even if it is very
+    unlikely) will always occur in a small fraction of individuals\pause
+  \item Selection can rapidly amplify the mutants if they are
+    fitter---note fitter individuals initial grow exponentially
+    \begin{align*}
+      (1+s)^t = \e{t\,\log(1+s)} \approx \e{s\,t}\pause
+    \end{align*}
+  \item If the mutation rate is small then in finite populations the
+    mutant may take a very long time to appear\pause
+  \item Thus infinite populations can have far more rapid take over
+    times than is experience in large, but finite, populations\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Finite Population Models
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Finite Populations}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To model finite populations, we have to draw a sample of $P$
+    individuals from the seeds\pause
+  \item The probability of drawing $n'=n(t+1)$ mutants given a proportion
+    $p_{sm}(n(t))$ of mutants in the seed population is given by a binomial
+    distribution
+    \begin{align*}
+      \Prob{n'} = \binom{P}{n'} 
+      p_{sm}^{n'}
+      \left(\strut 1 - p_{sm}\right)^{P-n'}\pause
+    \end{align*}
+  \item (Recall that $p_{sm}$ is the proportion of mutant seeds
+    after selection and mutation and depends on $n(t)$)\pause
+  \item We can simulate the evolution of a population, by drawing a
+    random binomial deviate at each generation\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Finite Population Run}
+
+\begin{center}
+  \includegraphics[height=14cm]{finitepop}\\
+  $s=0.1$, $u=v=0.001$
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Markov Models}
+\toptarget{markov}
+
+\begin{PauseHighLight}
+  \begin{itemize}\squeeze
+  \item The evolving population can be modelled as a Markov chain\pause
+  \item The population at time $t$ depends only on the population at
+    time $t-1$\pause
+  \item It is \textit{conditionally independent} of the population at
+    earlier times \textit{given} the population at time $t-1$\pause
+  \item We define $p_n(t)=\Prob{n(t)=n}$ to be the probability that
+    there are $n$ mutants at time $t$\pause
+  \item Let $W(n\rightarrow n')$ be the transition probability of a
+    population with $n$ mutants going to a population of $n'$ mutants in
+    the next generation\pause
+    \begin{align*}
+      p_{n'}(t+1) = \sum_{n=0}^P W(n\rightarrow n') p_n(t)\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Matrix Formulation}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Denote the \textit{probability vector} $(p_0(t), p_1(t), \ldots,
+    p_P(t))$ by $\bm{p}(t)$\pause
+  \item Let $\mat{W}$ be the \textit{transition matrix} with elements
+    $W_{n' n} =W(n\rightarrow n')$\pause
+  \item The dynamics can be written in matrix form
+    \begin{align*}
+      \bm{p}(t) = \mat{W} \bm{p}(t-1) \pause
+      = \mat{W} \left( \strut \mat{W} \bm{p}(t-2) \right) \pauseb
+      = \mat{W} \mat{W} \cdots \mat{W} \bm{p}(0)\pauseb
+      = \mat{W}^t \bm{p}(0)\pauseb
+    \end{align*}
+  \item Where $\bm{p}(t=0)$ encodes our \textit{initial conditions}\pause
+  \item If initially $n(t=0)=0$ then $p_0(t=0)=1$ and $p_i(t=0)=0, \forall
+    i>0$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Markov Analysis}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In our problem the transition matrix, $\mat{W}$, has elements
+    \begin{align*}
+      W_{n' n} = \binom{P}{n'}\left(\strut p_{sm}(n)\right)^{n'}
+      \left(\strut 1 - p_{sm}(n) \right)^{P-n'}\pause
+    \end{align*}
+  \item where $p_{sm}(n)$ is given by
+    \begin{align*}
+      p_{sm}(n) = \frac{(1-v)(1+s)n + u(P-n)}{P+s\,n}\pause
+    \end{align*}
+  \item This provides an exact formulation of a finite population\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Example of Markov Analysis}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{MarkovFW}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Mean Number of Mutants}
+\begin{center}
+  \includegraphics[width=\linewidth]{markov_full}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Problems with Markov Chain Analysis}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The Markov Chain analysis is exact and provides a full picture
+    of the probability of the population being in a certain state\pause
+  \item Unfortunately, the transition matrix $W(n\rightarrow n')$
+    is of size the number of states squared\pause
+  \item The number of states for a population of size $P$ is $P+1$\pause
+  \item For a large population writing the transition matrix becomes
+    infeasible\pause
+  \item Even when it is feasible we don't get much intuition on changing
+    the parameters\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Conclusion}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The Fisher-Wright model provides a simple model undergoing
+    selection, mutation and crossover\pause
+  \item It allows us to explore the effects of selection pressure and
+    mutation rate\pause
+  \item We can solve the infinite population model directly or by
+    solving an ordinary differential equation (ODE)\pause
+  \item Unfortunately infinite population models don't always capture
+    the behaviour of finite populations even when the population is very
+    large\pause
+  \item We can simulate finite population models\pause
+  \item For small populations we can use Markov models\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+

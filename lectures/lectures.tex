@@ -1,0 +1,59 @@
+%Master File:lectures.tex
+
+\documentclass[25pt,landscape,footrule]{foils}
+\input{macros_gen}
+\backgroundsetup{contents={}}
+
+\usepackage{ifthen}
+\usepackage{pdf14}
+\graphicspath{ {figures/}
+  {/home/apb/teaching/courses/comp3008/new_lectures/figures/} 
+  {/home/apb/teaching/courses/oldCourses/evo-complexity/lectures/figures/}}
+
+
+\date{}
+
+\newcounter{lessoncnt}
+\newcommand{\lesson}[1]{\setcounter{page}{1}\foilhead{Computational Biology\\%
+\vfill
+\textcolor{red}{
+\begin{description}
+\item[Lecture \arabic{lessoncnt}:] \textit{#1}
+\end{description}}
+\vfill}}
+
+\newcommand{\lecture}[1]{\stepcounter{lessoncnt}%
+\include{#1}}
+
+\typein[\chn]{Enter chapter number!}
+
+\ifthenelse{\equal{\chn}{}}{}{\includeonly{\chn}}
+
+
+\begin{document}
+
+\myskip{}
+
+\lecture{introduction}
+\lecture{cellRegulation}
+\lecture{sequencing}
+\lecture{reassembly}
+\lecture{sequenceMatching}
+\lecture{localMatching}
+\lecture{hmm}
+\lecture{trainingHMMs}
+\lecture{ann}
+\lecture{data}
+\lecture{popDynamics}
+\lecture{sde}
+\lecture{phylogeny}
+\lecture{evolutionaryTrees}
+\lecture{cellDifferentiation}
+\lecture{rnaMeasurements}
+\lecture{geneRegulation}
+\lecture{dynamicalSystems}
+\lecture{chemicalEquations}
+\lecture{lab1}
+
+
+\end{document}

@@ -1,0 +1,245 @@
+size(600,0);
+
+import myutil;
+import ode;
+import graph;
+
+real k0 = 8;
+real k1 = 1;
+real k2 = 5;
+real n = 1.5;
+
+string eig(real n) {
+  real X2 = k0/k2;
+  real X1 = k0/(1+X2^n);
+  real a = -k1*(1+X2^n);
+  real b = -n*k1*X2^(n-1)*X1;
+  real c = -a;
+  real d = -b-k2;
+  real T = a+d;
+  real D = a*d-c*b;
+  string lam = "";
+  real u = 0.25*T*T-D;
+  //  write(n, k0, k1, X1, X2, u,T,D);
+  if (u<0)
+    lam = string(0.5*T, 3) + " \pm " + string(sqrt(-u),3) + "\,\mathrm{i}";
+  else
+    lam = string(0.5*T, 3) + " \pm " + string(sqrt(-u),3);
+  return "$\lambda_{1,2} = " + lam + "$";
+}
+
+real[] func(real t, real[] X) {
+  real[] dX = new real[2];
+  dX[0] = k0 - k1*(1+(X[1])^n)*X[0];
+  dX[1] = k1*(1+(X[1])^n)*X[0] - k2*X[1];
+  return dX;
+}
+
+real[] nfunc(real t, real[] X) {
+  real[] dX = new real[2];
+  dX[0] = k0 - k1*(1+(X[1])^n)*X[0];
+  dX[1] = k1*(1+(X[1])^n)*X[0] - k2*X[1];
+  return -1*dX;
+}
+
+void plot(Solution sol, pen col = gray) {
+  guide g;
+  for(int t=0; t<sol.t.length; ++t) {
+    g = g--(sol.y[t][0], sol.y[t][1]);
+  }
+  draw(g, col+linewidth(1), MidArrow(8));
+}
+
+real[] last(Solution sol) {
+  return sol.y[sol.t.length-1];
+}
+
+real max(Solution sol) {
+  real maxX=0;
+  for(int t=0; t<sol.t.length; ++t) {
+    maxX = (maxX>sol.y[t][0])? maxX:sol.y[t][0];
+  }
+  return maxX;
+}
+
+real min(Solution sol) {
+  real minX=4;
+  for(int t=0; t<sol.t.length; ++t) {
+    minX = (minX<sol.y[t][0])? minX:sol.y[t][0];
+  }
+  return minX;
+}
+
+real av(Solution sol) {
+  real av = 0;
+  for(int t=sol.t.length-21; t<sol.t.length; ++t) {
+    av += sol.y[t][0];
+  }
+  return av/20;
+}
+
+
+draw(box((0,0),(4.0,4.0)));
+bool show = true;
+
+for(real x=0; x<=4.01; x+= 0.5) {
+  if (show) {
+    draw((0,x)--(0.08,x));
+    draw((4.0,x)--(4.0-0.08,x));
+    label(string(x,2), (0,x), W);
+    draw((x,0)--(x,0.08));
+    draw((x,4.0)--(x,4.0-0.08));
+    label(string(x,2), (x,0), S);
+  } else {
+    draw((0,x)--(0.04,x));
+    draw((4.0,x)--(4.0-0.04,x));
+    draw((x,0)--(x,0.04));
+    draw((x,4.0)--(x,4.0-0.04));
+  }
+  show = ! show;
+}
+label("Concentration, $X_1$", (2,0), 4S);
+label(rotate(90)*Label("Concentration, $X_2$"), (0,2), 5W);
+
+real ns(real n) {
+  return 6 + 2*(n-1.5);
+}
+
+draw(box((ns(1.5) ,0), (ns(3.5), 4)));
+show = true;
+
+for(real x=0; x<=4.01; x+= 0.5) {
+  if (show) {
+    draw((6,x)--(6.08,x));
+    draw((10.0,x)--(10.0-0.08,x));
+    label(string(x,2), (6,x), W);
+    draw((6+x,0)--(6+x,0.08));
+    draw((6+x,4.0)--(6+x,4.0-0.08));
+    real n = x/2+1.5;
+    label(string(n,2), (6+x,0), S);
+  } else {
+    draw((6,x)--(6.04,x));
+    draw((10.0,x)--(10.0-0.04,x));
+    draw((6+x,0)--(6+x,0.04));
+    draw((6+x,4.0)--(6+x,4.0-0.04));
+  }
+  show = ! show;
+}
+
+label("$n$", (8,0), 4S);
+label(rotate(90)*Label("Concentration, $X_1$"), (6,2), 5W);
+
+real nullcline1(real X2) {
+  return k0/(k1*(1+(X2)^n));
+}
+
+real nullcline2(real X2) {
+  return k2*X2/(k1*(1+(X2)^n));
+}
+
+picture bg = new picture;
+add(bg, currentpicture);
+
+guide flip(guide g) {
+  guide f;
+  for(int i=0; i<length(g); ++i) {
+    pair p = point(g, i);
+    f = f--(p.y, p.x);
+  }
+  return f;
+}
+
+real endPoint() {
+  real up = 2;
+  real down = 0;
+  for(int i=0; i<20; ++i) {
+    real mid = 0.5*(up+down);
+    if (nullcline1(mid)>4)
+      down = mid;
+    else
+      up = mid;
+  }
+  return up;
+}
+
+real[] fixedPoint(real[] X0) {
+  real T = (fabs(n-2.4)>0.2)? 10: 500;
+  Solution sol = (n<2.41)? integrate(X0, func, 0, T, h=0.02, RK4):
+    integrate(X0, nfunc, 0, 10, h=0.02, RK4);
+  return last(sol);
+}
+
+real avSol(real[] X0) {
+  Solution sol = integrate(X0, nfunc, 0, 10, h=0.02, RK4);
+  return av(sol);
+}
+
+real[] Xfp = {1,2};
+Xfp = fixedPoint(Xfp);
+Xfp = fixedPoint(Xfp);
+
+guide fp;
+for(n=1.5; n<2.41; n+=0.1) {
+  erase();
+  add(bg);
+  label("$n="+string(n,3)+"$", (3,3), NE);
+  real[] X0 = {1,2};
+  real T = (fabs(n-2.4)>0.2)? 10: 500;
+  Solution sol = integrate(X0, func, 0, T, h=0.02, RK4);
+  plot(sol);
+  plot(integrate(last(sol), func, 0, 10, h=0.02, RK4), black);
+  guide p = graph(nullcline1, endPoint(), 4.0);
+  guide f = flip(p);
+  draw(f,  blue+linewidth(1)+dashed);
+  p = graph(nullcline2, 0, 4.0);
+  guide f = flip(p);
+  draw(f,  blue+linewidth(1)+dashed);
+  Xfp = fixedPoint(Xfp);
+  fp = fp--(ns(n), avSol(Xfp));
+  draw(fp, red+linewidth(1));
+  label(eig(n), (2, 3.5));
+  ship();
+}
+
+n=2.44;
+Xfp = fixedPoint(Xfp);
+real sfp = avSol(Xfp);
+fp = fp--(ns(n), sfp);
+guide us = (ns(2.44), sfp);
+guide upper = (ns(2.44), sfp){N};
+guide lower = (ns(2.44), sfp){S};
+
+for(n=2.5; n<3.51; n+=0.1) {
+  erase();
+  add(bg);
+  label("$n="+string(n,3)+"$", (3,3), NE);
+  real[] X0 = {1,2};
+  real T = (fabs(n-2.4)>0.2)? 10: 100;
+  Solution sol = integrate(X0, func, 0, T, h=0.02, RK4);
+  plot(sol);
+  sol = integrate(last(sol), func, 0, 10, h=0.02, RK4);
+  plot(sol, black);
+  guide p = graph(nullcline1, endPoint(), 4.0);
+  guide f = flip(p);
+  draw(f,  blue+linewidth(1)+dashed);
+  p = graph(nullcline2, 0, 4.0);
+  guide f = flip(p);
+  draw(f,  blue+linewidth(1)+dashed);
+  Xfp = fixedPoint(Xfp);
+  us = us--(ns(n), avSol(Xfp));
+  draw(us, red+linetype(new real[] {2,2})+linewidth(1));
+  draw(fp, red+linewidth(1));
+  upper = upper..(ns(n), max(sol));
+  lower = lower..(ns(n), min(sol));
+  draw(upper, linetype(new real[] {1,2})+red+linewidth(1));
+  draw(lower, linetype(new real[] {1,2})+red+linewidth(1));
+  label(eig(n), (2, 3.5));
+  ship();
+}
+
+label("limit cycle upper bound", (ns(2.8), 3.2), W);
+label("limit cycle lower bound", (ns(2.8), 0.4), W);
+label("stable", (ns(2),2.5), E);
+label("unstable", (ns(2.75), 2), E);
+
+ship();

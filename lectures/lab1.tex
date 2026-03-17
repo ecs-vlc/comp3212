@@ -1,0 +1,198 @@
+%Master File:lectures.tex
+\lesson{Introduction to Lab 1}
+\vspace{-2cm}
+\begin{center}
+  \includegraphics[height=10cm]{Cell_Cycle.png}
+\end{center}
+
+\keywords{Chemical Equations, Stochasticity, Gillespie Algorithm}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{The Tutorials}{tutorial}
+    \outlineitem{Lab 1}{labone}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{Cell_Cycle.png}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{The Labs/Tutorials}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item There are four tutorials\pause
+  \item The first tutorial suggests some videos for you to look
+    at\pause---do this in your own time\pauseb
+  \item The first and later tutorials describes works you need to
+    do\pause
+  \item The coursework is to be done individually\pause
+  \item Each tutorial is worth 7.5\%\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+  \section{Hand-In}
+  
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Use the hand-in system to submit your work as a PDF (not as a
+    jupyter notebook)\pause
+  \item Hand-in dates are
+    \begin{enumerate}
+    \item Due 4pm on Thursday 18th February 2022\pause
+    \item Due 4pm on Thursday 24th March 2022
+    \item Due 4pm on Thursday 5th May 2022
+    \item Due 4pm on Thursday 19th May 2022\pause
+    \end{enumerate}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Help}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We will run this session every week\pause
+  \item We will discuss the labs and broad issues that might help
+    everyone\pause
+  \item We will then split into channels (hence you groups)---I
+    intended to split you into groups of 5, but because of the limitations
+    of Teams I have put two groups together\pause
+  \item If you are not yet in a group the just join a channel\pause
+  \item A team of four of us will go around the 10 channels\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Data Exploration}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The first lab looks at biological data exploration\pause
+  \item The data consists of RNA measurements and raw protein
+    measurements\pause
+  \item RNA measurements acts as a proxy for protein concentration (it
+    is cheap to measure)\pause
+  \item The protein measurements are real protein concentration but
+    much more expensive to do\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{The Data}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The data is from humans\pause
+  \item It is measure at three points in the cell-cycle\pause
+  \item That is, cells regularly grow and divide\pause
+  \item These cells were cleverly synchronised so we could measure the
+    protein concentration at different points in the cell cycle\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{The Cell Cycle}
+
+\begin{center}
+  \includegraphics[width=0.6\linewidth]{Cell_Cycle.png}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+  \section{Python and Jupyter Notebook}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We provide python code to do the basic data exploration\pause
+  \item You are welcome to use this or to ignore it\pause
+  \item To get full marks we are expecting you to have gone beyond what
+    we give you\pause
+  \item We provide a jupyter notebook.  You don't need to use this, but
+    it is a reasonably nice way to visualise what you are doing\pause
+  \item Please don't submit the raw notebook---you can turn this into PDF\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Pandas}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Pandas is a python package that dominates modern data science\pause
+  \item Other package are available\pause---but they are nearly all
+    based on pandas\pauseb
+  \item Pandas has two data structures: \texttt{Series} and
+    \texttt{DataFrame}\pause
+  \item DataFrame is a glorified table with labels for the columns and
+    rows\pause
+  \item It has a lot of functionality built around it for rapid data exploration\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Matplotlib}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Matplotlib is a visualisation library\pause
+  \item It was designed to look like MATLAB plot functions\pause{} and
+    is consequently very ugly\pauseb
+  \item It has a lot of functionality, but isn't particularly natural
+    to use\pause
+  \item Seaborn is build on top of matplotlib and produces slightly
+    prettier graphs (but is still not easy to use)\pause
+  \item Sometime you need to write \texttt{> \%matplotlib inline} to
+    get the graphs to show\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}

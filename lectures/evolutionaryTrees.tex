@@ -1,0 +1,460 @@
+%Master File:lectures.tex
+
+\lesson{Evolutionary Trees}
+\vspace{-2cm}
+\begin{center}
+ \includegraphics[height=10cm]{additiveGraph}
+\end{center}
+
+\keywords{Additive Trees and Parsimony}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Additive Trees}{addit}
+    \outlineitem{Parsimony}{parsimony}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{additiveGraph}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Recap}
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We looked at building ultrametric trees which would result if
+    mutations accumulated at a regular rate\pause
+    \begin{center}
+      \includegraphics[width=0.9\linewidth]{ultrametric}
+    \end{center}
+  \item Unfortunately often our distance are far from ultrametric\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Additivity of Distances}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The condition of ultrametricity is very strong and only works
+    with a perfect molecular clock\pause
+  \item A less strong condition is \emph{additivity of distances}\pause
+    \begin{center}
+      \includegraphics[width=0.4\linewidth]{additiveGraph}
+    \end{center}
+    \begin{align*}
+      d_{i\ell} &= d_{ik} + d_{k\ell} & d_{j\ell} &= d_{jk} + d_{k\ell} & 
+      d_{ij} &= d_{ik} + d_{jk}\pause\\
+      & & d_{k\ell} &= \tfrac{1}{2} (d_{i\ell} + d_{j\ell} - d_{ij})\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Additivity and Graphs}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Additivity does not assume a constant mutation rate, but only
+    that mutations accumulate\pause
+  \item That is, the distances are consistent with an evolutionary graph
+    \begin{center}
+      \includegraphics[width=0.4\linewidth]{additiveGraph}\pause
+    \end{center}
+  \item This would be true if all mutations were independent of each other\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Building Additive Trees}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item For additive distance matrix then the closest nodes are not
+    necessarily neighbours\pause
+    \begin{center}
+      \includegraphics[width=0.5\linewidth]{additiveNeighbour}
+    \end{center}
+  \item To compute the graph for nodes with an additive distance matrix
+    we can compute a new set of ``distances''
+    \begin{align*}
+      D_{ij} &= d_{ij} - r_i - r_j & r_i &= \frac{1}{|\mathcal{L}|-2}
+                                           \sum_{k\in\mathcal{L}} d_{ik}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Neighbour-Joining Algorithm}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item From $d_{i,j}$ compute $D_{ij}$\pause
+    \begin{center}
+      \includegraphics[width=0.4\linewidth]{distanceTable}\hfil
+      \includegraphics[width=0.4\linewidth]{D_Table}\hfil
+    \end{center}
+  \item Choose the pair $(i,j)$ with the smallest $D_{ij}$ value\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Joining Nodes}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Start with a forest of unconnected nodes\pause
+  \item We then create a new node $k$ and join $i$ and $j$ to $k$\pause
+  \item We compute the distance $d_{km} =\tfrac{1}{2}(d_{im} + d_{jm} -
+    d_{ij})$ between $k$ and all other nodes $m$\pause
+  \item The distance from $d_{ki} = \tfrac{1}{2}(d_{ij} + r_i - r_j)$
+    and $d_{kj} = \tfrac{1}{2}(d_{ij} - r_i + r_j)$\pause
+  \item We then remove $i$ and $j$ from our list of nodes to consider
+    and add $k$ instead\pause
+  \item This is iterated until all nodes have been joined\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Additive Distances}
+
+\begin{center}
+  \includegraphics[width=0.4\linewidth]{distanceSmallTable}\hfill
+  \includegraphics[width=0.5\linewidth]{neighbourJoin}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Broken Additivity}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If mutations just accumulated then additivity would follow\pause 
+  \item However, backward mutations or two species finding the same
+    mutation breaks additivity\pause
+  \item Thus, to use additivity we must look at large parts of the genome
+    where we are not going to be thrown out by chance events like
+    backward mutation\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Parsimony
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Character-Based Evolutionary Reconstruction}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A second major approach to tree construction is to find a tree
+    that explains the evolutionary history of a set of sequences with as
+    few mutations as possible\pause
+  \item These are known as \emph{maximum parsimony trees}\pause
+  \item They are the most commonly used trees\pause
+  \item Here we are not given distances, but sequences\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Aligned Protein Sequences}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{alignedProteinSequences}
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Algorithms for Parsimony}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item There is no efficient algorithm for finding maximum
+    parsimony trees\pause
+  \item We have to check all possible trees (although we can
+    use branch and bound)\pause
+  \item This is feasible for a moderate number of sequences
+    ($<50$)\pause
+  \item Need to consider
+    \begin{itemize}
+    \item Assigning a cost to each tree\pause
+    \item Iterating through all possible trees\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Costing Trees}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We assume that we have a set of aligned sequences\pause
+  \item We treat each site independently!\pause
+  \item The total cost is the sum of the costs at each site\pause
+  \item We assume that we are given a binary tree whose leaves are the
+    sequences\pause
+  \item Each node will either be a leaf or will have left and right
+    children\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Costs of Sequence}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We assume that the element $a$ at each site belongs to an
+    alphabet $\mathcal{A}$\pause
+  \item For DNA this would be $\mathcal{A} =\{A, C, G, T, -\}$ where $-$
+    represents gaps (insertion or deletion)\pause
+  \item For proteins it would the amino acid and a gap\pause
+  \item We consider ``weighted parsimony'' where we weight the cost of a
+    substitution by a matrix $s(a,b)$\pause{} welcome back
+    Blosum50\pauseb
+  \item Let $C_T(a)$ be the cost of (sub-)tree $T$ given the sequence is
+    $a$\pause 
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Dynamic Programming Solution}
+
+\begin{pseudo}
+  tree::cost() {
+    cost = [];                                     % initialise array$\pause$
+    if tree.isLeaf() {                           % leaf        
+      for a$\in \mathcal{A}$ {
+        cost[a] = $\infty$
+      }
+      cost[x] = 0;                                 % actual sequence$\pause$
+    } else {
+      for a$\in \mathcal{A}$ {
+        leftCost = left.cost()                     % recursively find cost
+        rightCost = right.cost()$\pause$
+        cost[a] = $\min_b$ leftCost[b] + S(a,b)    % dynamic program
+        cost[a] += $\min_b$ rightCost[b] + S(a,b)$\pause$
+      }
+    }
+    return cost                                     % return array
+  }$\pause$
+\end{pseudo}
+
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Computing Costs}
+
+\hspace{2cm}\makebox(0,0){\includegraphics[width=0.2\linewidth]{parsimonySub}}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{parsimonyCost}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Costs for Sequences}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item For sequences we compute the costs at each site\pause
+    \begin{center}
+      \includegraphics[width=\linewidth]{parsimonySeq}
+    \end{center}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Many Different Trees}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item For a set of sequences there are many different possible trees
+    with different costs\pause
+    \begin{center}
+      \includegraphics[width=\linewidth]{parsimonyFull}
+    \end{center}
+  \item The parsimony problem is to find the tree with the smallest cost\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Enumerating Trees}
+
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.9\linewidth]{binTreeGen}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Branch and Bound}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Note that in the above procedure we generated partial
+    trees\pause
+  \item Any tree generated from a partial tree will have at least as
+    high a cost as the partial tree\pause
+  \item If the partial tree cost equals or exceeds the cost of the best
+    found tree then we don't have to continue building the tree\pause
+  \item This can reduce the amount of search considerable\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Branch and Bound}
+
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.9\linewidth]{binTreeBB}\pause
+\end{center}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Assessing Trees}
+
+
+\pause
+\pb\pauselevel{=1}
+\begin{itemize}
+\item How reliable are the maximum parsimony trees we find?\pauseh
+\item Difficult to assess directly\pauseh
+\item Can build different trees by \emph{bootstrapping}\pauseh
+  \begin{center}
+    \multipdf[width=0.9\linewidth]{seqBootStrapping}\pause
+  \end{center}
+\item See if trees look the same\pause
+\end{itemize}
+
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Aligning and Tree Building}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To score the trees we want to know the alignment\pause
+  \item But to do an alignment we want to find related sequences\pause
+  \item It therefore makes sense to do the tree building and alignment
+    together\pause
+  \item There is an algorithm due to Hein that does this, but this is
+    getting too involved\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Conclusion}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item When we have a set of sequences with a good measure of
+    evolutionary distance we can use either an ultrametric model (UPGMA)
+    or and additive model\pause
+  \item When given a set of (aligned) sequence and some substitution
+    costs then we can use maximum parsimony to find good trees\pause
+  \item Uses both dynamics programming (to do the scoring) and branch
+    and bound (to search through all trees)\pause
+  \item These get complicated, but are scientifically important\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}

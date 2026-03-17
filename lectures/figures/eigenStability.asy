@@ -1,0 +1,72 @@
+size(500,0);
+import myutil;
+
+string J = "$\mat{J} =
+ \begin{pmatrix} 2 &1 \\ 3 & -1\end{pmatrix} =
+\mat{V} \mat{\Lambda} \mat{V}^{-1} =
+\begin{pmatrix} 0.784 & -0.255 \\ 0.621 & 0.967\end{pmatrix}
+\begin{pmatrix}  2.791 & 0 \\ 0 & -1.791\end{pmatrix}
+\begin{pmatrix} 1.055 & 0.278 \\ -0.677 & 0.856\end{pmatrix}$";
+
+label(J, (0, 1.1), N);
+
+label("$\hat{\epsilon}_i(t) \approx \mathrm{e}^{\lambda_i\,t} \,\hat{\epsilon}_i(0)$", (-0.2,0.5), W);
+dot(1.1*(-0.70711,0.70711), white);
+draw((1,0)--(0,0)--(0,1), Arrows);
+label("$\epsilon_1$", (1,0), E);
+label("$\epsilon_2$", (0,1), N);
+ship();
+
+pair v1 = (0.78419, 0.62052);
+pair v2 = (-0.25504, 0.96693);
+
+draw((0,0)--v1, blue, Arrow);
+label("$\bm{v}_1=\binom{0.784}{0.621}$", 1.05*v1, blue);
+draw((0,0)--v2, blue, Arrow);
+label("$\bm{v}_2=\binom{-0.255}{0.967}$", 1.05*v2, blue);
+ship();
+
+picture bg = new picture;
+add(bg, currentpicture);
+
+pair x = (0, 0.2);
+draw((0,0)--x, red+dashed);
+dot(x, red);
+label("$\bm{\epsilon}(0)$", x, E);
+ship();
+real xh1 = 0.055654;
+real xh2 = 0.171124;
+
+pair trajectory(real t) {
+  pair eps1 = exp(2.7913*t)*xh1*v1;
+  pair eps2 = exp(-1.7913*t)*xh2*v2;
+  return eps1 + eps2;
+}
+
+guide graph(real s, real e) {
+  guide g = trajectory(s);
+  real d = 0.02*(e-s);
+  for(int i=1; i<=50; ++i) {
+    g = g--trajectory(s+d*i);
+  }
+  return g;
+}
+
+for(real t=0; t<1.01; t+=0.1) {
+  erase();
+  add(bg);
+  pair eps1 = exp(2.7913*t)*xh1*v1;
+  pair eps2 = exp(-1.7913*t)*xh2*v2;
+  x = eps1 + eps2;
+  draw(x--eps1, blue+dotted);
+  draw(x--eps2, blue+dotted);
+  label("$\hat{\epsilon}_1(" + string(t,3) + ")$", eps1, SE, blue);
+  label("$\hat{\epsilon}_2(" + string(t,3) + ")$", eps2, W, blue);
+  draw(graph(0,t), green);
+  draw((0,0)--x, red+dashed);
+  dot(x, red);
+  label("$\bm{\epsilon}(" + string(t,3) + ")$", x, E);
+  ship();
+}
+label("$\bm{\epsilon}(t)$", trajectory(0.5), N, heavygreen);
+ship();

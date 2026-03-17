@@ -1,0 +1,446 @@
+%Master File:lectures.tex
+
+\lesson{Cell Regulation}
+\vspace{-2cm}
+\begin{center}
+ \includegraphics[height=10cm]{euPro}
+\end{center}
+
+\keywords{Gene Regulation Networks}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Cells}{cells}
+    \outlineitem{Protein Function}{pf}
+    \outlineitem{Cell Regulation}{cr}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{cellSchematic}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Cells}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Cells are complicated machines\pause
+  \item Understanding how they work is still an on-going story\pause
+  \item We are going to concentrated on parts where computational
+    biology has and is making an impact\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Prokaryotes and Eukaryotes}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{euPro}
+\end{center}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Prokaryotes and Eukaryotes}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{EuProScheme}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Differences and Similarities}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Share cell membrane, DNA code, ribosome (machine for producing proteins)\pause
+  \item Eukaryotes are much more complex\pause
+  \item It is now generally accepted that Eukaryotes were formed by
+    fusing different cells\pause
+    \begin{itemize}
+    \item nucleus\pause
+    \item mitrochondria (powerhouse, inherited from mother only)\pause
+    \end{itemize}
+  \item Eukaryotes can be multicellular\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Protein Function
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Understanding Proteins}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Proteins are hard to understand\pause
+  \item They are hard to sequence directly\pause
+  \item Fortunately we can deduce their sequence from DNA or mRNA\pause
+  \item Measuring protein concentration is difficult
+    \begin{itemize}
+    \item field of \emph{proteomics} looks at this\pause
+    \item uses tools like mass spectrometer to count proteins\pause
+    \item beginning to do this much more often\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Protein Folding}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To understand what proteins do we want to understand their three
+    dimensional shape\pause
+  \item Alas this is hugely difficult\pause
+  \item In some instances we can crystallise them and use X-ray
+    diffraction\pause
+  \item Predicting the structure is a non-local problem\pause
+  \item Rather dramatically, this problem has almost been solved by
+    alpha-fold\pauseb
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Secondary Structure}
+
+\begin{minipage}{0.46\linewidth}
+  \includegraphics[width=\linewidth]{alphabeta}
+\end{minipage}\hfill
+\begin{minipage}{0.46\linewidth}
+  \begin{PauseHighLight}
+  \begin{itemize}
+  \item The predominant components making up proteins are
+    \begin{itemize}
+    \item Alpha helices
+    \item Beta sheets
+    \item Various folds and connecting parts\pause
+    \end{itemize}
+  \item This is known as the secondary structure\pause
+  \item We will look at secondary structure prediction later in the
+    course\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{minipage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Folding}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Protein folding is hard because typically amino acids some
+    distance apart will interact through hydrogen bonds\pause
+  \item RNA also folds (it has a much more flexible backbone than
+    DNA)\pause
+  \item RNA folding is considered much easier to solve\pause
+  \item Look for matching sub-sequences \pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{RNA Folding}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{RNA2}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{The First Law of Protein Sequences}
+
+\begin{PauseHighLight}
+  \begin{center}
+    \emph{Similar structures perform similar functions}\pause
+  \end{center}
+  \begin{itemize}
+  \item We can learn about the function of a protein by comparing with
+    known proteins\pause
+  \item Because of evolution, many proteins are common to a huge number
+    of organism\pause
+  \item Caveat: the converse is not necessarily true; dissimilar
+    structures can have a similar function (convergent
+    evolution)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Sequence Alignment}
+
+\begin{minipage}{0.66\linewidth}
+  \includegraphics[width=\linewidth]{visionaries_dna3}
+\end{minipage}\hfill
+\begin{minipage}{0.32\linewidth}
+  \includegraphics[width=0.9\linewidth]{treeOfLife.jpeg}
+\end{minipage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Finding Aligned Sequences}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Biologists will routinely compare any new sequence with
+    sequences already found\pause
+  \item This requires comparing with very large databases\pause
+  \item Typically sequences contain annotations indicating what someone
+    believes a protein does in some organism\pause
+  \item We will spend sometime looking at alignment algorithms\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Cell Regulation
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Cells Do}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Cells must respond to their environment, maintain their
+    environment, divide\pause
+  \item They therefore need a control mechanism\pause
+  \item We are at the beginning of understand these mechanisms\pause
+  \item Proteins and DNA lie at the heart of this\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Promoter Region}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{promoter}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Regulation by Signal}
+
+\pb\pause\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{geneRegulation}\pause\\
+  \multipdf[width=\linewidth]{excitInhib}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Regulation in Promoter Region}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Many different proteins can bind to the promoter region\pause
+  \item They can either excite the expression of the protein (by
+    increasing the probability of RNA-polymerase binding)\pause
+  \item Or inhibit the expression of the protein\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Binding Sites}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{bindingSites}
+\end{center}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{TATA box}
+
+\begin{minipage}{0.46\linewidth}
+  \includegraphics[width=0.9\linewidth]{BasePairing}
+\end{minipage}\hfil
+\begin{minipage}{0.46\linewidth}
+  \begin{PauseHighLight}
+  \begin{itemize}
+  \item Close to the coding regions is a region where there are more A-T
+    pairs than usual\pause
+  \item Because A-T pairs have only 2 hydrogen bonds they are easier to
+    break\pause
+  \item This helps RNA-polymerase split open the double helix\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{minipage}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Gene Regulation Networks}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Proteins can regulate their own expression\pause
+  \item Proteins can regulate many other proteins\pause
+  \item Protein $A$ can regulate protein $B$ which in turn regulates
+    protein $A$ (if these are inhibitory then you get a flip-flop)\pause
+  \item In general the regulation forms a complex circuit\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Sea Urchin Embryo GRN}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{sea_urchin}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Motifs}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To understand what is going on we can look for patterns or
+    \emph{motifs}\pause
+  \item We can spot common motifs by asking what patterns happen more
+    than by chance\pause
+  \item Synthetic biology actually build biological circuits from these
+    motifs\pause
+  \item We will study \textit{gene regulation networks} (GRN) later in
+    the course\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Dynamics}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Gene regulation networks are dynamic\pause
+  \item To understand what is happening we need to simulate the
+    network\pause
+  \item This requires knowledge of the rate at which the molecules are
+    being produced\pause
+  \item We will explore the techniques for this later in the course
+    too\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+\begin{slide}
+\section{Multicellular}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Many Eukaryotes are multicellular\pause
+  \item In many cases the cells differentiate\pause
+  \item How do cells know what role they should play?\pause
+  \item How do organisms develop so the cells do the right thing?\pause
+  \item We will look (rather superficially) at some answers to these
+    questions\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summary}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We are at the very beginning of understanding how cells
+    work\pause
+  \item Much of our understanding comes from comparing different
+    organisms\pause
+  \item We are beginning to model some of the basic interactions that
+    make cells function\pause
+  \item This needs a host of computation tools\pause{} which we will
+    learn about later in this course\pauseb
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}

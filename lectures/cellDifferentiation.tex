@@ -1,0 +1,378 @@
+%Master File:lectures.tex
+
+\lesson{Cell Differentiation}
+\vspace{-2cm}
+\begin{center}
+  \includegraphics[height=10cm]{cellDifferentiation.jpg}
+\end{center}
+
+\keywords{Random Boolean networks, stem cells, epigenetics}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Cell Differentiation}{bd}
+    \outlineitem{The Life of an Organism}{lifeorg}
+    \outlineitem{Epigenetic}{epigenetics}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{cell-differentiation}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Cell Specialisation}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Unlike unicellular organisms most multi-cellular organisms
+    exhibit different types of cells\pause
+  \item By differentiating, cells can be much better adapted to a
+    particular task\pause
+  \item In humans there are around 200 different types of cells\pause
+  \item Each cell contains the same DNA so cell differentiation involves
+    reading a different set of instructions\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Cell Functions}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Cell function is determined by the expression of different
+    genes\pause
+  \item The expression of genes are determined by the transcription
+    factors (proteins that interact with the promoter sites either
+    exciting or inhibiting the transcription of a gene)\pause
+  \item Cells can respond to their environment by the interaction
+    between signalling molecules and proteins\pause
+  \item Thus, each gene type will respond differently to its environment\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Regulation by Signal}
+
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{geneRegulation}\pause\\
+  \multipdf[width=\linewidth]{excitInhib}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Gene Regulation Networks}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Proteins control each other's expression forming complex gene
+    regulation networks\pause
+  \item The pattern of interaction determines the type of cell\pause
+  \item Once the type is determine cells overwhelming stay in that
+    type\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Large Gene Regulation Network}
+
+\begin{center}
+  \includegraphics[width=0.75\linewidth]{largeGRN}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Random Boolean Networks}
+
+\begin{minipage}{0.38\linewidth}
+  \includegraphics[width=\linewidth]{randomBooleanFunction}
+\end{minipage}\hfil
+\begin{minipage}{0.58\linewidth}
+  \begin{PauseHighLight}
+    \begin{itemize}
+    \item To understand gene dynamics researchers (lead by Stuart
+      Kauffman) considered the dynamics of random Boolean networks\pause
+    \item Each node is connected to $k_{in}$ other nodes uniformly at random\pause
+    \item The nodes perform a randomly selected Boolean functions\pause
+    \end{itemize}
+  \end{PauseHighLight}    
+\end{minipage}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-3]{Dynamics of RBN}
+
+\pause\pb\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.7\linewidth]{randomBooleanNetwork}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Attractors}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{basinsOfAttraction}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Phase Transition}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The behaviour of random Boolean networks shows two phases
+    depending on the number of connections and the randomness of the
+    functions
+    \begin{itemize}
+    \item For sparsely connected networks (in-degree $\leq 2$) there are
+      a small number of attractors which are reached after a small
+      number of iterations\pause
+    \item Otherwise there are an exponential number of attractors which
+      take exponential time to reach\pause---the ``chaotic'' phase\pause
+    \end{itemize}
+  \item It has been argued that biology lives on the ``edge of chaos''
+    where there are only a few attractors, but the network is
+    adaptable\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-3]{Dynamics of RBN in Chaotic Phase}
+
+\pause\pb\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.7\linewidth]{chaoticRBN}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Real Biology}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Of course, biological systems are more complex\pause
+  \item It is very difficult to turn one type of cell into another\pause
+  \item When cells divide they faithfully remember what type they
+    are\pause
+  \item There are influences beyond the current protein interactions
+    that affect a cell's type (epigenetics)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Life of an Organism
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{In the Beginning}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The life cycle of multi-cellular organisms are complex\pause 
+  \item They begin life as a single embryo cell\pause
+  \item This cell will divide to form all the specialised cells of the
+    organism (and the placenta)\pause
+  \item The embryo cell can make any other cell and is known as totipotent\pause
+  \item The embryo grows through cell division and quickly
+    differentiates into cells of the organism and cells of the
+    placenta\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Embryonic Stem Cells}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The cells in the organism are no longer able to form a placenta,
+    but can produce any other cell in the body\pause
+  \item These \emph{embryonic stem cells} are said to be
+    \emph{pluripotent}\pause
+  \item The embryonic stem cells can change to more specialised stem
+    cells which are said to be \textit{multipotent}\pause
+  \item These will eventually specialise to the normal cells of the body
+    known as the \emph{soma}\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Specialisation}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{specialisation}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Causes of Specialisation}
+
+\begin{minipage}{0.28\linewidth}
+  \begin{center}
+  \includegraphics[width=0.5\linewidth]{asymmetricCellDivision}\\
+  \vspace*{1cm}
+  \includegraphics[width=\linewidth]{signallingAtReceptors}    
+  \end{center}
+\end{minipage}\hfil
+\begin{minipage}{0.68\linewidth}
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item There are a number of routes to specialisation\pause
+  \item During the development of the embryo some transcription factors
+    aggregate, at cell division this leads to differentiation in the
+    cell function\pause
+  \item Other cells are known to specialise depending on signalling
+    molecules that occur at receptors\pause
+  \end{itemize}
+\end{PauseHighLight}
+  
+\end{minipage}
+
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Epigenetics
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Cell Division}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Cells in the body constantly divide\pause
+  \item They all carry the same DNA code\pause
+  \item But, the DNA is often modified by methylation and
+    acetylation\pause
+  \item These can be facilitated, e.g. by proteins called \textit{DNA
+      methyltransferase} (DNMT)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{DNA Methylation}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{methylationPic}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Histone Acetylation}
+
+\begin{center}
+  \includegraphics[width=0.95\linewidth]{acetylation}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Epigenetics}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Acetylation suppresses the expression of genes\pause
+  \item DNA methylation can suppress or activate the expression of
+    genes\pause
+  \item Stem cells have more methylated sites than somatic (normal)
+    cells, showing that this is an important mechanism for ensuring cell
+    specialisation is maintained during cell division\pause
+  \item The methylation and acetylation is modified by proteins\pause
+  \item Epigenetics can be seen as another component in a complex
+    Boolean network\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Conclusion}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Cell differentiation is a complex biological process that is
+    essential to multi-cellular organism\pause
+  \item Simplified models of Boolean networks suggests that a small
+    number of attractors might naturally occur in an interacting
+    network\pause
+  \item Whether this ``explains'' multi-cellular organisms or their
+    origin is a matter of debate\pause
+  \item Specialisation happens through a hierarchical series of
+    steps\pause
+  \item Epigenetics seem to be an important component in determining
+    which proteins are expressed\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+

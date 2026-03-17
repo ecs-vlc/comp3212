@@ -1,0 +1,488 @@
+%Master File:lectures.tex
+
+\lesson{Sequencing}
+\vspace{-2cm}
+\begin{center}
+ \includegraphics[height=10cm]{cost_per_genome_oct2015.jpg}
+\end{center}
+
+\keywords{Shotgun, new sequencing technology, nanopores}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Sanger Sequencing}{es}
+    \outlineitem{Next Generation Sequencers}{newGen}
+    \outlineitem{Third Generation Sequencers}{newGen}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{cost_per_genome_oct2015.jpg}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Sequencing Revolution}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Advances in our ability to sequence DNA lies at the heart of
+    the biological revolution\pause
+  \item Despite the structure of DNA being discovered in 1953, reading
+    DNA sequences took several decades to take off\pause
+  \item Francis Crick had speculated on how DNA might code for
+    proteins\pause
+  \item By removing some number of bases from DNA he was able to show
+    that DNA has a three letter code\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Frederick Sanger}
+
+\begin{minipage}{0.3\linewidth}
+  \includegraphics[width=0.9\linewidth]{Frederick_Sanger2.jpg}
+\end{minipage}\hfil
+\begin{minipage}{0.67\linewidth}
+  \begin{PauseHighLight}
+  \begin{itemize}
+  \item Frederick Sanger was a British born biochemist\pause
+  \item In 1955 he discovered the protein sequence for Insulin\pause
+  \item This showed that proteins were actually chains\pause
+  \item He won the Nobel prize for chemistry for this in 1958\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{minipage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Sequencing DNA}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Chemically it was difficult because the bases are not that
+    distinctive\pause
+  \item It wasn't until 1965 that the very first strands of RNA were
+    read\pause
+  \item A lot of effort went into learning how to copy DNA and break it
+    up into smaller sequences\pause
+  \item Various techniques were developed in the 1970's to sequence
+    longer lengths of DNA until in 1977 Sanger developed a new method
+    now known as \emph{``Sanger Sequcencing''}\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Sanger Sequencing}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In Sanger sequencing we use biological mechanisms for copying
+    DNA\pause
+  \item This would add Dideoxynucleoties (ddNTP) to a DNA chain\pause
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{DNA_Replication}
+  \end{center}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Modified ddNTP}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Modified ddNTP's were developed with a missing $3'$ hydroxyl
+    group which prevented the chain from developing any further\pause
+  \item These were marked (either with radioactive phosphorous or later
+    with a fluorescent marker)\pause
+  \item DNA replication was then carried out with normal ddNTP's and
+     a weak concentration of these modified ddNTP's\pause
+  \item Initially this was done in four containers one for each base
+    (in container A only the base $A$ ddNTP were modified)\pause
+  \item Later different fluorescence were used so everything could be
+    carried out in the same vessel\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Sanger Sequencing}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{sangerMethod}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Fractionation}
+
+\begin{minipage}{0.3\linewidth}
+  \includegraphics[width=\linewidth]{sangerMethod1}
+\end{minipage}\hfil
+\begin{minipage}{0.65\linewidth}
+  \begin{PauseHighLight}
+  \begin{itemize}
+  \item Each solution is added to a layer of gel\pause
+  \item Using capillary electrophoresis different length DNA fragments
+    are sorted\pause
+  \item From the distance travelled and the colour of the last
+    nucleotide base we can read off the sequence\pause
+  \item This won Frederick Sanger a second Nobel prize awarded in
+    1980\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{minipage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Shotgun Sequencing}
+
+To save careful preparation researcher developed shotgun sequencing
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{shotgun}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Reconstruction}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Reconstruction looks easy, but the human genome is full of very
+    repetitive sequence\pause
+  \item Sanger sequences only allowed you to sequence ``reads'' of
+    around 1000bp\pause
+  \item Not clear what the long range ordering is\pause
+  \item For large genomes researchers built ``scaffolds'' where they
+    knew the position of some genes\pause
+  \item You can sequence both sides of a large fragment so you know the
+    approximate relationship between reads\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Human Genome Project}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Sanger sequencing was the technology that delivered the human
+    genome\pause
+  \item Huge advances meant that it was delivered several years earlier
+    than expect\pause
+  \item The cost of sequencing a human genome in 2003 was estimated at
+    around \$10-100 million\pause
+  \item The human genome project did not deliver an immediate benefit to
+    medicine that some had anticipated---we still did not and don't
+    understand enough biology\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Next Generation
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Improving on Sanger}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Although Sanger sequencing saw improves in efficiency in line
+    with Moore's law there was a desire to reduce the cost of sequencing
+    a human genome to \$1000 within a decade\pause
+  \item The ideas was to use massive parallelisation\pause
+  \item Many different techniques were tried\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Sequencing Techniques}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Sanger sequencing used sequencing-by-synthesis\pause
+    \begin{itemize}
+    \item Using DNA-polymerase a strand of DNA is replicated\pause
+    \item It turns out this technique that ultimately triumphant\pause
+    \end{itemize}
+  \item Another approach is sequencing-by-ligation (or hybridisation)\pause
+    \begin{itemize}
+    \item Create lots of short sections of DNA (oligonucleotides) that
+      will stick to an unbound stretch of DNA (or RNA)\pause
+    \item Used in microarrays\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Synthesis versus Ligation}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{ligationvsynthesis}
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{454 Sequencer}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The first high throughput sequencer was the Roche 454
+    machine\pause
+  \item It amplified fragments of DNA attached to a microbead\pause
+  \item These are contained in micro-wells\pause
+  \item Sequencing-by-synthesis is carried out\pause
+  \item Added one type of base at a time with fluorescent
+    label\pause
+  \item Can have difficulty distinguishing regions with repeated base\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Water in Oil Emulsion PCR}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{454}
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Illumina}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The dominant next generation machines are produced by Illumina
+    (formally Solexa)\pause
+  \item It uses a technique now called bridge amplification to create
+    clusters of identical strands on a 2-D surface (substrate)\pause
+  \item The machine can sequence 100's of million clusters at once\pause
+  \item It then uses sequencing-by-synthesis to read the sequence\pause
+  \item It can also read the other end of the sequence by flipping the
+    sequence\pause
+  \item Try Googling ``Illumina sequencing videos''\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Bridge Amplification}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{bridging-pcr-large}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Identifying Sequence}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{illumina-synthesis}
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Cost Per Human Genome}
+
+\begin{center}
+ \includegraphics[width=0.9\linewidth]{cost_per_genome_oct2015.jpg}
+\end{center}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{100\,000 Genome Project}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Currently the NHS and Sanger centre is sequencing around 70\,000
+    human genomes to identify rare genetic diseases\pause
+  \item We can now sequence a human genome within a day\pause
+  \item Because we have already sequenced the human genome we no longer
+    have difficulty reconstructing the sequence\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Third Generation
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Single Molecule DNA Sequencing}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Having to replicate DNA can bring in errors and biases\pause
+  \item Most of the high-throughput techniques only read short sections
+    ($\approx100$ base pairs), which can make reconstruction
+    difficult\pause
+  \item The current research is to create a machine that can read a
+    long single DNA strand\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Zero Mode Waveguide}
+
+\begin{minipage}{0.5\linewidth}
+  \includegraphics[width=\linewidth]{singleMolecule}
+\end{minipage}\hfill
+\begin{minipage}{0.47\linewidth}
+  \begin{PauseHighLight}
+  \begin{itemize}
+  \item Uses same fluorescence dNTPs as used in high-throughput
+    processing\pause
+  \item Use micro-well smaller than the wavelength of light\pause
+  \item Able to detect very small signal\pause
+  \item Not high-throughput\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{minipage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Nanopore Technology}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item One of the most anticipated new technologies is to force DNA
+    through a tiny pore and read out the sequence\pause
+  \item Oxford nanopores have been at the forefront of
+    developments\pause
+  \item They have just released a hand-held machine\pause
+  \item Currently the accuracy is not quite good enough\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Nanopore}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{nanopore1}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Nanopores}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{nanopore2}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Conclusion}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item One of the dramatic revolutions that has occurred in your life
+    times has been the ability to sequence DNA\pause
+  \item Although sequencing proteins predates the sequencing of DNA
+    their has been no such revolution\pause
+  \item The technology builds on the natural tools of the cell (e.g. DNA
+    replicase)\pause
+  \item Computationally the ability to reassemble reads into longer
+    ``contigs'' has been essential to this revolution\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+

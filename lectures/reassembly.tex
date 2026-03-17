@@ -1,0 +1,401 @@
+%Master File:lectures.tex
+
+\lesson{Sequence Re-assembly}
+\vspace{-2cm}
+\begin{center}
+  \includegraphics[height=10cm]{dna-12}
+\end{center}
+
+\keywords{Digital trees, tries, suffix trees}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{8cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Reconstruction}{rec}
+    \outlineitem{Digital Trees}{dt}
+    \outlineitem{Suffix Trees}{st}
+    \outlineitem{Repeats}{rep}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{14cm}
+  \vfill
+  \includegraphics[width=14cm]{dna-13}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{DNA Sequencing}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In modern whole shotgun genome sequencing the full genome is
+    broken into small pieces\pause
+  \item The pieces are then read by a sequencing machine\pause
+  \item This reads short sections (100--1000) bases\pause
+  \item The \emph{reads} are then assembled to construct the full genome\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Sequencing and Assembly}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{dna}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Reads and Contigs}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In the language of DNA reconstruction we are given a set of
+    \emph{reads}\pause
+  \item Our job is to reconstruct them into \emph{contigs}\pause
+  \item The problem is complicated because there are errors in the reads
+    (0.1-2\%)\pause
+  \item Shotgun was important in speeding up the human genome project
+    (there is some argument about how important)\pause
+  \item What data structure should we use?\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Tries
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Digital Trees or Tries}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A \emph{Trie} (pron. `try') or \emph{digital tree} is a multiway
+    tree often used for storing large sets of words\pause
+  \item They are trees with a possible branch for every letter of an
+    alphabet\pause
+  \item Their names comes from the word \textit{re\emph{trie}val}\pause
+  \item Tries usually compactify the edges in the tree\pause
+  \item All words end with a special letter ``\$''\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Trie}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{trie}\pause
+\end{center}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{General Uses of Tries}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Tries are yet another way of implementing sets\pause
+  \item They provide quick insertion, deletion and find\pause
+  \item Typically considerably quicker than binary trees and hash
+    tables\pause
+  \item They are particularly good for spell checkers, completion
+    algorithms, longest-prefix matching, hyphenation\pause
+  \item Each search finds the longest match between the words in the set
+    and the query\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Tries for Sequence Analysis}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Tries can be used to store DNA or proteins\pause
+  \item For reconstruction of DNA tries are very useful for finding the
+    next fitting section\pause
+  \item They are useful when there are errors, as by searching a small
+    sub-tree you can find a good match (same reason they are good for
+    completion and spell checking)\pause
+  \item For DNA you have a four way (5 way?) tree, which means your tree
+    is deep but it doesn't waste so much memory\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Trie for 31 Most Common English Words}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.99\linewidth]{trieTable}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Disadvantage of Tries}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Table-based tries typically waste large amounts of memory\pause
+  \item Often table-based tries are used for the first few layers, while
+    lower levels use a less memory intensive data structure\pause
+  \item These days memory is less of a problem so table-based tries are
+    acceptable for some applications\pause
+  \item There are many implementations of tries each suited to a
+    particular task\pause
+  \item For DNA tries are not too wasteful\pause{} (although maybe for
+    proteins)\pauseb
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Suffix Trees
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\section[-1]{Suffix Tree}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Suffix tree is a trie of all suffixes of a string\pause
+  \item E.g. banana
+    \begin{center}
+      \includegraphics[width=\linewidth]{suffixBanana}\pause
+    \end{center}
+  \end{itemize}
+\end{PauseHighLight}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Importance of Suffix Tree}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Fast algorithms to compute Suffix trees (and the related suffix
+    array) are relative new (15-20 year old) data structures\pause
+  \item They are very important for string-based algorithms\pause
+  \item The classic application is in finding a match for a query
+    string, $Q$, in a text, $T$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{String Matching}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To find a match of a query string, $Q = an$, in a text, $T = banana$, we can
+    first construct the suffix tree of the string $T$ we then simple look
+    up the query, $Q$, using the trie
+  \end{itemize}
+    \begin{center}
+      \includegraphics[width=\linewidth]{suffixBanana}\pause
+    \end{center}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Complexity of Suffix Trees}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Using a regular trie for a suffix tree would typically use far
+    too much memory to be useful\pause
+  \item However, by using pointers to the original text it is possible
+    to build a suffix tree using $O(n)$ memory where $n$ is the length
+    of the text\pause
+  \item Furthermore (and rather incredibly) there is a linear time
+    ($O(n)$) algorithm to construct the trie\pause
+  \item The algorithm is not however trivial to understand\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Uses of Suffix Trees}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Suffix trees are efficient whenever it is likely that you will
+    do multiple searches\pause
+  \item Exact word matching is in itself a very important application\pause
+  \item Suffix trees in combination with dynamic programming (which we
+    look at next) can be used to do inexact matching (finding the match
+    with the smallest edit distance)\pause
+  \item Suffix trees get used in bioinformatics, advanced machine
+    learning algorithms, \ldots\pause
+  \item In case you are interested there are also prefix trees
+    containing all prefixes\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Repeats
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{New Generation Sequencers}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The estimated cost of sequencing the human genome in 2005
+    was \$$10\,000\,000$\pause
+  \item To reduce the cost there was and is a drive to produce new sequencing
+    machines\pause
+  \item These tend to read much shorter sections of DNA (e.g.\
+    20-100nt)\pause
+  \item Can these be re-assembled?\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Repeats}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The difficulty of assembly is caused by repeats\pause
+    \begin{center}
+      \includegraphics[width=\linewidth]{dna-repeat}
+    \end{center}
+  \item How many repeats are there in the human genome?\pause\
+    (Incidentally the human genome is 3.2 billion base
+    \emph{pairs})\pause
+  \item You can read DNA in either directions meaning there are
+    effectively 6.4 billion bases\pause
+  \item This is an important question for developing new sequencing
+    technologies\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Repeats in Human Genome}
+
+\begin{center}
+  \includegraphics[width=0.7\linewidth]{nava}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Repeats Structure}
+
+\begin{center}
+  \includegraphics[width=0.7\linewidth]{nava2}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Computing Repeats}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A naive program would take $n^2$ operations where
+    $n=6.4\times10^9$\pause
+  \item If we used this we would still be waiting for the program to
+    finish\pause
+  \item Could not answer this question a few years ago\pause---not
+    because computers weren't powerful, but because the algorithms had
+    not been developed\pause
+  \item However using suffix arrays counting repeats was made easy\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summary}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The incredibly swift development in algorithms has leveraged the
+    advances in computer power and smart algorithms\pause
+  \item Digital trees or tries, though simple can significantly speed up
+    algorithms for re-assembly\pause
+  \item Suffix trees are conceptually simple (digital trees of all
+    suffixes)\pause
+  \item They can vastly speed up operations such as matching\pause
+  \item What is complicated is the algorithm to construct them
+    efficiently\pause{} (though today they are widely available in programming
+    languages such as python)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}

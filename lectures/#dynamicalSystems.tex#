@@ -1,0 +1,726 @@
+%Master File:lectures.tex
+
+\lesson{Dynamical Systems}
+\vspace{-2cm}
+\begin{center}
+  \includegraphics[height=10cm]{hopfBif-21}
+\end{center}
+
+\keywords{ODEs, nullclines, fixed points, stability analysis, bifications}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Understanding ODEs}{understandingodes}
+    \outlineitem{Stability}{stability}
+    \outlineitem{Bifications}{bification}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{nullclines-3}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Dynamical Systems}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In the last lecture we saw that we could model the dynamics of a
+    system of molecules $\bm{X}=(X_i|i=1,\,2,\,\ldots,\,n)$ in
+    terms of differential equations
+    \begin{align*}
+      \frac{\dd X_i}{\dd t} &= f_i(\bm{X})\pause & \text{or} &&
+      \frac{\dd [X_i]}{\dd t} &= f_i([\bm{X}])\pauseb
+    \end{align*}
+  \item These model the mean behaviour of a set of chemical
+    equations\pause
+  \item Provide the number of molecules is sufficiently large this model
+    is accurate\pause
+  \item In this lecture we look at mathematical tools for understanding
+    sets of first order differential equations\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\goesto}[1]{\stackrel{#1}{\longrightarrow}}
+
+\begin{slide}
+\section[-2]{Two Species}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Consider the simple system
+    \begin{align*}
+      \varnothing &\goesto{k(X_2)} X_1 &
+      X_1 &\goesto{k_3} \varnothing & X_1 &\goesto{k_5} X_2 \\
+      \varnothing &\goesto{k_2} X_2 & X_2 &\goesto{k_4} \varnothing &&\pause
+    \end{align*}
+  \item Where $X_2$ represses the expression of $X_1$
+    {\small \begin{align*}
+      k(X_2) &= \frac{k_1}{1+(X_2/K)^n} \hspace{2cm} \raisebox{-1cm}{\includegraphics[width=0.3\linewidth]{repressor_k}}\pause
+    \end{align*}}
+  \item Leading to the coupled ODEs
+    {\small \begin{align*}
+      \frac{\dd X_1(t)}{\dd t} &= f_1(X_1,X_2) =  \frac{k_1}{1+(X_2(t)/K)^n} - k_3 \,
+                                 X_1(t)- k_5\,X_1(t) \\
+       \frac{\dd X_2(t)}{\dd t} &= f_2(X_1,X_2) = k_2 + k_5\,X_1(t) - k_4\,X_2(t)\pause
+    \end{align*}}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Solving the Dynamics}
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{coupledODE}\pause\\
+  \pauselevel{=1}
+  $K=1$, $k_1=20$, $k_2=k_3=k_4=5$, $k_5=2$, $n=4$\pauseh 
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Trajectories}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.6\linewidth]{trajectories}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Nullclines}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To get a better understanding of the dynamics we look at the
+    \emph{nullclines} defined by $\dd X_i/\dd t=0$\pause
+  \item In our system
+    {\small \begin{align*}
+      \frac{\dd X_1}{\dd t} &= \frac{k_1}{1+(X_2/K)^n} - k_3 \,
+                                 X_1- k_5\,X_1 = 0
+              & &\Rightarrow &
+     X_1 &= \frac{k_1}{(k_3+k_5)(1+(X_2/K)^n)}\pause
+              \\ \\
+       \frac{\dd X_2}{\dd t} &= k_2 + k_5\,X_1 - k_4\,X_2=0
+              &&\Rightarrow &
+     X_2 &= \frac{k_2 + k_5\,X_1}{k_2}\pause
+            \end{align*}}
+   \item The intersection of the nullclines defines the stationary points\pause
+
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Nullclines}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.6\linewidth]{nullclines}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Stability
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Bistability}
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Let's consider a slightly different system where $X_1$ and $X_2$
+    inhibits each others' expression
+    \begin{align*}
+      \frac{\dd X_1(t)}{\dd t} &= f_1(\bm{X}) = \frac{k_1}{1+(X_2(t)/K_2)^{n_1}} - k_3 \, X_1(t)\\
+       \frac{\dd X_2(t)}{\dd t} &= f_2(\bm{X}) = \frac{k_2}{1+(X_1(t)/K_1)^{n_2}} - k_4\,X_2(t)\pause
+    \end{align*}
+  \item If we consider the symmetric case $k_1=k_2=20$, $K_1=K_2=1$,
+    $k_3=k_4=5$, $n_1=n_2=4$ we end up with three fixed points\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Nullclines and Bistablity}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.6\linewidth]{bistable}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Stability}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Points can be stable or unstable\pause
+    \begin{center}
+      \includegraphics[width=0.4\linewidth]{quarticStability}
+    \end{center}
+  \item Above 1D we can also have saddle-points
+    \begin{center}
+      \includegraphics[width=0.8\linewidth]{stationarypoints}\pause
+    \end{center}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Expand Around Fixed-Point}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To study stability at a fixed-point $\bm{X}^*$ we look at what
+    happens when we make a small perturbation $\bm{\epsilon}$
+    \begin{align*}
+      \frac{\dd X_i}{\dd t} = f_i(\bm{X}^*+\bm{\epsilon})\pause
+      \approx f_i(\bm{X}^*) + \bm{\epsilon}^\tr \grad f_i(\bm{X}^*)\pause
+      = \bm{\epsilon}^\tr \grad f_i(\bm{X}^*)
+    \end{align*}
+    since $f_i(\bm{X}^*)=0$ (we are at a fixed-point)\pause
+  \item Where
+    \begin{align*}
+      \bm{\epsilon}^\tr \grad f_i(\bm{X}^*) = \epsilon_1\,\frac{\partial
+      f_i(\bm{X}^*)}{\partial X_1} +  \epsilon_2\,\frac{\partial
+      f_i(\bm{X}^*)}{\partial X_2} + \cdots +  \epsilon_n\,\frac{\partial
+      f_i(\bm{X}^*)}{\dd X_n}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Jacobian}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In vector form
+    \begin{align*}
+      \frac{\dd \bm{X}}{\dd t} = \bm{f}(\bm{X}^*+\bm{\epsilon})\pause
+      =  \mat{J}\, \bm{\epsilon} + O(\bm{\epsilon}^2)\pause
+    \end{align*}
+  \item where $\mat{J}$ is the \emph{Jacobian} matrix with elements
+    \begin{align*}
+      J_{ij} = \left. \frac{\partial f_i(\bm{X})}{\partial X_j}\right|_{\bm{X}=\bm{X}^*}\pause
+    \end{align*}
+  \item Note that this is just saying
+    \begin{align*}
+       \frac{\dd X_i}{\dd t} \approx  \epsilon_1\,\frac{\partial
+      f_i(\bm{X}^*)}{\partial X_1} +  \epsilon_2\,\frac{\partial
+      f_i(\bm{X}^*)}{\partial X_2} + \cdots +  \epsilon_n\,\frac{\partial
+      f_i(\bm{X}^*)}{\dd X_n}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Linear Approximation}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Let $\bm{\epsilon}(t) = \bm{X}(t) - \bm{X}^*$ then (since $\dd
+    \bm{\epsilon}(t) = \dd \bm{X}(t)$)
+    \begin{align*}
+      \frac{\dd \bm{\epsilon}(t)}{\dd t} = \frac{\dd \bm{X}(t)}{\dd t}
+      \approx \mat{J}\, \bm{\epsilon}(t)\pause
+    \end{align*}
+  \item To solve this we note that we can write most square matrices
+    $\mat{J}$ as
+    \begin{align*}
+      \mat{J} = \mat{V} \mat{\Lambda}\,\mat{V}^{-1}\pause
+    \end{align*}
+  \item Where $\mat{\Lambda}$ is a diagonal matrix whose elements
+    $\Lambda_{ii}=\lambda_i$ are eigenvalues of $\mat{J}$ and the
+    columns of $\mat{V}$ are the eigenvectors\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Eigensystem of a General Matrix}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item For a general (non-symmetric) matrix $\mat{M}$ the vector
+    $\bm{v}_i$ is an (right-handed) eigenvector if
+    \begin{align*}
+      \mat{M} \,\bm{v}_i = \lambda_i \, \bm{v}_i\pause
+    \end{align*}
+  \item There are also left-handed eigenvectors $\bm{u}_i$ with the same
+    eigenvalues, $\lambda_i$, such that
+    \begin{align*}
+      \bm{u}_i^\tr \, \mat{M} = \lambda_i \, \bm{u}_i^\tr \pause
+    \end{align*}
+  \item In general $\bm{v}_i\neq\bm{u}_i$ although if
+    $\lambda_i\neq\lambda_j$ then $\bm{u}_i^\tr \bm{v}_j=0$\pause
+  \item The eigenvalues and eigen-vectors are either real or exist
+    in complex conjugate pairs $\lambda_j = \lambda_i^*$ and $\bm{v}_j
+    = \bm{v}_i^*$\pause
+  \end{itemize}
+\end{PauseHighLight}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Matrix Decomposition}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If we write\vspace*{-1cm}
+    {\small
+    \begin{align*}
+      \mat{V} &=
+      \begin{pmatrix}
+        \bm{v}_1 & \bm{v}_2 & \cdots & \bm{v}_n
+      \end{pmatrix} &
+      \mat{\Lambda} &=
+                      \begin{pmatrix}
+                        \lambda_1 & 0 & \cdots & 0 \\
+                        0 & \lambda_2, & \cdots &0 \\
+                        \vdots & \vdots & \ddots &0 \\
+                        0 & 0 & \cdots & \lambda_n
+                      \end{pmatrix}
+    \end{align*}}\vspace*{-1cm}
+    \item Then $\mat{M} = \mat{V} \,
+      \mat{\Lambda}\,\mat{V}^{-1} 
+      = \mat{V}\,\mat{\Lambda}\,\mat{U}
+      = \mat{U}^{-1}\,\mat{\Lambda}\,\mat{U}$
+    \item where $\mat{U} = \mat{V}^{-1}$ has rows equal to
+      $\bm{u}_i^\tr$\pause
+    \item Multiplying $\mat{M}$ on the right by $\mat{V}$ we find
+      \begin{align*}
+        \mat{M} \, \mat{V}
+        &= (\mat{V} \,\mat{\Lambda}\,\mat{V}^{-1}) \, \mat{V}
+         =  \mat{V}\, \mat{\Lambda} &\Rightarrow&
+        &
+        \mat{M} \,\bm{v}_i &= \lambda_i \, \bm{v}_i\pause
+      \end{align*}
+    \item Multiplying $\mat{M}$ on the left by $\mat{U} = \mat{V}^{-1}$
+      \begin{align*}
+        \mat{U}\,\mat{M} &= \mat{U}\,(\mat{U}^{-1}
+                           \,\mat{\Lambda}\,\mat{U})
+                           =\mat{\Lambda}\,\mat{U} &\Rightarrow&
+        &
+         \bm{u}_i^\tr \, \mat{M} &= \lambda_i \, \bm{u}_i^\tr \pause
+      \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Linearised Solution}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Multiply the linear approximation by $\mat{V}^{-1}$
+    \begin{align*}
+    \frac{\dd \bm{\epsilon}(t)}{\dd t}
+      &= \mat{V} \mat{\Lambda}\,\mat{V}^{-1}\, \bm{\epsilon}(t)\pause
+    & \Rightarrow &&
+      \frac{\dd \mat{V}^{-1}\bm{\epsilon}(t)}{\dd t} 
+      &\approx \mat{\Lambda}\, \mat{V}^{-1}\bm{\epsilon}(t)\pause
+    \end{align*}
+  \item Writing $\hat{\bm{\epsilon}}(t) = \mat{V}^{-1}\bm{\epsilon}(t)$ then
+    \begin{align*}
+      \frac{\dd \hat{\bm{\epsilon}}(t)}{\dd t} 
+      &\approx \mat{\Lambda}\, \hat{\bm{\epsilon}}(t) & &\text{or} &
+      \frac{\dd \hat{\epsilon}_i(t)}{\dd t} 
+      &\approx \lambda_i\, \hat{\epsilon_i}(t)\pause
+    \end{align*}
+  \item With solution
+    \begin{align*}
+      \hat{\epsilon}_i(t) \approx \e{\lambda_i\,t}
+      \,\hat{\epsilon}_i(0)\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Example}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.9\linewidth]{eigenStability}\pause
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Stability Analysis}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If $\Re(\lambda_i) < 0$ for all $i$ the fixed point is stable
+    (all sufficiently small perturbations shrink)\pause
+  \item If there exists an $i$ such that $\Re(\lambda_i) > 0$ then the
+    fixed point is unstable\pause
+  \item If $\Re(\lambda_i) < 0$ and $\Re(\lambda_j) > 0$ then we are at
+    an unstable saddle point\pause
+  \item Note that the Jacobian is not symmetric which means the
+    eigenvalues can occur in complex conjugate pairs
+    (i.e. $\lambda_i^*=\lambda_j$)\pause
+  \item In this case the trajectories will either spiral in to the fixed
+    point or spiral away from the fixed point\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Oscillator}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Consider a chain with a positive feedback
+  \end{itemize}\vspace*{-1cm}
+\begin{minipage}[t]{0.28\linewidth}
+  \begin{align*}
+    \varnothing &\goesto{k_0} X_1 \\
+    X_1 &\goesto{k(X_2)} X_2 \\
+    X_2 &\goesto{k_2} \varnothing
+  \end{align*}
+\end{minipage}\hfil
+\begin{minipage}[t]{0.68\linewidth}
+  {\small \begin{align*}
+            k(X_2) &= k_1\left(1+ (X_2/K)^n\right)\pause\\
+            \\
+    \frac{\dd X_1(t)}{\dd t} &= k_0 -
+       k_1\,\left(1+\left(\frac{X_2(t)}{K}\right)^n\right)\,X_1(t) \\
+    \frac{\dd X_2(t)}{\dd t} &=
+       k_1\,\left(1+\left(\frac{X_2(t)}{K}\right)^n\right)\,X_1(t) -k_2\,X_2(t)\pause
+  \end{align*}}
+\end{minipage}
+\begin{itemize}
+\item Consider $k_0=8$, $k_1=1$, $K=1$, $k_2=5$ and $n=2$\pause
+\item Large values of $X_2$ will result in most of $X_1$ being turned
+  into $X_2$, then $X_2$ will decay rapidly allowing $X_1$ to increase\pause
+\end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Nullclines and Bistablity}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.6\linewidth]{oscillation}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Fixed Point Equations}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Our dynamical equations are
+    {\small \begin{align*}
+      \frac{\dd X_1(t)}{\dd t} &= f_1(\bm{X}(t))= k_0 -
+       k_1\,\left(1+\left(\frac{X_2(t)}{K}\right)^n\right)\,X_1(t) \\
+    \frac{\dd X_2(t)}{\dd t} &=f_2(\bm{X}(t))=
+       k_1\,\left(1+\left(\frac{X_2(t)}{K}\right)^n\right)\,X_1(t)
+                               -k_2\,X_2(t)\pause
+    \end{align*}}
+  \item With $k_0=8$, $k_1=1$, $K=1$, $k_2=5$ and $n=2$\pause
+  \item The fixed point is at $\bm{X}^* = \left(\frac{k_0}{k_1(1+(k_0/(K\,k_2))^n)},
+    \frac{k_0}{k_2}\right) = \left(\frac{200}{89}, \frac{8}{5}\right)$\pause
+  \item The Jacobian $J_{ij} = \partial f_i(\bm{X}(t))/\partial X_j$ is
+    {\small \begin{align*}
+      \mat{J}=
+      \begin{pmatrix}
+        -k_1\,\left(1+\left(\frac{X_2^*}{K}\right)^n\right) & 
+        - \frac{n\, k_1}{K}\,\left(\frac{X_2^*}{K}\right)^{n-1} X_1^* \\
+        k_1\,\left(1+\left(\frac{X_2^*}{K}\right)^n\right) & 
+        \frac{n\, k_1}{K}\,\left(\frac{X_2^*}{K}\right)^{n-1} X_1^* - k_2
+      \end{pmatrix} =
+      \begin{pmatrix}
+        \frac{-89}{25} & \frac{-640}{89}\\
+        \rule{0pt}{3ex} \frac{89}{25} & \frac{195}{89}
+      \end{pmatrix}\pause
+    \end{align*}}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ii}{\mathrm{i}}
+
+\begin{slide}
+\section[-2]{Eigen Decompostion}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Plugging this into Matlab (using \texttt{eig(J)})
+    {\small \begin{align*}
+      \mat{J} =
+      \begin{pmatrix}
+        \frac{-89}{25} & \frac{-640}{89}\\
+        \rule{0pt}{3ex} \frac{89}{25} & \frac{195}{89}
+      \end{pmatrix}
+      = \mat{V}
+      \begin{pmatrix}
+        -0.68 + 4.16\ii & 0 \\
+        0  &  -0.68 - 4.16\ii
+      \end{pmatrix}
+      \mat{V}^{-1}\pause
+    \end{align*}}
+   \item where
+     \begin{align*}
+       \mat{V} = \begin{pmatrix}
+        0.82 &   0.82 \\
+        -0.33 - 0.47\ii  & -0.33 + 0.47\ii 
+      \end{pmatrix} \pause                     
+     \end{align*}
+   \item Or $T = \Tr \mat{J} = J_{11} + J_{22}$ and $D=
+     \det(\mat{J})=J_{11}\,J_{22}-J_{12}\,J_{21}$ then $\lambda_{1,2} =
+     T/2 \pm \sqrt{T^{2}/4-D}$\pause
+   \item The eigenvalues have a large complex component which causes a
+     significant spiralling\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Dynamics}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.9\linewidth]{spiral}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Incidentally\ldots}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A property of traces is\vspace*{-0.3cm}
+    {\small
+    \begin{align*}
+      \Tr \mat{A}\,\mat{B} = \sum_{i,j} A_{ij}\,B_{ji} \pause= \sum_{i,j}
+      B_{ji}\,A_{ij} \pauseb= \Tr \mat{B} \, \mat{A}\pauseb
+    \end{align*}}\vspace*{-0.7cm}
+  \item Using $\mat{J} = \mat{V}\,\mat{\Lambda}\mat{V}^{-1}$\vspace*{-0.3cm}
+    {\small \begin{align*}
+      \Tr \mat{J} = \Tr \mat{V}\,\mat{\Lambda}\,\mat{V}^{-1} \pause
+      = \Tr \mat{V}^{-1}\,\mat{V}\,\mat{\Lambda} \pauseb
+      = \Tr \mat{\Lambda}\pauseb =  \sum_i \lambda_i\pauseb
+    \end{align*}}\vspace*{-0.7cm}
+  \item Two properties of determinants is that $|\mat{A}\,\mat{B}| =
+    |\mat{A}|\,|\mat{B}|$ and $|\mat{M}^{-1}| = |\mat{M}|^{-1}$ thus\vspace*{-0.3cm}
+    {\small \begin{align*}
+      |\mat{J}|= |\mat{V}|\,|\mat{\Lambda}|\,|\mat{V}^{-1}|\pause =
+      |\mat{\Lambda}|\pauseb = \prod_i \lambda_i\pauseb
+    \end{align*}}\vspace*{-0.7cm}
+  \item If $\lambda_{1} = T/2 - \sqrt{T^{2}/4-D}$ and $\lambda_2=T/2
+    + \sqrt{T^{2}/4-D}$ then\vspace*{-0.3cm}
+    {\small
+    \begin{align*}
+      \lambda_{1} + \lambda_{2} &= T
+      &&&
+      \lambda_{1} \times \lambda_{2} = D\pause
+    \end{align*}\vspace*{-0.7cm}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{High Dimensional Systems}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We have only considered simple systems with two species of
+    molecules\pause
+  \item Much of the analysis techniques generalise to higher dimensions,
+    but it is far harder to get closed from solutions\pause
+  \item Using programs like Mathematica it is often easy to find fixed
+    point solutions numerically\pause
+  \item However, in biology different reactions happen at very different
+    rates\pause
+  \item We often concentrate on the slowest reactions and assume all the
+    other reactions have reached equilibrium (however, beware this needs
+    to be analysed)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Bifications
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Back to Bistability}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Recall that we could create a bistable system through mutual
+    inhibition
+    \begin{align*}
+      \frac{\dd X_1(t)}{\dd t} &= \frac{k_1}{1+(X_2(t)/K_2)^{n_1}} - k_3 \, X_1(t)\\
+      \frac{\dd X_2(t)}{\dd t} &= \frac{k_2}{1+(X_1(t)/K_1)^{n_2}} - k_4\,X_2(t)\pause
+    \end{align*}
+  \item Let $k_2=20$, $K_1=K_2=1$, $k_3=k_4=5$, $n_1=n_2=2$\pause
+  \item But now we look at varying the parameter $k_1$\pause
+  \item The fixed points are given where the nullclines intersect\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Varying $k_1$}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{bistableFP}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Hysteresis}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.95\linewidth]{hysteresis}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Autocatalysis}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Recall the autocatalytic system
+    \begin{align*}
+    \frac{\dd X_1(t)}{\dd t} &= k_0 -
+       k_1\,\left(1+\left(\frac{X_2(t)}{K}\right)^n\right)\,X_1(t) \\
+    \frac{\dd X_2(t)}{\dd t} &=
+       k_1\,\left(1+\left(\frac{X_2(t)}{K}\right)^n\right)\,X_1(t) -k_2\,X_2(t)\pause
+    \end{align*}
+  \item With $k_0=8$, $k_1=1$, $K=1$, $k_2=5$\pause
+  \item We consider what happens when we vary $n$\pause
+
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Hopf Bifurcation}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{hopfBif}\pause
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summary}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We can understand a lot of behaviours by understanding first
+    order ODEs\pause
+  \item Systems can exhibit fixed points, limit cycles (and even chaotic
+    behaviour in enough dimensions)\pause
+  \item We can study the stability of fixed points\pause
+  \item The behaviour of systems can change radically as new fixed
+    points emerge or fixed points become unstable\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}

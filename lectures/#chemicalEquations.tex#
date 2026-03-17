@@ -1,0 +1,670 @@
+%Master File:lectures.tex
+
+\lesson{Simulating Chemical Equations}
+\vspace{-2cm}
+\begin{center}
+  \includegraphics[height=10cm]{reactions-20}
+\end{center}
+
+\keywords{Gene regulation, chemical equations, motifs}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Stochastic Chemical Equations}{stochasticchem}
+    \outlineitem{Gillespie Algorithm}{gillespiealg}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{reactions-20}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\goesto}[1]{\stackrel{#1}{\longrightarrow}}
+
+\begin{slide}
+\section{Stochasticity}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A chemical equation
+    \begin{align*}
+      A + B \goesto{k_1} C
+    \end{align*}
+    happens when molecule $A$ by chance hits molecule $B$ with the right
+    momentum\pause
+  \item If the number of molecules are large then we can model this
+    quite accurately by considering an ODE of what happens on
+    average\pause
+  \item But for proteins and other molecules in the cell we often have a
+    rather small number of a particular species of molecule in the
+    cell\pause
+  \item In this case the ODE can be misleading\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Stochasticity in Nature}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Randomness can be problematic in making a system function\pause
+  \item Where this is critical then the cell relies on large molecule
+    number\pause
+  \item However, there are times when randomness can serve a
+    purpose\pause
+  \item In a large population of cells there can be an advantage to
+    cells being in slightly different states\pause
+  \item This can give more robustness when responding to external
+    stimuli\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Sources of Noise}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item There are some variations that are common to most reactions
+    coming from e.g.
+    \begin{itemize}\squeeze
+    \item number of RNA-polymerase 
+    \item number of ribosomes
+    \item size of cell
+    \end{itemize}
+  \item This is known as \emph{extrinsic noise}\pause
+  \item There is also noise due to the inherent randomness of chemical
+    processes such as transcription and translation---this is known as
+    \emph{intrinsic noise}\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2.5]{Chemical Reaction (Revision)}
+
+\pb
+\begin{align*}
+  2\,X + Y \goesto{k} 3 \, X\pause
+\end{align*}
+\begin{center}
+  \multipdf[width=0.95\linewidth]{chemicalReaction}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Probability of Reaction $2\,X + Y \goesto{k} 3 \,X$}
+
+\begin{leftImage}[0.4]{smallVolume}
+  \begin{PauseHighLight}
+    \begin{align*}
+      \Prob{Y_i \in \delta V} = \frac{\delta V}{V}\pause
+    \end{align*}
+    \begin{itemize}
+    \item If we have $n$ particles of type $Y$ the probability of at
+      least one being in $\delta V$ is
+      $n\,\delta V/V = [Y]\,\delta V$\pause
+    \end{itemize}
+  \end{PauseHighLight}
+\end{leftImage}
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The probability of two particles $X_1$ and $X_2$ both being in
+    $\delta V$ is $\left(\frac{\delta V}{V}\right)^2$\pause
+  \item If we have $m$ particles of type $X$ the probability of at
+    least 
+    two being in $\delta V$ is $\frac{m\,(m-1)}{2}\left(\frac{\delta
+        V}{V}\right)^2\approx \frac{(\delta V)^2}{2}\,[X]^2$\pause 
+  \end{itemize}
+\end{PauseHighLight}
+
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Probability of Reaction $2\,X + Y \goesto{k} 3 X$}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Probability of one particle of type $Y$ and two particles of
+    type $X$ being in volume $\delta V$ is proportionals to
+    \begin{align*}
+      [Y]\,[X]^2 (\delta V)^3\pause
+    \end{align*}
+  \item The number of $\delta V$'s in $V$ is $N=V/\delta V$\pause
+  \item The probability of a reaction in $V$ is proportional to
+    \begin{align*}
+      N\,[Y]\,[X]^2 (\delta V)^3 = V \, [Y]\,[X]^2 \,  (\delta V)^2\pause
+    \end{align*}
+  \item The expected number of reactions per unit volume is proportional to
+    \begin{align*}
+      [Y]\,[X]^2\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Reaction Rate}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A chemist would measure the rate of change of concentration
+    $[X]$ for the reaction and divide by $[Y]\,[X]^2$ to come up with a
+    reaction rate $k$\pause
+    \begin{align*}
+      2\,X + Y \goesto{k} 3 X \\
+      \frac{\dd [X]}{\dd t} = k \, [Y]\,[X]^2\pause
+    \end{align*}
+  \item The chemist would measure concentrations in moles per litre
+    ($\text{mol}\, dm^{-3}$)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Concentration to Numbers}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To work in numbers of molecules, $X$, we use $[X] =
+    X/\Omega$\pause
+  \item $\Omega = V \times A$, where $V$ is volume and $A$ Avogadro's
+    number
+    \begin{align*}
+      \frac{\dd [X]}{\dd t} = k [Y]\,[X]^2\pause\\
+      \frac{1}{\Omega} \frac{\dd X}{\dd t} = k \frac{1}{\Omega^3}
+      Y\,X^2\pause\\
+      \frac{\dd X}{\dd t} = \frac{k}{\Omega^2} Y\,X^2\pause
+    \end{align*}
+  \item If we want to be even more accurate the probability of a
+    reaction taking place in time $\delta t$ is
+    \begin{align*}
+      \frac{k}{\Omega^2} Y\,X\,(X-1)\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline %Gillespie
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{slide}
+\section{Discrete Dynamic Models}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We would like to simulate the set of chemical reactions
+    \begin{align*}
+      \varnothing &\goesto{k_1} A  &
+      \varnothing &\goesto{k_2} B & 
+       A + B &\goesto{k_3} C &
+       C &\goesto{k_4} A + B\pause
+    \end{align*}
+  \item At each time we want to keep note of the number of molecules
+    $A(t)$, $B(t)$, $C(t)$\pause
+  \item These number only change when a reaction happens\pause
+  \item When the numbers change the probability of a reaction
+    changes\pause
+  \item Events that happen at particular points in space or time are
+    known as \emph{point processes}\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-3]{Example}
+
+\pb
+\begin{align*}
+  \varnothing &\goesto{0.05} A  &
+  \varnothing &\goesto{0.03} B & 
+  A + B &\goesto{0.005/\Omega} C &
+  C &\goesto{0.01} A + B\pauseh
+\end{align*}
+\vspace*{-1cm}
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.8\linewidth]{reactions}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Probabilities of Reaction}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item For the reactions
+    \begin{align*}
+      \varnothing &\goesto{k_1} A  &
+      \varnothing &\goesto{k_2} B & 
+       A + B &\goesto{k_3} C &
+       C &\goesto{k_4} A + B\pause
+    \end{align*}
+  \item The probability of a reaction in time $\delta t$ is
+    \begin{itemize}
+    \item $\Prob{\varnothing \goesto{k_1} A} = k_1\,\delta t$
+    \item $\Prob{\varnothing \goesto{k_2} B} = k_2\,\delta t$
+    \item $\Prob{A + B \goesto{k_3} C} = k_3\,A\,B\,\delta t/\Omega$
+    \item $\Prob{C \goesto{k_4} A + B} = k_4\,C\,\delta t$
+    \end{itemize}
+    where $\Omega$ is the volume of reactants\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Poisson Processes}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Suppose we have a point process with a probability of occurring
+    in time $\delta t$ of $a\, \delta t$\pause
+  \item The probability of the first occurrence happening in time interval
+    $n\,\delta t \leq t \leq (n+1)\,\delta t$ is \hspace{6cm}\makebox(0,0){\includegraphics[width=10cm]{poisson_process}}
+    \begin{align*}
+      \Prob{n\,\delta t \leq t \leq (n+1)\,\delta t}
+      &= (1-a \,\delta t)^n \,a \, \delta\,t\pause
+      = a \, \e{n\log(1-a \,\delta t)} \, \delta t\pause\\
+      &\approx a \, \e{-a\,n \,\delta t} \, \delta t\pause
+      \approx a \, \e{-a\,t} \, \delta t\pause
+    \end{align*}
+    \pauselevel{=4} since $\log(1+\Delta) \approx \Delta +O(\Delta^2)$\pause\pauselevel{=6}
+  \item If we take the limit $\delta t\rightarrow 0$ then
+    \begin{align*}
+      f_T(t) = \lim_{\delta t\rightarrow 0} \frac{\Prob{n\,\delta
+  t \leq t \leq (n+1)\,\delta t}}{\delta t}\pause = a\,\e{-a\,t}\pauseb
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Multiple Poisson Processes}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If there are $K$ event with probability of occurring in time
+    $\delta t$ of $a_i\,\delta t$ then the probability of any one
+    of them happening in time $\delta t$ is $a_0 \,\delta t$ where
+    $a_0=\sum_{i=1}^K a_i$\pause
+    {\footnotesize
+    \begin{align*}
+      \Biggl( 1-\Prob{\forall_i \mathcal{E}_i}
+      &= 1 - \prod_i (1-a_i \delta t)
+        = 1 - (1-a_1\,\delta t)(1-a_2\,\delta t)\cdots  (1-a_K\,\delta t)
+      \\
+       &= 1 - \biggl( 1 -\delta t \sum_i a_i + (\delta t)^2 \sum_{i\neq j} a_i\,a_j + \cdots\biggr)
+        = \sum_i a_i \delta t +  O((\delta t)^2) \Biggr)\pause
+    \end{align*}}
+  \item Thus the distribution of time, $T$, of the first event is given
+    by
+    \begin{align*}
+      f_T(t) = a_0\,\e{-a_0\,t}\pause
+    \end{align*}
+  \item The probability of that first even being event $i$ is
+    \begin{align*}
+      \Prob{\text{first event is event $i$}} =
+      \frac{a_i}{a_1+\cdots+a_K} = \frac{a_i}{a_0}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Drawing a Random Samples}
+
+\pb
+\begin{itemize}
+\item Drawing (pseudo) random variables from a distribution is known
+  as \emph{Monte Carlo}\pauseh
+\item For some very simple distributions we can use transformation
+  methods to transform a uniform distribution\pauseh
+\end{itemize}
+\begin{center}
+  \multipdf[width=\linewidth]{exponentialDeviates}\pause
+\end{center}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Exponential Deviates}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item For exponential deviates we generate a random deviate
+    $U\sim\mathrm{Uni}(0,1)$\pause
+  \item Then to generate $X\sim\mathrm{Exp}(x|1)=\e{-x}$ (with $F_X(x|1)
+    = 1-\e{-x}$) we use
+    \begin{align*}
+      X = F_X^{-1}(U) = -\log(1-U)\pause
+    \end{align*}
+  \item To draw a random deviate $T \sim \mathrm{Exp}(t|a) =
+    a\,\exp(-a\,t)$ we just rescale $T = X/a$\pause
+  \item That is, $T=-\log(1-U)/a$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Gillespie's Algorithm}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To simulate a reaction equation we take $\bm{X}(t) =
+    (X_1(t),\,X_2(t),\,\ldots,\,X_N(t))$ to be the count of molecules at
+    time $t$\pause
+  \item We assume we  have $K$ reactions which we label $R_j$\pause
+  \item The probability of a reaction occurring in a volume $V$ in
+    time interval $[t,t+\dd t]$ we denote by
+    $a_j(\bm{X}(t))\,\dd t$---this is known as the propensity\pause
+  \item The propensity is equal to the reaction rate times the product
+    of concentrations of chemical species that react together (i.e. on
+    the left-hand side) times the volume\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Gillespie's Algorithm Continued}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We compute the total propensity $a_0(\bm{X}(t)) = \sum_{j=1}^K
+    a_i(\bm{X}(t))$\pause
+  \item We draw a random time $T\sim \mathrm{Exp(t|a_0)}$ using
+    \begin{align*}
+      T &= - \frac{1}{a_0} \log(1-U) & U&\sim\mathrm{Uni}(0,1)\pause
+    \end{align*}
+  \item We select the reaction that happened with probabilities
+    \begin{align*}
+      \Prob{j} = \frac{a_j}{a_0}\pause
+    \end{align*}
+  \item We update the molecule number according to what reaction has
+    happened\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-3]{Back to Example}
+
+\pb
+\begin{align*}
+  \varnothing &\goesto{0.05} A  &
+  \varnothing &\goesto{0.03} B & 
+  A + B &\goesto{0.005/\Omega} C &
+  C &\goesto{0.01} A + B\pauseh
+\end{align*}
+\vspace*{-1cm}
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.8\linewidth]{reactions}\pause
+\end{center}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Two Species}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Recall the simple system
+    \begin{align*}
+      \varnothing &\goesto{f(X_2)} X_1 &
+      X_1 &\goesto{k_3} \varnothing & X_1 &\goesto{k_5} X_2 \\
+      \varnothing &\goesto{k_2} X_2 & X_2 &\goesto{k_4} \varnothing &&\pause
+    \end{align*}
+  \item Where $X_2$ represses the expression of $X_1$
+    {\small \begin{align*}
+      f(X_2) &= \frac{k_1}{1+(X_2/K)^n}\pause
+    \end{align*}}
+  \item Leading to the coupled ODEs
+    {\small \begin{align*}
+      \frac{\dd [X_1(t)]}{\dd t} &= \frac{k_1}{1+([X_2(t)]/K)^n} - k_3 \,
+                                 [X_1(t)]- k_5\,[X_1(t)] \\
+       \frac{\dd [X_2(t)]}{\dd t} &= k_2 + k_5\,[X_1(t)] - k_4\,[X_2(t)]\pause
+    \end{align*}}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Solving the Dynamics}
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{coupledODE}\pause\\
+  \pauselevel{=1}
+  $K=1$, $k_1=20$, $k_2=k_3=k_4=5$, $k_5=2$, $n=4$\pauseh 
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Trajectories}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.6\linewidth]{trajectories}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Nullclines}
+
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.6\linewidth]{nullclines}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Rescaling}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item When we are working with ODEs we can work in any units of
+    concentration and time\pause
+  \item Note that we can change our units of concentrations by a
+    rescaling $X_i \rightarrow r\,X_i$\pause
+  \item If we rescale $K\rightarrow r\,K$, $t\rightarrow r\,t$,
+    $k_i\rightarrow k_i/r$ for $i\in\{3,4,5\}$ this leaves the ODEs
+    invariant
+    {\small \begin{align*}
+      \frac{\dd [X_1(t)]}{\dd t} &= \frac{k_1}{1+([X_2(t)]/K)^n} - k_3 \,
+                                 [X_1(t)]- k_5\,[X_1(t)] \\
+       \frac{\dd [X_2(t)]}{\dd t} &= k_2 + k_5\,[X_1(t)] - k_4\,[X_2(t)]\pause
+    \end{align*}}
+  \item When going to numbers $[X_i(t)]=X_i/\Omega$ by choosing $r$ we
+    can explore systems with the same mean concentration but different 
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Large Numbers ($r=1000$)}
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{GillespieLarge}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Medium Numbers ($r=100$)}
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{GillespieMedium}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Small Numbers ($r=10$)}
+\pause
+\pb \pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{GillespieSmall}\pause
+\end{center}
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Limitations}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Computers are very fast and can happily simulate millions of
+    steps\pause
+  \item However, some chemical equations can happen millions of time
+    faster than others\pause
+  \item We need to run long enough to capture the slowest
+    processes\pause
+  \item If we are unlucky then this can be just too slow\pause
+  \item We can sometimes cheat and approximate large jumps for fast
+    moving processes\pause
+  \item We can also assume that the fast processes have reached a
+    quasi-equilibrium (plus some noise)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Using Gillespie Equations}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Gillespie algorithm provides the best approximation to the true
+    dynamics\pause
+  \item Of course, being entirely numerical it doesn't provide much
+    insight into how changes in parameters change the dynamics\pause
+  \item It is often used to check how accurate the ODE description
+    is\pause
+  \item There is a well developed system of stochastic differential
+    equations which bridges the gap between Monte Carlo simulation and
+    ODEs, but it is technically challenging (beyond this course) and it
+    is not easy to apply to these systems (it requires putting in
+    the size of fluctuations which can be very difficult to
+    estimate)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Conclusions}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Chemical reactions are stochastic\pause
+  \item In small systems with low concentrations this can lead to large
+    fluctuations\pause
+  \item Populations of cell are empirically found to have large
+    fluctuations between individuals\pause
+  \item Often this is used to ensure that different cells do different
+    things\pause
+  \item We can use Gillespie's algorithm to accurately simulate
+    fluctuations in chemical equations\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}

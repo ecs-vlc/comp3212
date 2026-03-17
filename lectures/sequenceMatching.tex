@@ -1,0 +1,468 @@
+%Master File:lectures.tex
+
+\lesson{Sequence Matching}
+\vspace{-2cm}
+\begin{center}
+  \includegraphics[height=10cm]{needlemanWunsch-23}
+\end{center}
+
+\keywords{Global matching, dynamic programming, global sequence matching}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Why Align}{wa}
+    \outlineitem{Dynamic Programming}{dp}
+    \outlineitem{Global Alignment}{ga}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{needlemanWunsch-23}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Alignment and Evolution}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We want to transfer our knowledge about the function of a
+    protein though knowledge of similar proteins in different
+    organisms\pause
+  \item Most proteins found in an organism are close to those of near
+    relatives and sometimes not so near relatives\pause
+  \end{itemize}
+\end{PauseHighLight}
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{Histone_Alignment}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Practical Alignment}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Alignment with known genomes is now the first task after
+    sequencing\pause
+  \item It is done with both DNA and protein\pause
+  \item The mutation rate is sufficiently high that we would expect no
+    alignment between most species except if there is a selective
+    pressure to conserve the structure\pause
+  \item For DNA coding proteins there are a number of ``synonymous
+    mutations'' that leave the protein unchanged\pause---DNA is less
+    conserved than proteins\pause
+  \item In proteins some amino acids behave similarly so there is less
+    selection pressure against mutations between them\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Synonymous Mutations}
+
+\begin{minipage}{0.48\linewidth}
+  \includegraphics[width=\linewidth]{K12-DH10B-codon-usage}
+\end{minipage}\hfil
+\begin{minipage}{0.48\linewidth}
+  \begin{PauseHighLight}
+  \begin{itemize}
+  \item Some amino acids are rarer than others\pause
+  \item But some codon sequences are slightly more popular than their
+    synonymous partners\pause
+  \item They may be more robust to mutation\pause
+  \item They may be slight biases due to the translation, etc.\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{minipage}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Amino Acid Similarity}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item For amino acids the most important distinguishing property is
+    whether they are \emph{hydrophobic} (oily) or \emph{hydrophilic}
+    (charged)\pause
+  \item There are other properties such as available hydrogen bonds,
+    etc.\pause
+  \item From many observation we can compute a table giving the log-odds
+    of one amino acid being substituted by another\pause
+  \item Two commonly used substitution tables (matrices) are PAM and
+    BLOSUM\pause
+  \item Likely substitutions are positive, unlikely ones negative\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1.8]{Blosum50}
+
+\begin{center}
+  \includegraphics[width=0.98\linewidth]{Blosom50}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Gaps}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item It is not infrequent that we find good matches where there has
+    been an insertion or deletion of some part of the string\pause
+  \item We start by considering a linear cost where the cost of a gap is
+    proportional to its length\pause
+  \item In biology, a linear cost model is a poor description of
+    reality\pause
+  \item Where there is an insertion, then it is often quite long (this
+    is a consequence of the copy mechanism in cells)\pause
+  \item We return to dealing with long gaps in the next lecture\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Inexact Sequence Matching}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Given two sequences we want to find the best match between
+    them\pause
+  \item We can measure this distance in terms of an \emph{edit
+      distance} or \emph{Levenshtein} distance which measures the
+    minimum number of moves to go from one sequence to another\pause
+  \item There are two cases that are commonly considered
+    \begin{itemize}
+    \item Global matching: where we match the two complete strings\pause
+    \item Local matching: we find the sub-string with the best match (we
+      treat this in the next lecture)\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Dynamic Programming
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Algorithms for Matching}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We need efficient algorithms for matching\pause
+  \item The number of possible inexact matches is exponential in the size of the
+    string so we can't exhaustively try all matches\pause
+  \item Fortunately dynamical programming provides a relatively
+    efficient algorithm\pause
+  \item Dynamic programming is very important to a huge number of
+    sequence-based algorithms\pause
+  \item We first quickly remind you of dynamic programming\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{slide}
+\section{Dynamic Programming}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item One of the most powerful strategies for solving optimisation
+    problems is \emph{dynamic programming}\pause
+    \begin{itemize}\squeeze
+    \item Build a set of optimal partial solutions\pause
+    \item Increase the size of the partial solutions until you have a
+      full solution\pause
+    \item Each step uses the set of optimal partial solutions found in
+      the previous step\pause
+    \end{itemize}
+  \item Developed by Richard Bellman in the early 1950's\pause
+  \item The name is unfortunate as it doesn't have much to do with
+    programming\pause 
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{A Toy Problem}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Consider the problem of find a minimum cost path from point
+    (0,0) to (8,0) on the lattice\pause
+    \begin{center}\color{TextColor}
+      \includegraphics[height=8cm]{lattice_prob.mps}
+    \end{center}\color{TwoColor}
+  \item The costs of traversing each link is shown in red\pause
+  \item The cost of a path is the sum of weights on each link\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-0.5]{Brute Force}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The obvious brute force strategy is to try every path\pause
+  \item For a problem with $n$ steps we require $n/2$ to be diagonally
+    up and $n/2$ to be diagonally down\pause
+  \item The total number of paths is
+    \begin{align*}
+      \binom{n}{n/2} \approx \sqrt{\frac{2}{\pi\,n}}\; 2^n\pause
+    \end{align*}
+  \item For the problem shown above with $n=8$ there are 70
+    paths\pause
+  \item For a problem with $n=100$ there are $1.01\times10^{29}$
+    paths\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Building a Solution}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We can solve this problem efficiently using dynamic programming
+    by considering optimal paths of shorter length\pause
+  \item Let $c_{(i,j)}$ denote the cost of the optimal path to node
+    $(i,j)$\pause
+  \item We denote the weights between two points on the lattice by
+    $w_{(i,j)(i+1,j\pm1)}$
+    \begin{center}
+      \includegraphics[height=4cm]{lattice_prob_notation}\pause
+    \end{center}
+  \item We define the initial cost $c_{(0,0)}=0$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-0.5]{Forward Algorithm}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Suppose we know the optimal costs for all the edge in column
+    $i$\pause
+  \item Our task is to find the optimal cost at column $i+1$\pause
+  \item If we consider the sites in the lattice then the optimal cost
+    will be
+    \begin{align*}
+      c_{(i+1,j)} = \min\!\left( \strut c_{(i,j+1)}+w_{(i,j+1)(i+1,j)},\,\,
+        c_{(i,j-1)}+w_{(i,j-1)(i+1,j)}\right)\pause
+    \end{align*}
+  \item This is the defining equation in dynamic programming\pause
+  \item We have to treat the boundary sites specially, but this is just
+    book-keeping\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Example}
+\pb
+\begin{center}
+  \multiinclude[graphics={height=15cm}]{dynamicprog}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Backward Algorithm}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Having found the optimal costs $c_{(i,j)}$ we can find the
+    optimal path starting from $(n,0)$\pause
+  \item At each step we have a choice of going up or down\pause
+  \item We choose the direction which satisfies the constraint
+    \begin{align*}
+      c_{(i,j)} = c_{(i-1,j\pm1)}+w_{(i-1,j\pm1)(i,j)}\pause
+    \end{align*}
+  \item If both directions satisfy the constraint we have more than one
+    optimal path\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Time Complexity}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In our dynamic programming solution we had to compute the cost
+    $c_{(i,j)}$ at each lattice point\pause
+  \item There were $(n/2+1)^2$ lattice point\pause
+  \item It took constant time to compute each cost so the total time to
+    perform the forward algorithm was $\Theta(n^2)$\pause
+  \item The time complexity of the backward algorithm was
+    $\Theta(n)$\pause
+  \item This compares with $\exp(\Theta(n))$ for the brute force
+    algorithm\pause 
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Global Matching
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Global Matching}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We return to the problem of global matching\pause
+  \item In biology this is often known as the Needleman-Wunsch problem
+    after the author that proposed the problem and a (not very
+    efficient) solution\pause
+  \item We denote the cost of a substitution, $a\rightarrow b$, by
+    $s(a,b)$\pause
+  \item For proteins we can take this to be our Blosum50 matrix\pause
+  \item There are different substitution matrices e.g. Blosum60 used for
+    closely related species\pause
+  \item We will assume the cost of an insertion or deletion is -8\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Problem Definition}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We are given two strings
+    \begin{align*}
+      \bm{a} &= a_1\,a_2\,\ldots\,a_m &
+      \bm{b} &= b_1\,b_2\,\ldots\,b_n\pause
+    \end{align*}
+  \item We want to find the minimum edit distance measuring how to
+    change $\bm{a}$ to $\bm{b}$ where the price of a substitution is
+    $s(a,b)$ and of an insertion or deletion $d=-8$\pause
+  \item To compute this we compute a tableau showing the best possible
+    moves using the dynamic programming formula\pause
+    \begin{align*}
+      F(i,j) = \max \left\{
+      \begin{matrix}
+        F(i-1,j-1) + s(a_i, b_j)\\
+        F(i-1,j) + d\\
+        F(i,j-1) + d
+      \end{matrix}\right.\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Global Alignment}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{needlemanWunsch}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Space Complexity}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item For two strings of length $m$ and $n$ the time complexity of
+    dynamic programming is the size of the tableau $O(m\,n)$\pause
+  \item This is massively faster than exhaustive search\pause
+  \item Unfortunately in biology we often want to match two very long
+    strings (particularly when looking at DNA)\pause
+  \item The space complexity is then more of an issue than time
+    complexity (we don't have enough memory to store the tableau)\pause
+  \item Algorithms exist that use linear space complexity\pause
+  \item Can still be too slow for DNA\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summary}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Comparing sequences is done routinely to understand function and
+    evolution\pause
+  \item The dynamic programming strategy is widely used for inexact matching\pause
+  \item For global matching the dynamic programming solution is really
+    quite easy\pause
+  \item We will also see that it is readily extendable\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+
+\end{slide}

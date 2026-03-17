@@ -1,0 +1,488 @@
+%Master File:lectures.tex
+
+\lesson{Training HMMs}
+\vspace{-2cm}
+\begin{center}
+ \includegraphics[height=10cm,angle=90]{hmmresult}
+\end{center}
+
+\keywords{Baum Welch, HMM Structures}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{8cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Recap}{reca}
+    \outlineitem{Baum Welch}{baumwelch}
+    \outlineitem{HMM Structure}{hmmst}
+    \outlineitem{Applications}{applications}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{15cm}
+  \vfill
+  \includegraphics[height=12cm,angle=90]{hmmresult}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Recap}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item HMMs model the generation of sequences\pause
+  \item They are probabilistic finite state automata describing the
+    transition between state\pause
+  \item Each state emits a symbol with some probability\pause
+  \item We can compute the joint probability $\Prob{\bm{q},\bm{\xi}}$ of
+    the states, $\bm{q}$, and sequence $\bm{\xi}$\pause
+  \item Using forward and backward variable we can sum over all possible
+    paths through the states\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Structure and Parameters}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The structure of the HMM is the set of states and the allowed
+    transition between states\pause
+  \item Given a structure the parameters, $\bm{\theta}$, describes the
+    emission probabilities, $e_i(\zeta)$ at each state and the
+    transition probabilities, $a_{ij}$, between states\pause
+  \item When we understand the process generating the sequence very well
+    then we can sometimes specify the structure and parameters
+    \textit{ab initio}\pause
+  \item Most of the time, we don't have a detailed understanding of the
+    process and have to learn the parameters\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Baum Welch
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Baum-Welch Training}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We can train the parameters of an HMM to maximise the likelihood
+    of a set of training sequences\pause
+  \item This algorithm developed mainly by Leonard Baum is known as
+    the Baum-Welch algorithm\pause
+  \item It is an iterative algorithm that finds a \emph{local maximum}
+    of the likelihood of a set of training sequences\pause
+  \item It is an example of an \emph{expectation maximisation} (EM)
+    strategy\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Iterative Improvement}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Given a set of sequence
+    $\mathcal{D}=\{\bm{\xi}^\mu|\mu=1,\,\ldots,\,P\}$,
+    then if we knew the path through the set of states then we can count
+    \begin{itemize}
+    \item $A_{ij}$ the number of times we transition from state
+      $i$ to $j$\pause
+    \item $E_i(\zeta)$ the number of times we emit symbol $\zeta$ when
+      in state $i$\pause
+    \end{itemize} 
+  \item To maximise the likelihood of the particular sequences we can set
+    \begin{align*}
+      e_i(\zeta) &= \frac{E_i(\zeta)}{\sum\limits_{\xi\in\mathcal{A}} E_i(\xi)},&
+      a_{ij} &= \frac{A_{ij}}{\sum\limits_{k\in\mathcal{Q}} A_{ik}}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Pseudo Counts}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A problem is that if we use the HMM on unseen data then there
+    might be emissions or transitions that we've set to zero which we
+    want to allow\pause
+  \item To solve that we can add \emph{pseudo counts} giving some small
+    probability of always emitting a symbol or making a transition
+    \begin{align*}
+      e_i(\zeta) &= \frac{E_i(\zeta)+ r_i(\zeta)}
+        {\sum\limits_{\xi\in\mathcal{A}} \left(E_i(\xi)+r_i(\xi)\right)}, & 
+      a_{ij} &= \frac{A_{ij} + r_{ij}}
+        {\sum\limits_{k\in\mathcal{Q}} \left(A_{ik}+r_{ik}\right)}\pause
+    \end{align*}
+  \item Usually $r_i(\zeta)$ and $r_{ik}$ will be some small number\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Chicken and Egg}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The second problem we face though is we don't know the path through the
+    states that a sequence should take\pause
+  \item That path will depend on the emission and transition
+    probabilities (which is what we want to determine)\pause
+  \item We therefore use an iterative learning process where we
+    initialise the transition and emission probabilities at random\pause
+  \item We then compute $E_i(\zeta)$ and $A_{ij}$ for those
+    parameters\pause
+  \item We then update the parameters as described above and iterate,
+    nudging the parameters towards a local optimum\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Computing the Emission}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item For a given set of parameters $\bm{\theta}$ the probability of
+    emitting a symbol $\zeta$ in state $i$ for the set of training
+    sequences is
+    \begin{align*}
+      E_i(\zeta) = \sum_{\bm{\xi}^\mu\in\mathcal{D}} \sum_{t=1}^{T^\mu-1}
+      \Prob{q_t=i| \bm{\xi}^\mu, \bm{\theta}} \, \pred{\xi_t^\mu = \zeta}\pause
+    \end{align*}
+  \item Where $\pred{\text{predicate}}$ equals 1 if predicate is true
+    and 0 otherwise\pause
+  \item But from the backward and forward variables
+    \begin{align*}
+      E_i(\zeta) = \sum_{\bm{\xi}^\mu\in\mathcal{D}} 
+      \frac{1}{\Prob{\bm{\xi}^\mu|\bm{\theta}}}\sum_{t=1}^{T^\mu}
+      \alpha_t^\mu(i)\,\beta_t^\mu(i)\, \pred{\xi_t^\mu = \zeta}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Computing Transitions}
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Similarly the expected number of transitions is given by
+    \begin{align*}
+      A_{ij} = \sum_{\bm{\xi}^\mu\in\mathcal{D}} \sum_{t=1}^{T^\mu}
+      \Prob{q_t=i,\, q_{t+1}=j| \bm{\xi}^\mu, \bm{\theta}}\pause
+    \end{align*}
+  \item After a bit of manipulations we find
+    \begin{align*}
+      A_{ij} =  \sum_{\bm{\xi}^\mu\in\mathcal{D}} 
+      \frac{1}{\Prob{\bm{\xi}^\mu|\bm{\theta}}}\sum_{t=1}^{T^\mu-1}
+      \alpha^\mu_t(i)\, a_{ij}\, e_j(\xi_{t+1}) \, \beta^\mu_{t+1}(j)\pause
+    \end{align*}
+  \item We have already seen that we can compute
+    $\Prob{\bm{\xi}^\mu|\bm{\theta}}$ from the forward variable\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Training in Practice}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Baum-Welch is widely used\pause
+  \item The implementation is slightly non-trivial (must prevent numbers
+    underflowing), use sensible pseudo counts\pause
+  \item Most practitioners use packages (in python, R, C++,
+    matlab)\pause
+  \item Also possible to use gradient based algorithms for parameter
+    optimisation\pause
+  \item More complicated, but better convergence\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % HMM Structure
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{HMM Structures}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Whereas training the parameters of an HMM is relatively
+    straightforward designing the structure on an HMM is a black
+    art\pause
+  \item We have to determine
+    \begin{itemize}
+    \item the number of states\pause
+    \item which transition we allow\pause
+    \end{itemize}
+  \item Sometimes we understand the problem enough to know what we are
+    modelling, but this is rather unusual\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Number of States}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A state represents a part of sequence that has a different set
+    of emission frequencies\pause
+  \item This should be a consequence of some physical differences
+    \begin{itemize}
+    \item Coding area
+    \item Promoter region
+    \item Junk DNA\pause
+    \end{itemize}
+  \item If we have too few states we can fail to model significant
+    differences\pause
+  \item If we have too many states then we learn chance fluctuations in
+    emission frequencies giving poor generalisation\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Transitions}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The transitions should represent real physical structure
+    \begin{itemize}
+    \item Promoter regions precede coding regions\pause
+    \end{itemize}
+  \item If we have a fully connected HMM we will get the best
+    likelihood, but will tend to overfit\pause
+  \item Typically experts build quite structured network\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{High-Order HMM}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The Markov property of HMMs often imposes too little short range
+    structure\pause
+  \item We can generalise a Markov Chain to second order
+    \begin{align*}
+      \Prob{x_i|x_{i-1},\,x_{i-2},\,\ldots,x_1} 
+      = \Prob{x_i| x_{i-1}, x_{i-2}}\pause
+    \end{align*}
+  \item Can be further generalised to $n^{th}$-order\pause
+  \item In HMM's we often make the emission probabilities dependent on
+    several previous elements in a sequence\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Common Motifs}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In biology it is common to build an HMM from building
+    blocks\pause
+    \begin{center}
+      \includegraphics[width=0.4\linewidth]{blocks_1}\\
+      \includegraphics[width=0.4\linewidth]{blocks_2}\\
+      \includegraphics[width=0.4\linewidth]{blocks_3}
+    \end{center}
+  \item Use these to model promoter regions\pause
+    \begin{center}
+      \includegraphics[width=0.9\linewidth]{promoter8}
+    \end{center}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Evolving HMMs}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Traditionally HMMs are designed by ``experts''\pause
+  \item However by combining common motifs genetic algorithms can also
+    be used\pause 
+  \item For large problems the GA generated HMMs are actually
+    significantly better than the ``expert'' HMMs\pause
+  \item It is probably rather hopeful to expect that a human can really
+    design an HMM structure with tens of states\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % HMM Structure
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{DNA Methylation}
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Most biologists aren't that interested in dishonest
+    casinos, but they are interested in promoter regions\pause
+    \begin{center}
+      \includegraphics[width=0.9\linewidth]{DNAmeth}
+    \end{center}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{CpG Island}
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In mammals non-methylated regions are associate with regions
+    with an above average concentration of C followed by a G (known as CpG
+    islands)\pause
+  \item These are usually under-represented because they are chemically
+    modified by methylation (there is a relatively high chance of this
+    methyl-C mutating to a T)\pause
+  \item However, this methylation is suppressed in some regions of the
+    genome (e.g. in promoter regions)\pause
+  \item Therefore, finding CpG islands is of biological interest\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Family Resemblance}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In the earlier lectures we said that one of the most important
+    tasks was to identify similar proteins\pause
+  \item However, pairwise comparisons of proteins from distance
+    relatives can give rather inconclusive results\pause
+  \item However, if we can compare against a whole family of proteins we
+    often can spot similarities that are much less obvious\pause
+  \item A profile is an alignment of a whole family of proteins\pause
+  \item We can train a \emph{profile HMM} to spot a distance relative\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Profile HMMs}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{profile}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Gene Detection}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Gene detection is a significant challenge\pause
+  \item The first gene detectors (GENSCAN 1997) found only $\sim10\%$ of
+    genes in the human genome with huge number of false positive\pause
+  \item Over the years this has improved with new algorithms finding
+    around 20\,000 genes in the human genome\pause
+  \item Most algorithms use HMMs\pause
+    \begin{center}
+      \includegraphics[width=0.6\linewidth]{sequenceLogo}
+    \end{center}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summary}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To use HMMs in situations where we don't understand the
+    generation process fully we train the parameters using
+    Baum-Welch\pause
+  \item We still need to determine the architecture of HMMs\pause
+  \item Sometimes this is determined by the problem (e.g. profile
+    HMM)\pause
+  \item Frequently we have to guess and experiment\pause
+  \item We can even use optimisation algorithms (although its not that
+    easy)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}

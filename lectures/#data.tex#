@@ -1,0 +1,598 @@
+%Master File:lectures.tex
+
+\lesson{Exploring Biological Data}
+\vspace{-2cm}
+\begin{center}
+ \includegraphics[height=8cm]{lda}
+\end{center}
+
+\keywords{I am not giving this lecture. Classification, Regression, Decision Trees, LDA, Feature
+  Selection}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{10cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Classification}{class}
+    \outlineitem{Finding Relevant Variables}{relevance}
+    \outlineitem{Feature Selection}{features}
+    \outlineitem{Clustering}{clustering}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{11cm}
+  \vfill
+  \includegraphics[width=11cm]{linear-discriminant-analysis}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Data Exploration}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Machine learning is often used to make predictions\pause
+  \item But it can also be used for understanding data\pause
+  \item You don't need to be a great expert in machine learning
+    \begin{itemize}
+    \item Use existing tools (e.g. scikit-learn)\pause
+    \item Use common sense!\pauseb
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Coursework}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item As I am not longer running an assignment this year I am not
+    giving this lecture\pause
+  \item I leave the lecture on as it does provide a high level
+    introduction to understanding data which some people might find useful. 
+  \end{itemize}
+\end{PauseHighLight}
+
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{The Data}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item You are being asked to look at some cancer data\pause
+  \item There are different data sets belonging to different
+    cancers\pause
+  \item Real data is noisy, messy, incomplete, often rather sparse\pause
+  \item You are \emph{not} being asked to come up with a good algorithm
+    for determining the type of cancer\pause
+  \item You are being asked to explore the data and see what it tells
+    you (if anything)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Classification}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item One of the simplest analysis is to see if you can make a
+    classifier that makes predictions\pause
+  \item There are lots of classifies that do this (use someone else's)\pause
+    \begin{itemize}\squeeze
+    \item KNN
+    \item Perceptron, logistic regression, MLP
+    \item Decision trees, random forest, XGBoost
+    \item SVM, \ldots\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{$K$-Nearest Neighbours}
+\pause
+\pauselevel{=1}
+\pb
+\begin{center}
+  \multipdf[width=0.6\linewidth]{knn}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Preparing Data}
+  
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Before running a learning machine you need to look at the data
+    (pandas isn't bad for this)\pause
+  \item The data might be numeric or categorical\pause
+  \item Often you might have missing data\pause
+  \item Many techniques require numeric values (can you turn categorical
+    data into numerical data?)\pause
+  \item Is your data normalised (are they over roughly same range?)\pause
+  \item Missing data can sometimes be replaced (e.g. with mean
+    values)\pause
+  \item Decision trees can cope both with categorical data and missing
+    values\pause 
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Binary or Multi-Class}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item There are lots of different classes\pause---you don't need to
+    look at all of them\pause
+  \item You could just try to identify one class, using all the others
+    as examples of not that class (SVMs, perceptrons and logistic
+    regression do binary classification)\pause
+  \item You can look at multi-class trying to classify the different
+    classes (you might want to use KNN, a MLP with \textit{softmax} or
+    decision tree based algorithms)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Balancing Datasets}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Often learning machines struggle doing classification when the
+    datasets are very unbalanced\pause
+  \item In binary classification you might have many more positive
+    examples than negative examples\pause
+  \item In multi-class classification you might have some classes with
+    many more examples than others\pause
+  \item In this case it can sometimes help to balance the datasets
+    either
+    \begin{itemize}
+    \item By throwing away some data or
+    \item Using data of rare classes multiple times\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Measuring Prediction Performance}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To see whether we can predict a cancer we must test our
+    classifier on unseen data\pause
+  \item To do this we have to split the data into a \emph{training} and
+    \emph{test} set\pause
+  \item We use the training set to train the data and the test set to
+    test the algorithm\pause
+  \item There is a dilemma: when we have a small amount of data
+    \begin{itemize}\squeeze
+    \item We want to use as much data as possible for learning (to get
+      good performance)
+    \item We want to use as much data as possible for testing (to get an
+      accurate measure of performance)\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Cross Validation}
+
+\pb
+\begin{itemize}
+\item We can solve our dilemma by repeating the training many times on
+  different partitionings\pauseh
+\item This is known as $K$-fold cross validation\pauseh
+\end{itemize}
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{cross_validation0}\mypl{1 :3}
+  \multido{\ia=1+1,\ib=4+1}{23}{%
+    \llap{\includegraphics[width=0.9\linewidth]{cross_validation\ia}}\mypl{\ib}}
+  \llap{\includegraphics[width=0.9\linewidth]{cross_validation23}}
+\end{center}
+\begin{itemize}
+\item Leave-one-out cross-validation is extreme case\pause
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Price of Cross Validation}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Cross-validation is computationally expensive ($K$-fold
+    cross-validation requires $K$ times as much work)\pause
+  \item There are attempts at estimating generalisation error more
+    cheaply (boot-strapping) methods, but these are not very
+    accurate\pause
+  \item Cross-validation is only necessary when you have little
+    data\pause 
+  \item Re-running code is usually cheap compared with writing the
+    code\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline %% Finding Relevant Variables
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{What's Relevant}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Not all variables are necessarily relevant\pause
+  \item There are a couple of quick ways of seeing which variables are
+    most relevant
+    \begin{itemize}
+    \item Logistic Regression
+    \item Decision Trees\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Logistic Regression}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In logistic regression we learn a function
+    \begin{align*}
+      f(\bm{x}) &= \mathrm{sigmoid}\!\left(\bm{w}^\tr\bm{x} +b\right)
+      &
+      \mathrm{sigmoid}(z) &= \frac{1}{1 + \e{-z}}  \pause
+    \end{align*}
+  \item The variables, $x_i$, with the largest (absolute) weights,
+    $|w_i|$, are likely to be the most important\pause{} (provided you
+    have normalised your variables)\pauseb
+  \item This is a very standard algorithm that exists in most package,
+    e.g.{} scikit-learn (in python)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Decision Trees}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Decision trees builds a binary tree to partition the data,
+    $\mathcal{D}=\{(\bm{x}, y)\}$, into the leaves of the tree\pause
+  \item Each decision rule depends on a single feature\pause
+  \item At each step the rule is chosen that maximise the
+    ``\textit{purity}'' of the leaf nodes\pause
+  \item Decisions can be made on numerical values or categories\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Partitioning}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Consider a classification problems with examples $(\bm{x}, y)$
+    belonging to some classes $y\in\mathcal{C}$\pause
+  \item The data is partitioned by the tree into leaves
+    \begin{center}
+      \includegraphics[width=0.62\linewidth]{treePicture}\pause
+    \end{center}
+    \vspace*{-1.6em}
+
+  \item The proportion of data points in leaf $\mathcal{L}$ belonging to
+    class $c$ is
+    \begin{align*}
+      p_{c}(\mathcal{L}) = \frac{1}{|\mathcal{L}|}
+      \sum_{(\bm{x},y)\in\mathcal{L}} \pred{y = c}
+    \end{align*}
+    where $\pred{y = c} = 1$ if $y=c$ and 0 otherwise\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Leaf Purity}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Two different purity measures, $Q_m(\mathcal{L})$, for a leaf node
+    $\mathcal{L}$ are commonly used\pause
+    \begin{itemize}
+    \item \emph{Gini index}
+      \begin{rightImage}{gini}
+        \begin{align*}
+          Q^g_m(\mathcal{L}) = \sum_{c\in\mathcal{C}} p_{c}(\mathcal{L})\,
+          \left(1-p_{c}(\mathcal{L})\right)\pause
+        \end{align*}
+      \end{rightImage}
+    \item \emph{Cross-entropy}
+      \begin{rightImage}{crossEnt}
+        \begin{align*}
+          Q^e_m(\mathcal{L}) = - \sum_{c\in\mathcal{C}} p_{c}(\mathcal{L})\,
+          \logg{p_{c}(\mathcal{L})} \pause        
+        \end{align*}
+      \end{rightImage}
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Building Decision Trees}
+
+\pb\pause\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{decisionTree}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Observations}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Decision trees are very useful for exploring new data
+    sets\pause---the tree shows what features are most
+    important\pause
+  \item That is, features near the root of the tree are most
+    informative\pause
+  \item CART is a classic implementation that builds
+    \emph{C}lassification \emph{A}nd \emph{R}egression
+    \emph{T}rees\pause
+  \item Decision trees handle missing data well\pause
+  \item A single decision is usually not that good, but an ensemble of
+    decision trees (random forest or boosting) can be very good\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline %% Feature Selection
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Feature Selection}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In biology many features may be irrelevant to
+    classification\pause
+  \item You could try every combination of feature, but for $p$ features
+    there are $2^p$ combinations\pause
+  \item There are various schemes for trying to find which features are
+    important\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Correlation with Class}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item You can measure the correlation between each feature and the
+    class category (assuming binary classification $y_i\in\{-1,1\}$)
+    \begin{align*}
+      r = \frac{\av{ (x_i-\av{x_i}) (y_i - \av{y_i})
+      }}{\sqrt{\Var{x_i}\,\Var{y_i}}}\pause
+    \end{align*}
+  \item But be aware
+    \begin{itemize}
+    \item If two variables are correlated with each other both may not
+      provide any more information than one alone\pause
+    \item Two variables that aren't correlated with the data, might
+      together predict classes perfectly\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Building Classifiers}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We can systematically build a classifier starting from the most
+    informative variable\pause
+  \item We then add all possible variables and choose the best to
+    form a two variable classifier\pause
+  \item This can be repeated until we find that adding additional
+    variables doesn't improve generalisation performance\pause
+  \item We can also start with all variables and eliminate the worst
+    variables one by one\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Feature Selection}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item There are whole books written on feature selection\pause
+  \item Techniques exist, such as Lasso (adding an $L_1$ regulariser),
+    that are designed to do automatic feature selection\pause
+  \item Often in biology we want to know if we can make reasonably
+    reliable predictions with just a few variables\pause
+  \item Don't necessarily need very sophisticated techniques to do
+    this\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline %% LDA
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Clustering}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item In determining whether a cell is cancerous it is often useful to
+    find projections of the data where clustering is more obvious\pause
+  \item A projection is a set of ortho-normal vectors
+    \begin{align*}
+      \mat{P} =
+      \begin{pmatrix}
+        \bm{p}_1 & \bm{p}_2 & \cdots & \bm{p}_k
+      \end{pmatrix}
+    \end{align*}
+    such that we can project a $p$-dimensional vector, $\bm{x}$, to a
+    $k$-dimensional vector, $\bm{z} = \mat{P}^\tr \bm{x}$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Fisher Discriminant Analysis \& LDA}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If we want to find the best 1-d projection that maximises the
+    ratio of inter-class distance to intra-class distances then we use
+    Fisher Discriminant Analysis\pause
+  \item We can generalise this to the best $k$-d projection using
+    \textit{linear discriminant analysis} or LDA\pause
+  \item We can use LDA for multiple classes\pause
+  \item There are standard packages for running LDA (beware not to
+    confuse linear discriminant analysis with latent Dirichlet
+    allocation)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Linear Discrimant Analysis}
+\begin{center}
+ \includegraphics[width=\linewidth]{lda}
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Visualisation}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Using LDA in 2 or 3 dimensions often allows you to visualise the
+    clustering of data\pause
+  \item This can give an idea of what cancers are like each other\pause
+  \item LDA mixes different variables so doesn't help with feature
+    selection\pause
+  \item Other techniques such as \emph{t-SNE} are also useful for
+    visualising cluster\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Conclusions}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We've covered some techniques for understand data\pause
+  \item There are many more you could try\pause
+  \item But you don't need to try everything\pause
+  \item Write programs (scripts) for doing data analysis as you will
+    need the over and over again\pause
+  \item Visualise as much as possible\pause
+  \item Python can be very good to do this\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+

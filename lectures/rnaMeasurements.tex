@@ -1,0 +1,628 @@
+%Master File:lectures.tex
+
+\lesson{Protein Expression}
+\vspace{-2cm}
+\begin{center}
+  \includegraphics[height=10cm]{rnaMicroArray}
+\end{center}
+
+\keywords{Microarrays, proteomics, protein interaction}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Protein Expression}{bd}
+    \outlineitem{Correlations and Causality}{comp}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \vfill
+  \includegraphics[width=10cm]{rnaMicroArray}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Protein Interactions}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Cells are complex organisms where proteins work together to
+    solve problems\pause
+  \item The concentration of proteins will vary depending on what the
+    cell is doing\pause
+  \item The concentration of one protein will affect (excite or inhibit)
+    the expression of other proteins\pause
+  \item This lecture is about try to find these interactions\pause
+  \item We will later look at the interactions in detail\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Proteomics}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The direct measure of protein concentration is known as
+    \emph{proteomics}\pause
+  \item It is a big subject in itself\pause
+  \item Chemically there is no easy way to read off a protein
+    sequence\pause
+  \item We can measure the mass and charge of a molecule accurately
+    using a mass spectrometer\pause
+  \item This is used to directly measure protein concentration\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Measuring mRNA Levels}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item An indirect method to measure protein concentration is to measure
+    the concentration of mRNA\pause
+  \item Although not a perfect proxy it does provide a reasonable
+    approximation to the protein concentration\pause
+  \item It is much easier and cheaper than direct measurement of protein
+    concentration\pause
+  \item Two methods
+    \begin{itemize}
+    \item Microarrays (used for the last 20 years)\pause
+    \item RNA sequencing (beginning to take over)\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{DNA Microarrays}
+
+\begin{center}
+  \includegraphics[height=15cm]{rnaMicroArray}
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{DNA Microarrays}
+
+\begin{center}
+  \includegraphics[height=15cm]{WhatIsMicroarray1}
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{DNA Microarrays}
+
+\begin{center}
+  \includegraphics[height=15cm]{microArrayDetail}
+\end{center}
+
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{DNA Microarrays}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Single stranded mRNA is synthesised to double stranded
+    cDNA\pause
+  \item The cDNA will bind to a complementary strand attached to a
+    microarray\pause
+  \item The microarray needs to by built with the correct DNA strands
+    for the organism being used\pause
+  \item Typically a microarray will have 10\,000--100\,000 different DNA
+    sequences\pause
+  \item Microarray technology is relatively cheap
+    ($\approx$\pounds100--\pounds1000)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Using DNA Microarray}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item All tests are carried out relative to a control cell\pause
+  \item Results show over-expression (red) or under-expression (green)
+    relative to a group of control cells\pause
+  \item Study cell that is doing something different to the
+    control\pause
+  \item Always use a population of cells so we are only looking at
+    population averages\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Time Series}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To get an understanding of the correlation between proteins we
+    usually study the evolution over time of the cells\pause
+  \item E.g. add sugar, starve the cell, increase the temperature\pause
+  \item Note, that we are looking at a different population of cells
+    since we kill the cells to extract RNA\pause
+  \item Cells will typically be dividing through the experiment\pause
+  \item Measurements are noisy by their nature\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{RNA-SEQ}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Recently, sequencing technology has become so cheap that it is
+    feasible to sequence all the mRNAs \textit{de novo}\pause
+  \item This prevents the need for having to tailor the microarray to a
+    specific organism (can move away from model organisms)\pause
+  \item Microarrays can saturate and can provide unreliable counts for
+    poorly expressed proteins due to background noise\pause
+  \item Will find rarely expressed RNA that might not be in
+    microarray\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Single Cell RNA-SEQ}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item With third generation sequencing technology it is even possible
+    to measure the RNA concentrations in a single cell\pause
+  \item This is expensive, but allows researchers to identify different
+    cells in a population\pause
+  \item Can be very important, for examples, in studying tumours\pause
+  \item Nevertheless, due to amplification processes, etc.{} there can be
+    biases\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{}
+\begin{center}
+  \includegraphics[width=\linewidth]{RNA-Seq_workflow-5}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Correlation and Causation
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Correlation Between Time Series}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We suppose we have carried out an experiment where we have put a
+    population of cells in a saline solution\pause
+  \item For each mRNA we have a time series (e.g. taken every 30min)
+    \begin{align*}
+      \bm{X}_i = \left(\strut X_i(1),\, X_i(2),\, \ldots,\, X_i(T)
+      \right)\pause
+    \end{align*}
+  \item We can immediately measure if two mRNAs are correlated or
+    anti-correlated
+    \begin{center}
+      \includegraphics[width=0.7\linewidth]{excitInhib-1}\pause
+    \end{center}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Pearson Correlation}
+
+\begin{center}
+  \includegraphics[width=0.9\linewidth]{correlation}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Correlation and Causality}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The famous mantra is
+    \begin{quote}
+      \it Correlation does not imply causality\pause
+    \end{quote}
+  \item If two random variables $X$ and $Y$ are correlated then
+    \begin{itemize}
+    \item $X$ could affect $Y$
+    \item $Y$ could affect $X$
+    \item $X$ and $Y$ could not influence each other, but both could be
+      affected by another random variable $Z$\pause
+    \end{itemize}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Graphical Models}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Graphical models are directed graphs that show causal
+    relationships between random variables\pause
+  \item We could represent the three conditions described above by
+    \begin{center}
+      \includegraphics[width=0.4\linewidth]{simpleGraphicalModels}\pause
+    \end{center}
+  \item Want to infer a graphical model showing interactions between
+    proteins\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Statistical Independence}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Two random variables are statistically independent if
+    \begin{align*}
+      \Prob{X,Y} = \Prob{X} \, \Prob{Y}\pause
+    \end{align*}
+  \item Equally this implies $\Prob{X|Y} = \Prob{X}$ and $\Prob{Y|X} =
+    \Prob{Y}$\pause
+  \item Statistically independent variables are uncorrelated\pause
+  \item But statistical independence is often too powerful\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Conditional Independence}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A weaker notion is conditional independence
+    \begin{minipage}{0.68\linewidth}
+      \begin{align*}
+        \Prob{X,Y|Z} = \Prob{X|Z} \, \Prob{Y|Z}\pause
+      \end{align*}
+    \end{minipage}\hfil
+    \begin{minipage}{0.18\linewidth}
+      \begin{center}
+        \includegraphics[width=\linewidth]{conditionalIndependence}
+      \end{center}
+    \end{minipage}
+  \item Conditional independence implies that there is no direct
+    causation\pause
+  \item This is what we want to know\pause 
+  \item But it doesn't imply zero correlation\pause
+  \item How do we identify conditionally independent quantities?\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Multivariate Normal Distributions}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The simplest probability distribution for describing continuous
+    variables is the multivariate normal distribution
+    \begin{align*}
+      \mathcal{N}(\bm{X}|\bm{\mu}, \mat{\Sigma}) = 
+      \frac{1}{(2\pi)^{d/2}\,\sqrt{|\mat{\Sigma}|}} \, \e{-\tfrac{1}{2}\,(\bm{X}-\bm{\mu})^\tr
+      \,\mat{\Sigma}^{-1} \,(\bm{X}-\bm{\mu})}\pause
+    \end{align*}
+  \item With
+    \begin{align*}
+      \av{\bm{X}} &= \int \bm{X} \, \mathcal{N}(\bm{X}|\bm{\mu},
+      \mat{\Sigma}) \dd \bm{X} = \bm{\mu} \pause \\
+      \Cov{\bm{X}, \bm{X}} &= \av{\bm{X}\,\bm{X}^\tr} - \av{\bm{X}}
+                             \,\av{\bm{X}^\tr} = \mat{\Sigma}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Covariance}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The covariance $\Cov{X_i, X_j}$ measures how $X_i$ varies with
+    $X_j$\pause
+  \item The correlation is given by
+    \begin{align*}
+      q_{ij} = \frac{\Cov{X_i, X_j}}{\sqrt{\Var{X_i}\,\Var{X_j}}}
+    \end{align*}
+  \item Where $\Var{X_i} = \Cov{X_i,X_i} = \av{X_i^2}-\av{X_i}^2$ is the
+    variance of $X_i$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Trivariant Normal Distribution}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Consider a 3-D normally distributed random variable $\bm{X} =
+    (X_1,\, X_2,\, X_3)$
+    {\small
+    \begin{align*}
+      \mathcal{N}(\bm{X}|\bm{\mu}, \mat{\Sigma}) =& 
+      \frac{1}{(2\pi)^{d/2}\,|\mat{\Sigma}|}
+      \exp\biggl(-\tfrac{1}{2}\,\Sigma^{-1}_{11} (X_1-\mu_1)^2 
+      -\tfrac{1}{2}\,\Sigma^{-1}_{22} (X_2-\mu_2)^2 \\
+      &\hspace{4em}  -\tfrac{1}{2}\,\Sigma^{-1}_{33} (X_3-\mu_3)^2 
+      - \Sigma^{-1}_{12} (X_1-\mu_1)\,(X_2-\mu_2) \\
+      &\hspace{4em} - \Sigma^{-1}_{23} (X_2-\mu_2)\,(X_3-\mu_3)
+      - \Sigma^{-1}_{13} (X_1-\mu_1)\,(X_3-\mu_3)\biggr)\pause
+    \end{align*}}
+  \item If $\Sigma^{-1}_{13}=0$ then
+    \begin{align*}
+      \mathcal{N}(\bm{X}|\bm{\mu}, \mat{\Sigma})
+      \propto& \e{-\tfrac{1}{2}\,\Sigma^{-1}_{11}
+      (X_1-\mu_1)^2 - \Sigma^{-1}_{12} (X_1-\mu_1)\,(X_2-\mu_2)} \\
+      & \e{-\tfrac{1}{2}\,\Sigma^{-1}_{33}
+      (X_3-\mu_3)^2 - \Sigma^{-1}_{23} (X_2-\mu_2)\,(X_3-\mu_3)} 
+      \, \e{-\tfrac{1}{2}\,\Sigma^{-1}_{22} (X_2-\mu_2)^2}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Conditional Independence}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If $\Sigma^{-1}_{13}=0$ then
+    \begin{align*}
+      \mathcal{N}(\bm{X}|\bm{\mu}, \mat{\Sigma})
+      \propto& \e{-\tfrac{1}{2}\,\Sigma^{-1}_{11}
+      (X_1-\mu_1)^2 - \Sigma^{-1}_{12} (X_1-\mu_1)\,(X_2-\mu_2)} \\
+      & \e{-\tfrac{1}{2}\,\Sigma^{-1}_{33}
+      (X_3-\mu_3)^2 - \Sigma^{-1}_{23} (X_2-\mu_2)\,(X_3-\mu_3)} 
+      \, \e{-\tfrac{1}{2}\,\Sigma^{-1}_{22} (X_2-\mu_2)^2}\pause
+    \end{align*}
+  \item But $\Prob{X_1,\,X_3|X_2}$ = $\Prob{X_1,\,X_2,\,X_3}/\Prob{X_2}$
+  \item So
+    \begin{align*}
+      \Prob{X_1,X_3|X_2} = \Prob{X_1|X_2}\,\Prob{X_3|X_2}\pause
+    \end{align*}
+  \item Thus $\Sigma^{-1}_{13}=0 \Rightarrow X_1 \perp X_3 | X_2$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Finding Conditional Independence}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If we suppose that the expression data at different times is
+    normally distributed\pause--which of course it isn't\pauseb{}
+    quite\pauseb
+  \item One way to find conditionally independent variables would be to
+    measure the covariance between the RNA levels $\Cov{X_i, X_j}=
+    \Sigma_{ij}$ and invert the matrix $\mat{\Sigma}$\pause
+  \item But we can only estimate the empirical covariance
+    \begin{align*}
+      \hat{\Sigma}_{ij} &=
+      \frac{1}{T-1} \sum_{t=1}^T \left(\strut
+                          X_i(t)-\hat{\mu}_i\right)
+                          \left(\strut X_j(t)-\hat{\mu}_j\right), &
+      \hat{\mu}_i &= \frac{1}{T}  \sum_{t=1}^T X_i(t)\pause
+    \end{align*}
+  \item How do we tell if $\Sigma^{-1}_{ij}$ is zero or just small?\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Maximum Likelihood}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Given our data $\mathcal{D}=\left(X_i(t) \big|
+      i=1,\,2,\,\ldots,\,n\quad t=1,\,2\,\ldots,\, T\right)$ we can try
+    to find the value of $\bm{\mu}$ and $\mat{\Sigma}$ that maximises
+    the likelihood of the data
+    \begin{align*}
+      \Prob{\mathcal{D}| \bm{\mu},\,\mat{\Sigma}} &=
+      \prod_{t=1}^T \mathcal{N}(\bm{X}(t) | \bm{\mu},\,\mat{\Sigma})\pause \\
+      &= \left(\frac{1}{(2\pi)^{d/2}\,|\mat{\Sigma}|^{1/2}}\right)^T
+        \prod_{t=1}^T \e{-\tfrac{1}{2}\,(\bm{X}(t)-\bm{\mu})^\tr
+      \,\mat{\Sigma}^{-1} \,(\bm{X}(t)-\bm{\mu})}\pause
+    \end{align*} 
+  \item Where $\bm{X}(t) = \left(\strut
+      X_1(t),\,X_2(t),\,\ldots,\,X_n(t)\right)$ (note that when looking
+    at correlation we considered $\bm{X}_i$ as vectors)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Maximum Log-Likelihood}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The maximum of the likelihood will also be the maximum of the
+    log-likelihood $\mathcal{L} = \logg{\Prob{\mathcal{D}|
+        \bm{\mu},\,\mat{\Sigma}}}$
+    \begin{align*}
+      \mathcal{L} &= -\frac{T}{2} \logg{|\mat{\Sigma}|}
+                    -\frac{1}{2} \sum_{t=1}^T
+                    (\bm{X}(t)-\bm{\mu})^\tr \,\mat{\Sigma}^{-1}
+                    \,(\bm{X}(t)-\bm{\mu}) + C\pause
+    \end{align*}
+  \item If we maximise with respect to $\bm{\mu}$ (i.e. solving $\grad_{\bm{\mu}}
+    \mathcal{L}=0$) we find $\bm{\mu}^* = \hat{\bm{\mu}}$\pause
+  \item Using the maximum likelihood mean
+    \begin{align*}
+      \mathcal{L} &= -\frac{T}{2} \logg{|\mat{\Sigma}|}
+                    -\frac{1}{2} \mathrm{tr}\,
+                    \mat{S}\,\mat{\Sigma}^{-1}\pause
+    \end{align*}
+  \item with $\mat{S} = \tfrac{1}{T} \sum_{t=1}^T
+    (\bm{X}(t)-\hat{\bm{\mu}})\,(\bm{X}(t)-\hat{\bm{\mu}})^\tr$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Regularisation}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The maximum likelihood value of the covariance is (solving for $\partial
+    \mathcal{L}/\partial \mat{\Sigma}=0$) given by
+    $\mat{\Sigma}=\mat{S}$\pause
+  \item However we want to find solutions where $\mat{\Theta} =
+    \mat{\Sigma}^{-1}$ is sparse\pause
+  \item Note that $|\mat{\Sigma}| = 1/|\mat{\Sigma}^{-1}| =
+    1/|\mat{\Theta}|$ \pause
+  \item So $\mathcal{L} = \frac{T}{2} \logg{|\mat{\Theta}|}
+    -\frac{1}{2} \mathrm{tr}\,  \mat{S}\,\mat{\Theta}$\pause
+  \item We can add a ``regulariser'' to drive small $\Theta_{ij}$ to 0
+    \begin{align*}
+      \mathcal{L}  - \|\mat{\Theta}\|_1
+      = \frac{T}{2} \logg{|\mat{\Theta}|} -\frac{1}{2} \mathrm{tr}\,
+    \mat{S}\,\mat{\Theta} - \|\mat{\Theta}\|_1\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Graphical Lasso}
+
+\pause\pb\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.9\linewidth]{graphicalLasso}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Gene Regulation Network}
+
+\begin{center}
+  \includegraphics[width=0.85\linewidth]{grnSparse}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summary}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We can use DNA microarrays or RNA sequencing to measure the
+    expression of different proteins\pause
+  \item By measuring the expression over time we can measure correlations
+    between proteins\pause
+  \item To infer a sparse graphical model that explains the observed
+    correlations we can use the ``graphical Lasso'' to find a sparse
+    inverse correlation matrix\pause
+  \item This is a first step to understand the control mechanisms of a
+    cell\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+

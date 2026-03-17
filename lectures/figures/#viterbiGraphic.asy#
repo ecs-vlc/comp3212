@@ -1,0 +1,121 @@
+size(600,0);
+usepackage("color");
+srand(4);
+import myutil;
+
+int[] seq = {5,4,6,6};
+int T = seq.length;
+
+real u = 1.5;
+draw(box, (-1,-2),
+
+for(int t=0; t<=T; ++t) {
+  filldraw(circle((2*t*u,0),0.3), yellow, linewidth(2));
+  filldraw(circle((2*t*u,-2),0.3), yellow, linewidth(2));
+  if (t==T)
+    continue;
+  filldraw(box((2*t*u+u-0.3,-0.3),(2*t*u+u+0.3,0.3)), yellow, linewidth(2));
+  filldraw(box((2*t*u+u-0.3,-2-0.3),(2*t*u+u+0.3,-2+0.3)), yellow, linewidth(2));
+  draw((2*t*u+0.3,0)--(2*t*u+u-0.3,0), linewidth(1.1)+gray, Arrow);
+  draw((2*t*u+0.3,-2)--(2*t*u+u-0.3,-2), linewidth(1.1)+gray, Arrow);
+  draw((2*t*u+0.3,0)--(2*t*u+u-0.3,-2), linewidth(1.1)+gray, Arrow);
+  draw((2*t*u+0.3,-2)--(2*t*u+u-0.3,0), linewidth(1.1)+gray, Arrow);
+
+  label("$\tfrac{9}{10}$", (2*t*u+0.3,0), NE, gray);
+  label("$\tfrac{9}{10}$", (2*t*u+0.3,-2), SE, gray);
+  label("$\tfrac{1}{10}$", (2*t*u+0.3,-1), NE, gray);
+  label("$\tfrac{1}{10}$", (2*t*u+0.3,-1), SE, gray);
+  
+  draw((2*t*u+0.3+u,0)--(2*t*u+2u-0.3,0), linewidth(1.1), Arrow);
+  draw((2*t*u+0.3+u,-2)--(2*t*u+2u-0.3,-2), linewidth(1.1), Arrow);
+  label("$\xi_{"+string(t+1)+"}="+string(seq[t])+"$", (2*t*u+u,0.3), N);
+  label("$\tfrac{1}{6}$", (2*t*u+u,0), darkgreen);
+  label("$e_H(\xi_{"+string(t+1)+"})$", (2*t*u+u,-0.3), S);
+  label("$e_D(\xi_{"+string(t+1)+"})$", (2*t*u+u,-2+0.3), N);
+  if(seq[t]==6) {
+    label("$\tfrac{1}{2}$", (2*t*u+u,-2), darkgreen);
+  } else {
+    label("$\tfrac{1}{10}$", (2*t*u+u,-2), darkgreen);
+  }
+}
+
+ship();
+
+real[][] v = new real[T+1][2];
+int[][] ptr = new int[T][2];
+v[0][0] = 0;
+v[0][1] = -100000000;
+
+void v0(int t) {
+  real v = v[t][0];
+  label(string(v,2),(2*t*u,0), darkgreen);
+  label("$\ln(v_H("+string(t)+"))$", (2*t*u,-0.3), S);
+}
+
+void v1(int t) {
+  real v = v[t][1];
+  if (v<-10000)
+    label("$-\infty$",(2*t*u,-2), darkgreen);
+  else
+    label(string(v,2),(2*t*u,-2), darkgreen);
+  label("$\ln(v_D("+string(t)+"))$", (2*t*u,-2+0.3), N);
+}
+
+void ptr0(int t) {
+  if(ptr[t][0]==0) {
+    draw((2*t*u+0.3,0)--(2*t*u+u-0.3,0), linewidth(1.1)+blue, Arrow);
+  } else {
+    draw((2*t*u+0.3,-2)--(2*t*u+u-0.3,0), linewidth(1.1)+blue, Arrow);
+  }
+}
+
+void ptr1(int t) {
+  if(ptr[t][1]==1) {
+    draw((2*t*u+0.3,-2)--(2*t*u+u-0.3,-2), linewidth(1.1)+blue, Arrow);
+  } else {
+    draw((2*t*u+0.3,0)--(2*t*u+u-0.3,-2), linewidth(1.1)+blue, Arrow);
+  }
+}
+
+v0(0);
+v1(0);
+ship();
+
+real logStay = log(0.9);
+real logTran = log(0.1);
+real logHonest = -log(6.0);
+real logDishonest = -log(10.0);
+for(int t=0; t<T; ++t) {
+  v[t+1][0] = logHonest + max(v[t][0] + logStay, v[t][1] + logTran);
+  v[t+1][1] = logDishonest + max(v[t][0] + logTran, v[t][1] + logStay);
+  if (seq[t] == 6)
+    v[t+1][1] += log(5);
+  v0(t+1);
+  v1(t+1);
+  ptr[t][0] = (v[t][0] + logStay > v[t][1] + logTran)? 0:1;
+  ptr[t][1] = (v[t][0] + logTran > v[t][1] + logStay)? 0:1;
+  ptr0(t);
+  ptr1(t);
+  ship();  
+}
+
+int[] viterbi = new int[T+1];
+viterbi[T] = (v[T][0] > v[T][1])? 0:1;
+
+void backViterbi(int t) {
+  if (viterbi[t]==0) {
+    label("\large H", (2*t*u,-1), blue);
+  } else {
+    label("\large D", (2*t*u,-1), red);
+  }
+}
+
+backViterbi(T);
+ship();
+
+for(int t=T-1; t>=0; --t) {
+  viterbi[t] = ptr[t][viterbi[t+1]];
+  backViterbi(t);  
+  ship();
+}
+

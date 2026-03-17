@@ -1,0 +1,601 @@
+%Master File:lectures.tex
+\newcommand{\Kb}{\bar{K}}
+
+\lesson{Stochastic Differential Equations}
+\vspace{-1cm}
+\begin{center}
+  \includegraphics[height=10cm]{\figs/GAroulette/study.png}
+\end{center}
+\keywords{Fisher-Wright model, SDEs, Fokker-Planck.}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{12cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{Recap}{recap}
+    \outlineitem{Diffusion Models}{diffusion}
+    \outlineitem{Fokker-Planck Equation}{diffusion}
+    \outlineitem{Steady State Distribution}{fixedpoint}
+  \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{10cm}
+  \includegraphics[width=10cm]{\figs/GAroulette/study.png}
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline % Modelling
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Recap}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Recall the Fisher-Wright model looks at how a mutant allele
+    at a single locus would take over the population\pause
+  \item For finite populations this is a stochastic process\pause
+  \item We can simulate this happening (each simulation will give us a
+    different result)\pause
+  \item We can also compute $\bm{p}(t) = \left(\strut p_0(t),\,
+      p_1(t),\, \ldots,\, p_P(t) \right)$ telling us the probability of
+    $n$ mutants at time $t$ using a Markov chain analysis\pause
+  \item Unfortunately, we can only do this for small populations\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Stochasticity in Biology}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item By its very nature dynamics in biology is very random\pause
+  \item Sometimes this doesn't matter (we can ignore the
+    randomness)\pause
+  \item But sometimes this randomness is an essential part of
+    nature\pause
+  \item This is particularly true when the dynamics depends on rare
+    events that might not happen\pause
+  \item This is true in population genetics, but also in gene regulation
+    which we explore later in the course\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Language of Random Dynamics}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item When the underlying dynamics involve small random kicks then we
+    can develop a calculus known as \emph{stochastic differential
+      equation}\pause
+  \item This is used across the sciences\pause
+  \item It was originally used to describe physical diffusion\pause
+  \item It is used, for example, in describing fluctuations in
+    finance\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Diffusion Models
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Diffusion Models}
+\toptarget{diffusion}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Markov analysis quickly becomes intractable\pause
+  \item For weak selection and small mutation rates we can model the
+    system using a \textit{stochastic difference equation}\pause
+  \item Let $X(t)$ be the proportion of mutants at time $t$\pause
+  \item We make the assumption that at time $t+\Delta t$ the proportion of
+    mutants is given by
+    \begin{align*}
+      X(t+\Delta t) = X(t) + a(X(t)) \Delta t + b(X(t)) \Delta W(t)\pause
+    \end{align*}
+  \item where $\Delta W(t)$ is a random variable with mean 0 and
+    variance $\Delta t$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Random Variables}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item $X(t)$ (the proportion of mutants at time $t$) is a random
+    variable\pause
+  \item That is, it varies from realisation to realisation\pause
+  \item $X(t)$ will be distributed according to a probability density
+    $f(X(t))$\pause
+    \begin{center}
+      \includegraphics[width=0.6\linewidth]{probabilityDensity}
+    \end{center}
+  \item We denote its average or \emph{expectation} as
+    \begin{align*}
+      \av{X(t)} = \int X(t) \, f(X(t))\, \dd t\pause
+      = \left\langle X(t) \right\rangle \pauseb
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Naming and Mis-naming}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item On average
+    \begin{align*}
+      \av{X(t+\Delta t)} = X(t) + a(X(t)) \Delta t\pause
+    \end{align*}
+    this defines the function $a(X(t))$\pause
+  \item Physicists call this the \textit{drift term}\pause
+  \item The variance in $X(t+\Delta t)$ is given by
+    \begin{align*}
+      \av{X^2(t+1)} - \av{X(t+1)}^2 = b^2(X(t)) \Delta t\pause
+    \end{align*}
+    this defines the function $b(X(t))$\pause
+  \item Population geneticists call $b(X(t)) \Delta W(t)$
+  \textit{genetic drift}\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Fisher-Wright Average}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item For the Fisher-Wright model we have
+    \begin{align*}
+      \Prob{X(t+1)=x} = \Prob{n'=Px} \pause
+      = \binom{P}{Px} p_{sm}^{Px} ( 1 - p_{sm})^{P(1-x)} \pause
+    \end{align*}
+  \item $\Delta t =1$\pause
+  \item Taking averages
+    \begin{align*}
+      a(X(t)) &= \av{X(t+1)}-X(t) \pause
+      = p_{sm} - X(t) \pause \\
+      &= \frac{(u - (u+v-s+u\,s) X(t) + s X^2(t)
+        \bigr)}{1+s\,X(t)}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Fisher-Wright Variance}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The variance of a binomial is given by
+    \begin{align*}
+      b^2(X(t)) = \av{X^2(t+1)} - \av{X(t+1)}^2 \pause
+      = \frac{p_{sm}(1-p_{sm})}{P}\pause
+    \end{align*}
+  \item If $s$, $u$ and $v$ are small then $p_{sm}\approx X(t)$ so
+    \begin{align*}
+      b^2(X(t)) \approx \frac{X(t)\left(\strut 1-X(t)\right)}{P}\pause
+    \end{align*}
+  \item Recall
+        \begin{align*}
+      X(t+\Delta t) = X(t) + a(X(t)) \Delta t + b(X(t)) \Delta W(t)\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Continuous Time}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Taking the limit $\Delta t\rightarrow 0$ we obtain a (It\^o)
+    \textit{stochastic differential equation} (SDE)
+    \begin{align*}
+      \dd X(t) = a(X(t))\, \dd t + b(X(t))\, \dd W(t)\pause
+    \end{align*}
+  \item This has to be viewed as a formal definition---its precise
+    meaning is rather technical\pause
+  \item When we treat $X(t)$ as a function of $t$ then the function is
+    known as a \emph{stochastic process}\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Why SDE Work}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item SDE's model fluctuating systems using two terms
+    \begin{itemize}
+    \item The mean change described by $a(X(t))\,\dd t$ which we can model
+      accurately (it become more accurate in large populations where the
+      difference between discrete and continuous time is
+      negligible)\pause
+    \item Fluctuations $b(X(t))\, \dd W(t)$ which are assumed to be
+      normally distributed\pause
+    \end{itemize}
+  \item Although our fluctuations are not normally distributed the
+    accumulative effect of many fluctuations will be very close to
+    normally distributed due to the central limit theorem\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Recap}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item There are a lot of techniques for dealing with 
+    \textit{stochastic differential equation}
+    \begin{align*}
+      \dd X(t) = a(X(t))\, \dd t + b(X(t))\, \dd W(t)\pause
+    \end{align*}
+  \item The Fisher-Wright model is well approximated by an SDE with
+    \begin{align*}
+      a(X(t)) &= \frac{(u - (u+v-s+u\,s) X(t) + s X^2(t)
+        \bigr)}{1+s\,X(t)} \\
+      b^2(X(t)) &= \frac{X(t)\left(\strut 1-X(t)\right)}{P}\pause
+    \end{align*}
+  \item Unfortunately it is too difficult to obtain a direct solution of
+    the form $X(t) = g(W(t))$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Fokker-Planck
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Random Instances and Distributions}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The stochastic differential equation (aka diffusion equation)
+    describes $X(t)$ in terms of a second stochastic process
+    $W(t)$\pause
+  \item $W(t)$ is known as a Weiner measure it has the distribution
+    \begin{align*}
+      f\!\left(\strut W(\Delta t + t_0)-W(t_0)=x\right) = \mathcal{N}(x|
+      0, \Delta t)
+    \end{align*}
+  \item where $\mathcal{N}(x|\mu,\sigma^2)$ is a normal (Gaussian)
+    distribution with mean $\mu$ and variance $\sigma^2$\pause
+  \item However $W(t)$ varies from instance to instance so even if we
+    can solve the stochastic differential equation the solution is
+    stochastic\pause 
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Fokker-Planck Equation}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Although we cannot obtain a closed form solution
+    $X(t) = g(W(t))$, we can obtain a solution for the the probability
+    distribution for $X(t)$
+    \begin{align*}
+      f(x,t)\, \dd x = \Prob{x<X(t)<x + \dd x}\pause
+    \end{align*}
+  \item The dynamics of $f(x,t)$ going forward in time is given by the
+  \emph{Fokker-Planck} or \emph{forward Kolmogorov} equation
+  \begin{align*}
+    \frac{\partial f(x,t)}{\partial t} = -\frac{\partial \left(\strut
+        a(x)\,f(x,t)\right)}{\partial x} + \frac{1}{2}\,
+    \frac{\partial^2 \left(\strut b^2(x)\,f(x,t)\right)}{\partial x^2}\pause
+  \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Going Back}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Diffusion isn't reversible so the equations for going back in
+    time are different\pause---the \emph{backward Kolmogorov} equation
+    \begin{displaymath}
+      \frac{\partial f(x,-t)}{\partial t} =
+      - a(x)\, \frac{\partial f(x,-t)}{\partial x}
+      - \frac{1}{2} b^2(x)\, \frac{\partial^2 f(x,-t)}{\partial x^2}\pause
+    \end{displaymath}
+  \item The backward equation is very useful to study systems with
+    \textit{absorbing states}\pause
+  \item It can be used to calculate the probability of finishing in an
+    absorbing state and the time taken to reach that state\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Using Fokker-Planck}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The Fokker-Planck equation helps in that rather than work with
+    the weird world of stochastic differential equation we can work with
+    the well understood partial differential equations (PDEs)\pause
+  \item The solution describes how the evolution of a PDF evolves over
+    time\pause
+  \item Unfortunately it is often hard to solve PDEs in closed form
+    (they usually involve series expansions in nasty polynomials)\pause
+  \item We often have to solve them numerically\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Distributions Evolving Over Time}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \includegraphics[width=0.75\linewidth]{markov_1}\mypl{1}
+  \multido{\ia=2+1}{24}{%
+    \llap{\includegraphics[width=0.75\linewidth]{markov_\ia}\mypl{\ia}}}
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Solution to Fokker-Planck}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item I cheated, this is actually the solution to the Markov
+    chain\pause
+  \item However, the Fokker-Planck provides the same information and
+    would provide an almost identical outcome\pause
+  \item The Markov chain solution is exact (it does not make the
+    assumption of continuous time or that $X(t)$ is a continuous
+    variable)\pause
+  \item But the Fokker-Planck equation provides a near identical
+    solution, but is solvable for any $P$ (Markov chain analysis becomes
+    too slow to solve for large $P$)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Fixed Point Distributions
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Steady State}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Although solving PDFs are in general hard\pause
+  \item The problem simplifies if we consider the \textit{steady state}
+    given by
+    \begin{align*}
+      \frac{\partial f(x,t)}{\partial t} = 0\pause
+    \end{align*}
+  \item This (usually) happens when $t\rightarrow \infty$\pause
+  \item Our Fokker-Planck equation then becomes
+  \begin{align*}
+    \frac{\partial f(x,t)}{\partial t} = -\frac{\partial \left(\strut
+        a(x)\,f(x,t)\right)}{\partial x} + \frac{1}{2}\,
+    \frac{\partial^2 \left(\strut b^2(x)\,f(x,t)\right)}{\partial x^2} =
+    0\pause
+  \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Steady State Solution}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The steady state solution $f_{eq}(x) = \lim_{t\rightarrow
+      \infty} f(x,t)$ does not depend on $t$ so the Fokker-Planck
+    equation becomes an ordinary differential equation
+    \begin{align*}
+      -\frac{\dd  \left(\strut
+      a(x)\,f_{eq}(x)\right)}{\dd  x} + \frac{1}{2}\,
+      \frac{\dd ^2 \left(\strut b^2(x)\,f_{eq}(x)\right)}{\dd  x^2} =
+      0\pause
+    \end{align*}
+  \item Which has a solution
+    \begin{align*}
+      f_{eq}(x) \propto \frac{1}{b^2(x)} \, \E{2 \int_{1/2}^x
+      \frac{a(y)}{b^2(y)} \dd y}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Steady State for Fisher-Wright}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Assuming $s$, $u$ and $v$ are small, then expanding to first
+    order
+    \begin{align*}
+      a(X) &= \av{\Delta X}/\Delta t \approx -v \,X + u (1-X) + s X (1-X)\\
+      b(X) &= \left(\av{(\Delta X)^2}-\av{\Delta X}^2\right)/\Delta t
+             \approx \frac{X(1-X)}{P}\pause
+    \end{align*}
+  \item Using these values we find
+    \begin{align*}
+      f_{eq}(x) = \frac{x^{2\,P\,u-1} \, (1-x)^{2\,P\,v-1} \,
+        \e{2\,P\,s\,x}}{B(2\,P\,u, 2\,P\,v) \, F(2\,P\,u;2\,P(u+v);2\,P\,s)}
+      \pause
+    \end{align*}
+  \item The denominator involves special function, but is just a
+    normalisation constant\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{What's the Point}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item This seems a long journey to get a complicate formula, but this
+    tells us the final distribution as a function of the parameters of
+    our model\pause
+  \item As evolution is slow the steady-state solution is often what we
+    observe\pause
+  \item With more work we can also obtain an understanding of the
+    dynamics (e.g. typical take over time)\pause
+  \item One very important observation is that the take over times are
+    fast even when the mutants have only a small advantage\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Sickle-Cell Anaemia}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item One classic example of population genetics is to understand the
+    presences of sickle-cell anaemia\pause
+  \item This is caused by a particular mutation, but carriers only suffer
+    if they have two copies of the mutation\pause
+  \item Nevertheless, sickle-cell anaemia is very serious and is
+    disadvantageous enough that it should be selected out of the
+    population\pause
+  \item Except, when a carrier has a single copy it helps fight against
+    malaria and so provides a selective advantage\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Sickle-Cell Prevalence}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Thus, in malaria regions there is a balance between the fitness
+    gain from helping to fight malaria and the fitness loss due to the
+    offspring that inherit two copies of the mutation\pause
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.45\linewidth]{Sickle_cell_distribution}\hfil
+    \includegraphics[width=0.45\linewidth]{Malaria_distribution}\\
+    Sickle-Cell Prevalence \hfil Historic Malaria Prevalence\\
+    \tiny{By Muntuwandi at English Wikipedia, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=2932866}
+  \end{center}
+\end{PauseHighLight}
+
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Conclusion}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Modelling the dynamics of evolving populations has a long
+    distinguished history\pause
+  \item Finite population effects are crucial to understanding
+    evolution\pause
+  \item With modern computers we can now simulate evolutionary models
+    very easily\pause
+  \item Solving mathematical models forces you to understand the
+    mechanisms that drive evolutionary dynamics\pause
+  \item Stochastic differential equations are ubiquitous in modelling a
+    lot of biological problems\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+

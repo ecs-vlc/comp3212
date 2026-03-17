@@ -1,0 +1,41 @@
+import myutil;
+import graph;
+size(300,0);
+
+void leftMarker(pair pos, string s, real size) {
+  draw(pos--pos-(size,0));
+  label("$"+s+"$", pos-(size,0), W);
+}
+
+void bottomMarker(pair pos, string s, real size) {
+  draw(pos--pos-(0,size));
+  label("$"+s+"$", pos-(0,size), S);
+}
+
+void axes(pair pos, real xmax, real ymax, string xstr, string ystr) {
+  draw(pos+(xmax,0)--pos--pos+(0,ymax), Arrows);
+  label("$"+xstr+"$", pos+(xmax,0), E);
+  label("$"+ystr+"$", pos+(0,ymax), N);
+}
+    
+real K = 2;
+
+axes((0,0), 5, 1.2,  "X_2", "k(X_2)");
+
+real u = 0.05;
+leftMarker((0,0), "0",  u);
+leftMarker((0,1), "k_1",  u);
+bottomMarker((0,0), "0",  u);
+bottomMarker((K,0), "K",  u);
+
+int n = 2;
+
+real k(real X) {
+  return 1/(1+(X/K)^n);
+}
+
+draw(graph(k, 0, 5), red);
+label("$n=2$", (4,k(4)), N, red);
+n = 4;
+draw(graph(k, 0, 5), blue);
+label("$n=4$", (1.5,k(1.5)), NE, blue);

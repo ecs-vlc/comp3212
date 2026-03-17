@@ -1,0 +1,26 @@
+import myutil;
+size(300,0);
+
+draw((0,0)--(15,0), Arrow);
+label("$t$", (15,0), E);
+
+real u = 0.2;
+bool odd = true;
+for(int i=0; i<12; ++i) {
+  draw((i,-u)--(i,u));
+  if (i==0)
+    label("$0$", (i,-u), S);
+  if (i==1)
+    label("$\delta t$", (i,u), N);
+  else if (i>1 && i<5) {
+    if (odd)
+      label("$" + string(i) + "\,\delta t$", (i,-u), S);
+    else
+      label("$" + string(i) + "\,\delta t$", (i,u), N);
+  } elseif (i==11) 
+    label("$n\,\delta t$", (i,u), N);
+  elseif (i==2)
+    label("$n\,\delta t$", (i,u), N);
+  }
+  odd = ! odd;
+}

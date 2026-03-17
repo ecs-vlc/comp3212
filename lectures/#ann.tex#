@@ -1,0 +1,583 @@
+%Master File:lectures.tex
+
+\lesson{Neural Networks for Biological Prediction}
+\vspace{-2cm}
+\begin{center}
+ \includegraphics[height=8cm]{Secondary_Protein_Structures}
+ \includegraphics[height=8cm]{secondaryStructure}
+\end{center}
+
+\keywords{MLP, One-Hot Vectors, Softmax, Profile, Psi-Blast}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{14cm}
+  \begin{enumerate}\squeeze
+    \outlineitem{MLP}{mlp}
+    \outlineitem{Secondary Protein Structure}{sps}
+    \outlineitem{Designing MLPs}{dmlp}
+   \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{7cm}
+  \vfill
+  \includegraphics[height=12cm]{secondary-structure-of-protein}
+  \vfill
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Neural Networks in Biology}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Neural networks (and support vector machines) are frequently
+    used to make prediction in biology\pause
+  \item We are not going into detail about neural networks (many of you
+    have done this in machine learning)\pause
+  \item However, how to use them in biology is quite subtle and is the
+    main topic of this lecture\pause
+  \item We take as a case study the classic problem of the prediction
+    of secondary structure of proteins\pause
+  \item Although, some of this is dated, the lessons are timeless\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Multilayer Perceptron (MLP)}
+
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.9\linewidth]{mlp}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Training Neural Networks}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We train a neural network on a set of data
+    \begin{align*}
+      \mathcal{D} = \left( (\bm{x}^\mu, \bm{y}^\mu) \, \big\vert \, \mu
+      = 1,\,2,\, \ldots,\, P \right)\pause
+    \end{align*}
+  \item Define an error function $L(\bm{\theta})$\pause
+  \item E.g. squared error
+    \begin{align*}
+      L(\bm{\theta}) = \sum_{\mu=1}^P \left\| \bm{y}^\mu -
+      \bm{f}(\bm{x}^\mu| \bm{\theta}) \right\|^2\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Gradient Descent}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To minimise the error we follow the negative gradient
+    \begin{align*}
+      \grad L(\bm{\theta}) =
+      \begin{pmatrix}
+        \pd{L(\bm{\theta})}{\theta_1} \\
+        \pd{L(\bm{\theta})}{\theta_2} \\
+        \vdots \\
+        \pd{L(\bm{\theta})}{\theta_m}
+      \end{pmatrix}\pause
+    \end{align*}
+  \item where $\theta_1=W_{11}$, $\theta_2=W_{12}$, etc.\pause
+  \item We make a step in the direction of the negative gradient
+    \begin{align*}
+      \bm{\theta}(t+1) = \bm{\theta}(t) - r\,\grad L(\bm{\theta})
+    \end{align*}
+  \item $r$ is learning rate\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Following the Gradient}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{gradientDescent}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Backpropagation}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Calculating the gradient for a MLP is known as
+    back-propagation\pause
+  \item We can compute the gradient of the error for the whole training
+    set\pause
+  \item In this case we often use Levenberg-Marquardt, scale conjugate
+    gradient or BFGS to speed up convergence\pause
+  \item More often it is effective to find the error per input pattern
+    or mini-batch (a small number of input patterns)\pause
+  \item This goes by the name of stochastic gradient descent\pause
+  \item This introduces noise which helps escape local optima\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Higher Dimensions}
+
+\pb
+\begin{itemize}
+\item In higher dimensions the problem is that there are some directions
+  you need to move a long way\pauseh
+\end{itemize}
+\pauselevel{=1}
+\begin{center}
+  \includegraphics[width=\linewidth]{min2d-bg}\pause
+  \multido{\ia=0+1}{10}{%
+    \llap{\includegraphics[width=\linewidth]{min2d20-\ia}}\pause}
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{More Haste Less Speed}
+
+\pb
+\begin{itemize}
+\item Increasing the step size a little  increases the
+  rate of converge in one direction, but \ldots\pauseh
+\end{itemize}
+\begin{center}
+  \includegraphics[width=\linewidth]{min2d-bg}\pause
+  \multido{\ia=0+1}{10}{%
+    \llap{\includegraphics[width=\linewidth]{min2d35-\ia}}\pause}
+\end{center}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Speeding Up Stochastic Gradient Descent}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To speed up stochastic gradient descent we can add a momentum
+    term
+    \begin{align*}
+      \bm{v}(t) &= (1-\epsilon)\bm{v}(t) + \epsilon \grad
+                  L(\bm{\theta}(t-1))
+                  \\
+      \bm{\theta}(t) &= \bm{\theta}(t-1) + \bm{v}(t)\pause
+    \end{align*}
+  \item Many variations on this, e.g. ada-delta and adam\pause
+  \item These are quite new techniques developed for deep-learning, but
+    equally applicable to MLPs\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Secondary Protein Structture
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Protein Structure}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Understanding the 3D structure of proteins is very important to
+    understand its function\pause
+  \item Unfortunately, it is extremely difficult to infer its 3D
+    structure\pause
+    \begin{itemize}
+    \item It is both experimentally very costly\pause
+    \item And computationally very challenging\pause
+    \end{itemize}
+  \item However knowing a proteins \emph{primary} structure (sequence)
+    is quite easy (we can read this off if we know the RNA sequence from
+    which it is translated)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Secondary Structure}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The secondary structure tells us whether a protein is part of
+    \begin{itemize}
+    \item An alpha-helix
+    \item A beta-sheet
+    \item Something else (often referred to as coil)\pause
+    \end{itemize}
+  \item This does not tell us the full 3-D structure but it is the first
+    step towards inferring this\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Protein Structure}
+
+\begin{center}
+  \includegraphics[height=15cm]{secondaryStructure}
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Test Problem}
+
+\begin{minipage}{0.5\linewidth}
+  \begin{PauseHighLight}
+  \begin{itemize}
+  \item Secondary protein structure has long been a classic test problem
+    for machine learning\pause
+  \item It was an early success for MLPs\pause
+  \item People have tried SVMs, HMMs, etc.\pause
+  \item It is a difficult problem in part because it is non-local\pause
+  \end{itemize}
+  \end{PauseHighLight}
+\end{minipage}\hfil
+\begin{minipage}{0.48\linewidth}
+  \begin{center}
+    \includegraphics[width=\linewidth]{alphabeta}
+  \end{center}
+\end{minipage}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Desigining MLPs
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Predicting Secondary Structure}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Although very costly we know the secondary structure for quite a
+    few proteins\pause
+  \item This provides a training and testing data set\pause
+  \item However, its not immediately obvious how to create a neural
+    network to use this data\pause
+  \item Most learning machines take a fixed length input\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Windowing}
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{windowing}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Randomised Windows}
+\pause
+\pb
+\begin{itemize}
+\item During training we can randomise the placement of the window so we
+  don't learn a long section of one structure\pauseh
+\pauselevel{=1}
+
+\begin{center}
+  \multipdf[width=\linewidth]{randomWindowing}\pause
+\end{center}
+
+\end{itemize}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Representing Proteins}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item How should we feed our protein to an MLP?\pause
+  \item Providing a number from 1--20 would put in an artificial
+    ordering\pause
+  \item We could try and put in chemical properties, e.g. acid/base
+    hydophobic/hydophilic, etc.\pause{} but which ones\pause
+  \item It turned out best to use a \emph{1-hot} (orthogonal) representation
+    \begin{align*}
+      \text{Glycine (G)} &= (1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0) \\
+      \text{Alanine (A)} &= (0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0) \\
+      \vdots\\
+      \text{End} &= (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1)\pause
+    \end{align*}
+  \item This is unbiased and seems to work best\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Output}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Usually have 3 output (alpha-helix, beta-sheet and coil)
+    although sometimes coil is split into 6 classes\pause
+  \item Again use a 1-hot representation\pause
+  \item Use winner-takes-all prediction (largest output)\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Softmax}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A slightly better network is to use a \emph{softmax} output
+    where
+    \begin{align*}
+      f_i(\bm{x} | \bm{\theta}) = \frac{
+      \e{-\sum\limits_{j=1}^h \bar{W}_{ij} h_j(\bm{x})+\bar{b}_i} }{
+      \sum_{k=1}^3 \e{-\sum\limits_{j=1}^h \bar{W}_{kj} h_j(\bm{x})+\bar{b}_i} }
+    \end{align*}
+  \item where $h_j(\bm{x})$ is the output of the $j^{th}$ hidden
+    unit\pause
+  \item Note that we can the interpret the output as
+    \begin{align*}
+      f_i(\bm{x} | \bm{\theta}) = 
+      \Prob{\text{class $i$} | \bm{x},\, \bm{\theta}}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Relative Entropy}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Given a training set $\mathcal{D} = \left( (\bm{x}^\mu,
+      y^\mu) \, \big\vert \, \mu  = 1,\,2,\, \ldots,\, P \right)$ where
+    $y^\mu\in \mathcal{S} = \{\text{$\alpha$-helix, $\beta$-sheet,
+      Coil}\}$,\pause{} the log-likelihood of the data is
+      \begin{align*}
+        L(\bm{\theta}) &= \logg{\Prob{\mathcal{D}|\bm{\theta}}}
+        = \sum_{\mu=1}^P \logg{\Prob{y^\mu|\bm{x}^\mu,\,
+                         \bm{\theta}}}\pause \\
+        &= \sum_{\mu=1}^P \logg{f_{y^\mu}(\bm{x}^\mu | \bm{\theta})}\pause
+      \end{align*}
+    \item This is known as the \emph{relative entropy}\pause
+    \item Rather than minimising the squared error we can maximise the
+      relative entropy\pause---again we use a gradient based technique\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Simple ANN}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A simple network would consist of
+    \begin{itemize}
+    \item $W\times 21$ inputs where $W$ is the window size (typically
+      around 11)\pause
+    \item $n_h$ hidden sigmoidal units (typically around 50)\pause
+    \item 3 softmax output units\pause
+    \end{itemize}
+  \item Results are around 60\% prediction of the three classes\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Learning A Better Input Representation}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The 1-hot vector representation of the input makes the network
+    very large\pause
+  \item We can learn an encoding or \emph{embedding} by using the same
+    21 to $M$ layer for all inputs in the window\pause
+    \begin{center}
+      \includegraphics[width=\linewidth]{weightSharing}
+    \end{center}
+  \item All the input encoding networks share the same weights\pause
+  \item This slightly complicates back-prop, but is not too difficult\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Top Tier}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item When testing we get a prediction at each site of the
+    sequence\pause
+  \item We can improve our machine by building a second machine that
+    takes the prediction at a site and its neighbours\pause
+  \item This uses slightly more global information and prevents silly
+    predictions, e.g. \textcolor{red}{$\alpha$}, \textcolor{blue}{$\beta$},
+    \textcolor{red}{$\alpha$}, \textcolor{green}{$C$}\pause
+  \item In machine learning this is known as stacking\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Using Profiles}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The big improvement in prediction came from using the protein
+    profile obtained by finding similar protein structures
+    \begin{center}
+      \includegraphics[width=\linewidth]{proteinProfile}
+    \end{center}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Profile Encoding}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Instead of using the protein sequence as input we use a coding
+    showing all possible substitutions, deletions or insertions at a
+    site\pause
+  \item This works because protein structure is much better conserved
+    than protein sequences\pause
+  \item Thus related protein sequences will with high probability have
+    the same secondary structure\pause
+  \item The protein profiles are ``smoothed'' by the related sequence
+    information\pause
+  \item This improved performance by $\sim5\%$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{PSIPRED}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Profiling can be taken further.  Rather than just finding
+    matching sequences we can iterate the process\pause
+  \item We use the matched sequences to find other related
+    sequences\pause
+  \item This is what Psi-Blast does\pause
+  \item It slow, but it produces the best profiles\pause
+  \item The best predictor for many years was PSIPRED, an MLP that uses
+    Psi-Blast profiles, getting close to 80\% performance\pause---now
+    deep learning (CNNs, etc.) dominate\pauseb
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Summary}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Common machine learning tools have proved very useful in
+    biological sequence analysis\pause
+  \item However, great care must be taken to ensure that the information
+    fed into them is meaningful\pause
+  \item Often these have to be combined with other tools (such as
+    profilers) to get really good performance\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+

@@ -1,0 +1,14 @@
+#! /bin/bash
+
+files=*.gif
+for f in ${files}; do
+    file=`basename $f .gif`
+    jpg=${file}.jpg
+    jpeg=${file}.jpeg
+    if [ -e $jpg ] || [ -e $jpeg ]; then
+	echo "$f done"
+    else
+	echo "converting $file to $jpg"
+	giftopnm $f | pnmtojpeg - > $jpg
+    fi
+done
