@@ -1,0 +1,29 @@
+calendar:
+  term_start: 2026-01-26
+  weeks: 5
+
+  holidays:
+    - start: 2026-03-23
+      end: 2026-04-17
+
+  bank_holidays:
+    - 2026-05-04
+
+
+name: "COMP3212 Computational Biology"
+
+lectures:
+  - <a href="lectures.html#cellDifferentiation">Cell Differentiation</a>
+  - <a href="lectures.html#rnaMeasurements">Protein Expression</a>
+  - <a href="lectures.html#geneRegulation">Gene Regulation Networks</a>
+  - <a href="lectures.html#dynamicalSystems">Dynamical Systems</a>
+  - <a href="lectures.html#chemicalEquations">Simulating Chemical Equations</a>
+  - Revision Lecture
+
+slots:
+  - day: Mon
+    time: "17:00"
+  - day: Wed
+    time: "11:00"
+  - day: Thu
+    time: "13:00"

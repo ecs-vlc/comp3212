@@ -109,23 +109,19 @@
 \begin{slide}
 \section[-2]{DNA Microarrays}
 
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item RNA turned into cDNA\pause
+  \item Micro-wells contain complementary strands of DNA\pause
+  \end{itemize}
+\end{PauseHighLight}
+
 \begin{center}
-  \includegraphics[height=15cm]{WhatIsMicroarray1}
+  \includegraphics[width=5cm]{WhatIsMicroarray1} \hfil \includegraphics[width=15cm]{microArrayDetail}
 \end{center}
 
 \end{slide}
 
-%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{slide}
-\section[-2]{DNA Microarrays}
-
-\begin{center}
-  \includegraphics[height=15cm]{microArrayDetail}
-\end{center}
-
-
-\end{slide}
 
 
 %%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
@@ -582,6 +578,27 @@
 
 \end{slide}
 
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2.5]{$L_1$ Regulariser}
+
+\pb
+\begin{itemize}\squeeze
+\item $L_1$ regulariser are used in regression where it is known as Lasso
+  \begin{align*}
+    L = \sum_{k=1}^m \left( \bm{w}^\tr \, \bm{x}_k - y_k \right)^2\pauseh
+    + \nu \, \sum_{i=1}^p |w_i| \pauseb
+  \end{align*}
+\item It encourages finding sparse solutions\pauseh
+  \begin{center}
+    \multipdf[width=0.7\linewidth]{lasso}\pause
+  \end{center}
+\end{itemize}
+
+
+\end{slide}
 
 
 %%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
