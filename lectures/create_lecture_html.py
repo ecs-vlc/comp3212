@@ -59,7 +59,7 @@ for lecture in lectures:
     html.write(f"  <a href=\"lecture_pdf/{lecture}_prn.pdf\">Printable PDF</a>,\n")
     html.write(f"  <a href=\"lecture_pdf/{lecture}_prn_4.pdf\">(4 per page)</a>,\n")
     html.write(f"  <a href=\"lecture_pdf/{lecture}_prn_8.pdf\">(8 per page)</a>,\n</li>\n</ul>\n")
-    html.write("</ul>\n")
+    html.write("\n")
     html.write("</li>\n")
     html.write("</div>")
 
