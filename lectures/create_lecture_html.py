@@ -53,7 +53,7 @@ def getKeywords(file) :
 for lecture in lectures:
     tex = f"{lecture}.tex"
     lesson, keywords = getKeywords(tex)
-    html.write(f"<div id=\"{lesson}]>")
+    html.write(f"<div id=\"{lesson}\">")
     html.write(f"<li><b>{lesson}</b>: {keywords}\n")
     html.write(f"<ul> <li> <a href=\"lecture_pdf/{lecture}.pdf\">Lecture PDF</a>,\n")
     html.write(f"  <a href=\"lecture_pdf/{lecture}_prn.pdf\">Printable PDF</a>,\n")
