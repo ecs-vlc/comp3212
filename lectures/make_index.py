@@ -4,7 +4,7 @@ def tag(name, content, attribute=None, space=False):
     if space:
         content = f"\n{content}\n"
     if attribute:
-        return f"<{name} {attribute}> {content} </{name}>\n"
+        return f"<{name} {attribute}>{content}</{name}>\n"
     else:
         return f"<{name}> {content} </{name}>\n"
 
@@ -22,7 +22,7 @@ def homepage():
     inbody = tag("header", coursename)
     
     inbody += tag("h1", coursename)
-    mail_link = link("Adam Pr&uuml;gel-Bennett", "href=\"mailto: apb1@soton.ac.uk\"")
+    mail_link = link("Adam Pr&uuml;gel-Bennett", "mailto:apb1@soton.ac.uk")
     inbody += tag("p", f"Welcome to Computational Biology.  These are course notes form {mail_link}.")
 
     
