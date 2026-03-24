@@ -9,7 +9,7 @@ import shutil
 def add_file(html, file, description, location):
     fullfile = f"../site/{location}/{file}"
     if os.path.isfile(fullfile):
-        html.write(f"<ul> <li> <a href=\"{location}/{file}\">{description}</a></li></ul>\n")
+        html.write(f"<li> <a href=\"{location}/{file}\">{description}</a></li>\n")
 
 
 def extract(str):
