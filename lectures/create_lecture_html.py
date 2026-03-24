@@ -70,7 +70,7 @@ def endpage(html):
     </ol>
 
     <ul>
-    <li> <a href="lecture_pdf/lectures_8.pdf">Complete set of Notes</a></li>
+    <li> <a href="lectures_pdf/lectures_8.pdf">Complete set of Notes</a></li>
     </ul>
 
 
